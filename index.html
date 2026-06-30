@@ -957,8 +957,15 @@
             >
           </div>
           <div class="quick-socials" aria-label="Redes sociales JY">
-            <a href="https://wa.me/573150921542" target="_blank" rel="noopener">WhatsApp: +57 315 092 1542</a>
-            <a href="https://www.tiktok.com/@velas_y_jabones_jy" target="_blank" rel="noopener">TikTok: @velas_y_jabones_jy</a>
+            <a href="https://wa.me/573150921542" target="_blank" rel="noopener"
+              >WhatsApp: +57 315 092 1542</a
+            >
+            <a
+              href="https://www.tiktok.com/@velas_y_jabones_jy"
+              target="_blank"
+              rel="noopener"
+              >TikTok: @velas_y_jabones_jy</a
+            >
           </div>
           <div class="stats">
             <div class="stat"><strong>+350</strong> piezas elaboradas</div>
@@ -991,9 +998,15 @@
     </main>
 
     <div class="wrap">
-      <div class="ad-slot ad safe-ad" style="max-width: 728px; min-height: 90px">
+      <div
+        class="ad-slot ad safe-ad"
+        style="max-width: 728px; min-height: 90px"
+      >
         <b>Espacio publicitario integrado - 728x90</b>
-        <span>Usa aqui solo banners seguros sin popunder, sin redireccion automatica y con filtro familiar.</span>
+        <span
+          >Usa aqui solo banners seguros sin popunder, sin redireccion
+          automatica y con filtro familiar.</span
+        >
       </div>
     </div>
 
@@ -1075,9 +1088,15 @@
     </section>
 
     <div class="wrap">
-      <div class="ad-slot ad safe-ad" style="max-width: 300px; min-height: 250px">
+      <div
+        class="ad-slot ad safe-ad"
+        style="max-width: 300px; min-height: 250px"
+      >
         <b>Espacio publicitario integrado - 300x250</b>
-        <span>Formato recomendado para movil: anuncio dentro de la pagina, sin abrir nuevas pestanas.</span>
+        <span
+          >Formato recomendado para movil: anuncio dentro de la pagina, sin
+          abrir nuevas pestanas.</span
+        >
       </div>
     </div>
 
@@ -1196,7 +1215,10 @@
     <div class="wrap">
       <div class="ad safe-ad" style="max-width: 300px; min-height: 250px">
         <b>Publicidad segura</b>
-        <span>Evita codigos de popunder/social bar. Pega solamente banners aprobados para todo publico.</span>
+        <span
+          >Evita codigos de popunder/social bar. Pega solamente banners
+          aprobados para todo publico.</span
+        >
       </div>
     </div>
 
@@ -1252,22 +1274,53 @@
         <div class="total-row">
           <span>Total</span><span id="cartTotal">$0</span>
         </div>
-        <div class="delivery-note">Pago contra entrega. Completa estos datos para preparar la guia de envio.</div>
+        <div class="delivery-note">
+          Pago contra entrega. Completa estos datos para preparar la guia de
+          envio.
+        </div>
         <form class="checkout-form" id="checkoutForm">
-          <label>Nombre completo
-            <input id="customerName" autocomplete="name" required placeholder="Ej: Maria Fernanda Lopez">
+          <label
+            >Nombre completo
+            <input
+              id="customerName"
+              autocomplete="name"
+              required
+              placeholder="Ej: Maria Fernanda Lopez"
+            />
           </label>
-          <label>Celular de contacto
-            <input id="customerPhone" inputmode="tel" autocomplete="tel" required placeholder="Ej: 315 000 0000">
+          <label
+            >Celular de contacto
+            <input
+              id="customerPhone"
+              inputmode="tel"
+              autocomplete="tel"
+              required
+              placeholder="Ej: 315 000 0000"
+            />
           </label>
-          <label>Ciudad y barrio
-            <input id="customerCity" required placeholder="Ej: Bogota, Kennedy">
+          <label
+            >Ciudad y barrio
+            <input
+              id="customerCity"
+              required
+              placeholder="Ej: Bogota, Kennedy"
+            />
           </label>
-          <label>Direccion completa
-            <input id="customerAddress" autocomplete="street-address" required placeholder="Calle, carrera, numero, apto/casa">
+          <label
+            >Direccion completa
+            <input
+              id="customerAddress"
+              autocomplete="street-address"
+              required
+              placeholder="Calle, carrera, numero, apto/casa"
+            />
           </label>
-          <label>Notas para entrega
-            <textarea id="customerNotes" placeholder="Color, aroma, referencia, horario o indicaciones"></textarea>
+          <label
+            >Notas para entrega
+            <textarea
+              id="customerNotes"
+              placeholder="Color, aroma, referencia, horario o indicaciones"
+            ></textarea>
           </label>
         </form>
         <button class="btn primary" id="checkout" style="width: 100%">
@@ -1410,7 +1463,9 @@
         ["assets/jy/verde-hierbas-mesa.png", "Proceso herbal"],
       ];
       let cart = JSON.parse(localStorage.getItem("jyCart") || "[]");
-      const savedCustomer = JSON.parse(localStorage.getItem("jyCustomer") || "{}");
+      const savedCustomer = JSON.parse(
+        localStorage.getItem("jyCustomer") || "{}",
+      );
       const grid = document.getElementById("productGrid"),
         cartEl = document.getElementById("cart"),
         backdrop = document.getElementById("backdrop");
