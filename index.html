@@ -1,1930 +1,1521 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">CreadorHub | Directorio #1 de Creadores Latinos</title>
-  <meta name="description" content="Plataforma gratuita para creadores latinos. Directorio, perfiles personalizados, sistema de Partners, misiones diarias y recompensas. Únete gratis.">
-  <meta property="og:title" content="CreadorHub - Perfiles y Directorio para Creadores Latinos">
-  <meta property="og:description" content="Crea tu perfil de creador gratis. Directorio de YouTube, TikTok, Twitch, Facebook e Instagram.">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://pl29773436.effectivecpmnetwork.com/4e/df/2c/4edf2c7de8f827088bf5dfa546eb4dd3.js"></script>
-</head>
-<style>
-/* ═══════════════════════════════════════════════════
-   VARIABLES & RESET
-═══════════════════════════════════════════════════ */
-:root{
-  --bg:#07090F;
-  --s1:#0E1117;
-  --s2:#141824;
-  --s3:#1A2030;
-  --bd:rgba(255,255,255,.07);
-  --bd2:rgba(255,255,255,.14);
-  --pri:#8B5CF6;
-  --pril:#A78BFA;
-  --prig:rgba(139,92,246,.18);
-  --sec:#06D6A0;
-  --secg:rgba(6,214,160,.14);
-  --acc:#F59E0B;
-  --accg:rgba(245,158,11,.14);
-  --red:#EF4444;
-  --txt:#F9FAFB;
-  --mut:#6B7280;
-  --sub:#9CA3AF;
-  --r:16px;
-  --rp:999px;
-  --rc:20px;
-  --glow-p:0 0 40px rgba(139,92,246,.35);
-  --glow-s:0 0 40px rgba(6,214,160,.35);
-  --glow-a:0 0 40px rgba(245,158,11,.35);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-img{max-width:100%;display:block}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
-input,select,textarea{font-family:inherit}
-
-/* ═══════════════════════════════════════════════════
-   TIPOGRAFÍA
-═══════════════════════════════════════════════════ */
-h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.15}
-.grad{background:linear-gradient(135deg,var(--pril),var(--sec));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.grad-acc{background:linear-gradient(135deg,var(--acc),var(--sec));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-/* ═══════════════════════════════════════════════════
-   LAYOUT
-═══════════════════════════════════════════════════ */
-.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
-section{padding:96px 0}
-.eye{display:inline-flex;align-items:center;gap:8px;background:var(--prig);border:1px solid rgba(139,92,246,.35);color:var(--pril);font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;border-radius:var(--rp);margin-bottom:20px}
-.eye-acc{background:var(--accg);border:1px solid rgba(245,158,11,.35);color:var(--acc)}
-.eye-sec{background:var(--secg);border:1px solid rgba(6,214,160,.35);color:var(--sec)}
-.sec-h{margin-bottom:60px}.sec-h.c{text-align:center}.sec-h.c .sec-sub{margin:0 auto}
-.sec-t{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:14px}
-.sec-sub{font-size:1.05rem;color:var(--mut);max-width:580px}
-
-/* ═══════════════════════════════════════════════════
-   BOTONES
-═══════════════════════════════════════════════════ */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--rp);font-weight:700;font-size:.93rem;cursor:pointer;transition:all .2s;border:none;font-family:inherit}
-.btn-p{background:linear-gradient(135deg,var(--pri),#6D28D9);color:#fff;box-shadow:0 0 24px rgba(139,92,246,.4)}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(139,92,246,.65)}
-.btn-s{background:linear-gradient(135deg,var(--sec),#059669);color:#000;box-shadow:0 0 20px rgba(6,214,160,.3);font-weight:800}
-.btn-s:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(6,214,160,.55)}
-.btn-a{background:linear-gradient(135deg,var(--acc),#D97706);color:#000;box-shadow:0 0 20px rgba(245,158,11,.3);font-weight:800}
-.btn-a:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(245,158,11,.5)}
-.btn-g{background:rgba(255,255,255,.05);color:var(--txt);border:1px solid var(--bd2)}
-.btn-g:hover{background:rgba(255,255,255,.1)}
-.btn-lg{padding:15px 36px;font-size:1rem}
-.btn-xl{padding:18px 44px;font-size:1.1rem}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-
-/* ═══════════════════════════════════════════════════
-   SCROLLBAR
-═══════════════════════════════════════════════════ */
-::-webkit-scrollbar{width:7px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
-
-/* ═══════════════════════════════════════════════════
-   NAVBAR
-═══════════════════════════════════════════════════ */
-#nav{position:fixed;top:0;width:100%;z-index:1000;padding:18px 0;transition:all .3s}
-#nav.stuck{background:rgba(7,9,15,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd);padding:12px 0}
-.nav-in{display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem}
-.logo-ic{width:34px;height:34px;background:linear-gradient(135deg,var(--pri),var(--sec));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
-.nav-lnk{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-lnk a{color:var(--sub);font-size:.9rem;font-weight:500;transition:color .2s}
-.nav-lnk a:hover{color:var(--txt)}
-/* XP widget in nav */
-.nav-xp{display:flex;align-items:center;gap:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--rp);padding:6px 14px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s}
-.nav-xp:hover{background:rgba(245,158,11,.15)}
-.nav-xp-coins{color:var(--acc)}
-.nav-xp-bar-wrap{width:60px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
-.nav-xp-bar{height:100%;background:linear-gradient(90deg,var(--acc),var(--sec));width:0%;transition:width .5s ease;border-radius:3px}
-.ham{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer}
-.ham span{display:block;width:22px;height:2px;background:var(--txt);border-radius:2px;transition:all .3s}
-.mob{display:none;position:fixed;inset:0;background:rgba(7,9,15,.99);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px}
-.mob.on{display:flex}
-.mob a{font-size:1.4rem;font-weight:700}
-.mob-x{position:absolute;top:22px;right:22px;font-size:1.8rem;cursor:pointer;color:var(--mut)}
-
-/* ═══════════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════════ */
-#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:140px 0 80px}
-.blob{position:absolute;border-radius:50%;filter:blur(90px);animation:bfloat linear infinite;pointer-events:none}
-.b1{width:620px;height:620px;background:radial-gradient(circle,var(--pri),transparent 70%);top:-160px;left:-200px;animation-duration:22s;opacity:.28}
-.b2{width:540px;height:540px;background:radial-gradient(circle,var(--sec),transparent 70%);bottom:-100px;right:-140px;animation-duration:27s;animation-direction:reverse;opacity:.18}
-.b3{width:360px;height:360px;background:radial-gradient(circle,var(--acc),transparent 70%);top:42%;left:66%;animation-duration:34s;opacity:.1}
-@keyframes bfloat{0%{transform:translate(0,0) scale(1)}25%{transform:translate(28px,-18px) scale(1.04)}50%{transform:translate(-18px,28px) scale(.96)}75%{transform:translate(-26px,-9px) scale(1.02)}100%{transform:translate(0,0) scale(1)}}
-.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:58px 58px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 30%,transparent 100%)}
-.hero-c{position:relative;z-index:2;max-width:840px}
-.hbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.38);border-radius:var(--rp);padding:8px 18px;font-size:.82rem;font-weight:600;color:var(--pril);margin-bottom:26px;animation:fdown .6s ease both}
-.dot{width:8px;height:8px;background:var(--sec);border-radius:50%;animation:pdot 2s infinite}
-@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
-.htit{font-size:clamp(2.8rem,6vw,5rem);margin-bottom:26px;animation:fdown .6s ease .1s both}
-.hsub{font-size:clamp(.98rem,2vw,1.18rem);color:var(--sub);margin-bottom:42px;max-width:560px;animation:fdown .6s ease .2s both}
-.hact{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;animation:fdown .6s ease .3s both}
-.hplat{display:flex;align-items:center;gap:14px;animation:fdown .6s ease .4s both;margin-bottom:52px}
-.hplat-l{font-size:.8rem;color:var(--mut);font-weight:500;white-space:nowrap}
-.plat-row{display:flex;gap:8px}
-.pi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:transform .2s;cursor:pointer}
-.pi:hover{transform:translateY(-3px)}
-.pyt{background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.3)}
-.ptt{background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15)}
-.ptw{background:rgba(145,70,255,.12);border:1px solid rgba(145,70,255,.3)}
-.pfb{background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.3)}
-.pig{background:rgba(225,48,108,.12);border:1px solid rgba(225,48,108,.3)}
-/* Live counter badges in hero */
-.hlive{display:flex;gap:12px;flex-wrap:wrap;animation:fdown .6s ease .45s both;margin-bottom:52px}
-.hlive-item{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:8px;padding:6px 12px;font-size:.75rem;color:var(--sub);font-weight:500}
-.hlive-dot{width:6px;height:6px;border-radius:50%;animation:pdot 1.5s infinite}
-.hstats{display:flex;gap:36px;padding:26px 38px;background:rgba(255,255,255,.025);border:1px solid var(--bd);border-radius:var(--r);backdrop-filter:blur(10px);animation:fup .6s ease .5s both;flex-wrap:wrap}
-.hs{display:flex;flex-direction:column;gap:3px}
-.hs-n{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;font-weight:700}
-.hs-l{font-size:.76rem;color:var(--mut);font-weight:500}
-.hdiv{width:1px;background:var(--bd);align-self:stretch}
-@keyframes fdown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-/* ═══════════════════════════════════════════════════
-   AD SLOTS
-═══════════════════════════════════════════════════ */
-.ad{background:rgba(255,255,255,.018);border:1px dashed rgba(255,255,255,.08);border-radius:var(--r);padding:14px;text-align:center;color:var(--mut);font-size:.7rem;margin:36px auto;transition:border-color .2s}
-.ad:hover{border-color:rgba(255,255,255,.14)}
-.ad-l{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;color:rgba(255,255,255,.25)}
-.ad-728{max-width:730px;min-height:92px}
-.ad-970{max-width:972px;min-height:92px}
-.ad-300{max-width:302px;min-height:252px;display:inline-block;vertical-align:top}
-.ad-mob{max-width:322px;min-height:52px}
-
-/* ═══════════════════════════════════════════════════
-   CÓMO FUNCIONA
-═══════════════════════════════════════════════════ */
-#como{background:var(--s1)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--bd);border-radius:var(--rc);overflow:hidden}
-.step{background:var(--s2);padding:46px 34px;position:relative;transition:background .2s}
-.step:hover{background:rgba(139,92,246,.07)}
-.sn{font-family:'Space Grotesk',sans-serif;font-size:4.5rem;font-weight:700;color:rgba(255,255,255,.035);position:absolute;top:10px;right:18px;line-height:1}
-.sic{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:22px}
-.sic1{background:rgba(139,92,246,.15)}.sic2{background:rgba(6,214,160,.15)}.sic3{background:rgba(245,158,11,.15)}.sic4{background:rgba(239,68,68,.15)}
-.step h3{font-size:1.25rem;margin-bottom:11px}
-.step p{color:var(--mut);font-size:.9rem;line-height:1.75}
-
-/* ═══════════════════════════════════════════════════
-   DIRECTORIO
-═══════════════════════════════════════════════════ */
-.dir-ctrl{margin-bottom:36px}
-.search-wrap{position:relative;margin-bottom:20px}
-.search-ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--mut)}
-#searchInput{width:100%;background:var(--s1);border:1px solid var(--bd2);border-radius:var(--rp);color:var(--txt);font-size:.95rem;font-family:inherit;padding:13px 16px 13px 44px;outline:none;transition:border-color .2s}
-#searchInput:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
-#searchInput::placeholder{color:var(--mut)}
-.filter-row{display:flex;gap:10px;flex-wrap:wrap}
-.pill{padding:8px 18px;border-radius:var(--rp);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--bd);background:var(--s1);color:var(--sub)}
-.pill:hover,.pill.on{background:var(--pri);border-color:var(--pri);color:#fff}
-.cat-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.cpill{padding:6px 14px;border-radius:var(--rp);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--bd);background:transparent;color:var(--sub)}
-.cpill:hover,.cpill.on{background:rgba(6,214,160,.12);border-color:rgba(6,214,160,.4);color:var(--sec)}
-.dir-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;font-size:.85rem;color:var(--mut)}
-#dir-count{font-weight:600;color:var(--pril)}
-.creator-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.empty{text-align:center;padding:60px 20px;color:var(--mut)}
-.empty-ic{font-size:3rem;margin-bottom:14px}
-
-/* CREATOR CARD */
-.cc{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rc);overflow:hidden;transition:all .25s;display:flex;flex-direction:column;position:relative}
-.cc:hover{border-color:var(--bd2);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.45)}
-.cc.feat{border-color:rgba(245,158,11,.5);box-shadow:0 0 0 1px rgba(245,158,11,.15)}
-.feat-rib{position:absolute;top:14px;right:14px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:var(--rp);padding:3px 10px;font-size:.68rem;font-weight:700;color:var(--acc);letter-spacing:.05em}
-.cc-top{padding:24px 24px 16px;display:flex;align-items:flex-start;gap:14px}
-.cc-av{width:60px;height:60px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--pri),var(--sec));display:flex;align-items:center;justify-content:center;font-size:1.8rem;overflow:hidden;border:2px solid var(--bd2)}
-.cc-av img{width:100%;height:100%;object-fit:cover}
-.cc-head{flex:1;min-width:0}
-.cc-name{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
-.verif{display:inline-flex;width:16px;height:16px;background:var(--sec);border-radius:50%;align-items:center;justify-content:center;font-size:.55rem;margin-left:4px;color:#000;font-weight:900;vertical-align:middle}
-.cc-meta{display:flex;align-items:center;gap:8px;font-size:.78rem}
-.cc-plat{font-weight:600}
-.cc-body{padding:0 24px 16px;flex:1}
-.cc-bio{color:var(--sub);font-size:.85rem;line-height:1.65;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:6px;padding:3px 9px;font-size:.7rem;color:var(--sub);font-weight:500}
-.cc-foot{padding:16px 24px 20px;border-top:1px solid var(--bd)}
-.btn-card{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;border-radius:10px;background:var(--prig);border:1px solid rgba(139,92,246,.25);color:var(--pril);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;font-family:inherit;text-decoration:none}
-.btn-card:hover{background:rgba(139,92,246,.28);border-color:var(--pri)}
-
-/* ═══════════════════════════════════════════════════
-   BENEFICIOS
-═══════════════════════════════════════════════════ */
-#ben{background:var(--s1)}
-.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.feat{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:30px;transition:all .25s}
-.feat:hover{border-color:var(--pri);box-shadow:0 0 40px rgba(139,92,246,.15);transform:translateY(-3px)}
-.feat-ic{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:18px;background:var(--prig);border:1px solid rgba(139,92,246,.18)}
-.feat h3{font-size:1.05rem;margin-bottom:9px}
-.feat p{color:var(--mut);font-size:.88rem;line-height:1.75}
-
-/* ═══════════════════════════════════════════════════
-   ESTADÍSTICAS
-═══════════════════════════════════════════════════ */
-#stats{background:linear-gradient(135deg,rgba(139,92,246,.05),rgba(6,214,160,.03));border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:80px 0}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--bd);border-radius:var(--rc);overflow:hidden}
-.sc{background:var(--bg);padding:46px 30px;text-align:center}
-.sc-n{font-family:'Space Grotesk',sans-serif;font-size:3.2rem;font-weight:700;margin-bottom:7px;background:linear-gradient(135deg,var(--pril),var(--sec));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sc-l{color:var(--mut);font-size:.85rem;font-weight:500}
-
-/* ═══════════════════════════════════════════════════
-   ██  GAMIFICACIÓN — BARRA XP + COFRES               ██
-═══════════════════════════════════════════════════ */
-#gamif{background:var(--s2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
-.gam-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.gam-left{}
-.xp-bar-box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:28px;margin-bottom:20px}
-.xp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.xp-label{font-size:.82rem;color:var(--sub);font-weight:600}
-.xp-val{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--acc)}
-.xp-bar-outer{height:12px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;margin-bottom:10px;position:relative}
-.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--acc),var(--sec));border-radius:6px;width:0%;transition:width .7s cubic-bezier(.4,0,.2,1);position:relative}
-.xp-bar-inner::after{content:'';position:absolute;right:0;top:0;bottom:0;width:8px;background:rgba(255,255,255,.5);border-radius:4px;filter:blur(3px)}
-.xp-milestones{display:flex;justify-content:space-between;font-size:.68rem;color:var(--mut)}
-/* Cofres de tiempo */
-.cofres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
-.cofre{background:var(--s1);border:2px solid var(--bd);border-radius:14px;padding:18px 14px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
-.cofre.locked{opacity:.5}
-.cofre.unlocked{border-color:rgba(245,158,11,.5);box-shadow:0 0 28px rgba(245,158,11,.18)}
-.cofre.claimed{border-color:rgba(6,214,160,.4);background:rgba(6,214,160,.05)}
-.cofre-ic{font-size:2rem;margin-bottom:8px;display:block;transition:transform .3s}
-.cofre.unlocked .cofre-ic{animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.cofre-min{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:4px}
-.cofre-lbl{font-size:.7rem;color:var(--mut);margin-bottom:10px}
-.cofre-xp{font-size:.72rem;color:var(--sec);font-weight:700;margin-bottom:10px}
-.cofre-btn{width:100%;padding:7px;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;border:none}
-.cofre-btn.claim{background:linear-gradient(135deg,var(--acc),#D97706);color:#000}
-.cofre-btn.claim:hover{transform:scale(1.04)}
-.cofre-btn.done{background:rgba(6,214,160,.12);color:var(--sec);border:1px solid rgba(6,214,160,.25);cursor:default}
-.cofre-btn.wait{background:rgba(255,255,255,.04);color:var(--mut);cursor:default}
-/* Misiones diarias */
-.missions-panel{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:24px}
-.missions-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.missions-head h3{font-size:1.05rem}
-.missions-reset{font-size:.72rem;color:var(--mut)}
-.mission-item{display:flex;align-items:center;gap:14px;padding:14px;background:var(--s2);border:1px solid var(--bd);border-radius:12px;margin-bottom:10px;transition:all .2s}
-.mission-item:last-child{margin-bottom:0}
-.mission-item.done{opacity:.55;background:rgba(6,214,160,.04);border-color:rgba(6,214,160,.15)}
-.m-ic{font-size:1.5rem;flex-shrink:0;width:40px;text-align:center}
-.m-body{flex:1;min-width:0}
-.m-title{font-size:.88rem;font-weight:600;margin-bottom:3px}
-.m-desc{font-size:.73rem;color:var(--mut)}
-.m-xp{font-size:.75rem;font-weight:700;color:var(--sec);white-space:nowrap;margin-left:auto}
-.m-check{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;background:rgba(6,214,160,.15);border:1px solid rgba(6,214,160,.3);color:var(--sec);margin-left:4px}
-.m-check.empty{background:rgba(255,255,255,.04);border:1px solid var(--bd);color:transparent}
-/* Timer badge */
-.timer-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:8px;padding:8px 14px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
-.timer-badge strong{color:var(--pril);font-family:'Space Grotesk',sans-serif}
-
-/* ═══════════════════════════════════════════════════
-   ██  SISTEMA PARTNER                                ██
-═══════════════════════════════════════════════════ */
-#partner{background:var(--bg)}
-.partner-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:start}
-.partner-left{}
-.partner-left h2{margin-bottom:14px}
-.partner-left>p{color:var(--mut);margin-bottom:28px;line-height:1.7}
-.partner-perks{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
-.perk{display:flex;align-items:center;gap:12px;font-size:.9rem}
-.pck{width:26px;height:26px;min-width:26px;background:rgba(6,214,160,.1);border:1px solid rgba(6,214,160,.28);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--sec);font-size:.7rem}
-.req-box{background:var(--s1);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:18px}
-.req-box h4{font-size:.85rem;color:var(--acc);margin-bottom:12px;font-family:'Space Grotesk',sans-serif}
-.req-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--sub);padding:5px 0;border-bottom:1px solid var(--bd)}
-.req-item:last-child{border-bottom:none;padding-bottom:0}
-.req-icon{font-size:.9rem}
-/* Formulario multipaso */
-.partner-form-box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rc);overflow:hidden}
-/* Steps indicator */
-.steps-ind{display:flex;padding:20px 24px;background:var(--s2);border-bottom:1px solid var(--bd);gap:8px}
-.step-dot{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
-.step-dot:not(:last-child)::after{content:'';position:absolute;left:calc(50% + 14px);top:12px;right:calc(-50% + 14px);height:1px;background:var(--bd)}
-.step-dot.done::after,.step-dot.active::after{background:var(--pri)}
-.step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;border:2px solid var(--bd);color:var(--mut);transition:all .3s;position:relative;z-index:1;background:var(--s2)}
-.step-dot.done .step-num{background:var(--pri);border-color:var(--pri);color:#fff}
-.step-dot.active .step-num{background:var(--prig);border-color:var(--pri);color:var(--pril)}
-.step-lbl{font-size:.6rem;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.step-dot.active .step-lbl{color:var(--pril)}
-.step-dot.done .step-lbl{color:var(--sec)}
-/* Form content */
-.pform-inner{padding:28px}
-.pform-step{display:none}
-.pform-step.active{display:block}
-.pform-step h3{font-size:1.1rem;margin-bottom:6px}
-.pform-step>p{color:var(--mut);font-size:.84rem;margin-bottom:22px}
-.fg{margin-bottom:16px}
-.fl{display:block;font-size:.8rem;font-weight:600;color:var(--sub);margin-bottom:7px}
-.fi,.fs,.fta{width:100%;background:var(--bg);border:1px solid var(--bd2);border-radius:10px;color:var(--txt);font-size:.9rem;font-family:inherit;padding:11px 15px;transition:all .2s;outline:none}
-.fi:focus,.fs:focus,.fta:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
-.fta{resize:vertical;min-height:80px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.checkbox-row{display:flex;align-items:flex-start;gap:10px;padding:12px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:8px;cursor:pointer;transition:border-color .2s;margin-bottom:10px}
-.checkbox-row:hover{border-color:var(--bd2)}
-.checkbox-row input[type=checkbox]{accent-color:var(--pri);width:16px;height:16px;margin-top:2px;flex-shrink:0}
-.checkbox-row label{font-size:.84rem;color:var(--sub);cursor:pointer;line-height:1.5}
-.pform-nav{display:flex;justify-content:space-between;margin-top:22px;gap:10px}
-/* Status tracker */
-.partner-status{display:none;padding:28px}
-.partner-status.on{display:block}
-.ps-title{font-size:1.1rem;font-weight:700;margin-bottom:20px;font-family:'Space Grotesk',sans-serif}
-.ps-steps{display:flex;flex-direction:column;gap:0}
-.ps-step{display:flex;gap:14px;padding-bottom:22px;position:relative}
-.ps-step:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:1px;background:var(--bd)}
-.ps-step.done::before{background:var(--sec)}
-.ps-step.active::before{background:linear-gradient(180deg,var(--pri),var(--bd))}
-.ps-ic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;border:2px solid var(--bd);background:var(--s2);position:relative;z-index:1;transition:all .3s}
-.ps-step.done .ps-ic{background:rgba(6,214,160,.15);border-color:var(--sec);color:var(--sec)}
-.ps-step.active .ps-ic{background:var(--prig);border-color:var(--pri);color:var(--pril);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.4)}50%{box-shadow:0 0 0 8px rgba(139,92,246,.0)}}
-.ps-body h4{font-size:.9rem;font-weight:700;margin-bottom:3px}
-.ps-body p{font-size:.78rem;color:var(--mut)}
-
-/* ═══════════════════════════════════════════════════
-   FORMULARIO DE REGISTRO
-═══════════════════════════════════════════════════ */
-#reg{}
-.reg-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.reg-l h2{font-size:2.3rem;margin-bottom:14px}
-.reg-l>p{color:var(--mut);margin-bottom:28px;line-height:1.7}
-.perks{display:flex;flex-direction:column;gap:12px}
-.fbox{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rc);padding:38px}
-.fbox h3{margin-bottom:22px;font-size:1.25rem}
-.fsub{width:100%;margin-top:6px;background:linear-gradient(135deg,var(--pri),#6D28D9);color:#fff;padding:14px;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s;box-shadow:0 0 22px rgba(139,92,246,.35)}
-.fsub:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(139,92,246,.6)}
-.fsub:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.fnote{font-size:.72rem;color:var(--mut);text-align:center;margin-top:12px}
-.sbox{display:none;background:rgba(6,214,160,.06);border:1px solid rgba(6,214,160,.25);border-radius:var(--r);padding:28px;text-align:center}
-.sbox.on{display:block}
-
-/* ═══════════════════════════════════════════════════
-   TESTIMONIOS
-═══════════════════════════════════════════════════ */
-#testi{background:var(--s1)}
-.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.tc{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:30px;transition:all .25s}
-.tc:hover{border-color:var(--bd2);transform:translateY(-3px)}
-.stars{color:var(--acc);margin-bottom:18px}
-.tq{color:var(--sub);font-size:.9rem;line-height:1.8;margin-bottom:22px;font-style:italic}
-.ta{display:flex;align-items:center;gap:12px}
-.tav{width:44px;height:44px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--pri),var(--sec));display:flex;align-items:center;justify-content:center;font-size:1.2rem}
-.tn{font-weight:700;font-size:.9rem}
-.th{font-size:.75rem;color:var(--mut)}
-.tpl{margin-left:auto;font-size:1.2rem}
-
-/* ═══════════════════════════════════════════════════
-   FAQ
-═══════════════════════════════════════════════════ */
-.faq-w{max-width:780px;margin:0 auto}
-.fi2{border:1px solid var(--bd);border-radius:10px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
-.fi2.on{border-color:var(--pri)}
-.fq{padding:18px 22px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;font-size:.92rem;transition:background .2s}
-.fq:hover{background:rgba(255,255,255,.02)}
-.fic{transition:transform .3s;color:var(--mut)}
-.fi2.on .fic{transform:rotate(180deg);color:var(--pri)}
-.fa{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.fi2.on .fa{max-height:280px}
-.fa p{padding:0 22px 22px;color:var(--mut);font-size:.89rem;line-height:1.8}
-
-/* ═══════════════════════════════════════════════════
-   CTA FINAL
-═══════════════════════════════════════════════════ */
-#ctaf{padding:80px 0}
-.ctac{background:linear-gradient(135deg,rgba(139,92,246,.09),rgba(6,214,160,.04));border:1px solid rgba(139,92,246,.2);border-radius:24px;padding:78px 56px;text-align:center;position:relative;overflow:hidden}
-.ctag{position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.1),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.ctac h2{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:14px;position:relative}
-.ctac>p{color:var(--sub);font-size:1.05rem;margin-bottom:36px;position:relative}
-.cta-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;position:relative}
-
-/* ═══════════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════════ */
-footer{background:var(--s1);border-top:1px solid var(--bd);padding:56px 0 36px}
-.fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
-.fb .logo{margin-bottom:14px}
-.fb p{color:var(--mut);font-size:.86rem;line-height:1.7;max-width:270px}
-.fc h5{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:14px}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:9px}
-.fc ul a{color:var(--mut);font-size:.86rem;transition:color .2s}
-.fc ul a:hover{color:var(--txt)}
-.fbot{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px solid var(--bd);font-size:.78rem;color:var(--mut)}
-
-/* ═══════════════════════════════════════════════════
-   PERFIL INDIVIDUAL
-═══════════════════════════════════════════════════ */
-#pp{display:none}
-#pp.on{display:block}
-.pp-back{display:inline-flex;align-items:center;gap:8px;color:var(--sub);font-size:.88rem;font-weight:600;cursor:pointer;padding:18px 0;transition:color .2s}
-.pp-back:hover{color:var(--txt)}
-.pp-hero{position:relative;border-radius:var(--rc) var(--rc) 0 0;height:140px;overflow:hidden}
-.pp-hero-bg{position:absolute;inset:0;opacity:.4}
-.pp-av-wrap{position:absolute;bottom:-42px;left:50%;transform:translateX(-50%)}
-.pp-av{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--sec));border:4px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:2.6rem;overflow:hidden}
-.pp-av img{width:100%;height:100%;object-fit:cover}
-.pp-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rc);overflow:hidden;max-width:600px;margin:0 auto}
-.pp-body{padding:56px 32px 32px;text-align:center}
-.pp-name{font-size:1.5rem;margin-bottom:4px}
-.pp-bio{color:var(--sub);font-size:.9rem;margin-bottom:16px;line-height:1.65}
-.pp-badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.pp-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:var(--rp);font-size:.73rem;font-weight:600;border:1px solid var(--bd)}
-.pp-links{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;padding:0 32px}
-.lbtn{display:flex;align-items:center;gap:14px;padding:15px 20px;border-radius:13px;color:var(--txt);font-weight:600;font-size:.95rem;transition:all .22s;text-decoration:none;border:1px solid rgba(var(--c),.3);background:rgba(var(--c),.09)}
-.lbtn:hover{background:rgba(var(--c),.2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(var(--c),.15)}
-.l-ic{font-size:1.2rem;width:28px;text-align:center;flex-shrink:0}
-.l-lbl{flex:1;text-align:left}
-.l-arr{opacity:.5;font-size:.9rem}
-.pp-share{display:flex;gap:10px;justify-content:center;margin:0 32px 32px}
-.share-btn{padding:8px 18px;border-radius:var(--rp);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--bd2);background:rgba(255,255,255,.04);color:var(--txt)}
-.share-btn:hover{background:rgba(255,255,255,.1)}
-.pp-posts{padding:0 32px 32px}
-.pp-posts h4{font-size:1rem;margin-bottom:14px;color:var(--pril)}
-.post-c{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:18px;margin-bottom:10px}
-.post-fecha{font-size:.72rem;color:var(--mut);margin-bottom:4px}
-.post-tit{font-weight:700;font-size:.95rem;margin-bottom:6px}
-.post-txt{color:var(--sub);font-size:.85rem;line-height:1.65}
-.pp-cta{padding:24px 32px;border-top:1px solid var(--bd);text-align:center;background:var(--prig)}
-.pp-cta p{font-size:.82rem;color:var(--sub);margin-bottom:10px}
-.pp-wrap{max-width:640px;margin:0 auto;padding:24px 24px 60px}
-#pp-err{display:none;text-align:center;padding:80px 20px;color:var(--mut)}
-/* Ad inside profile */
-.pp-ad{padding:0 32px 32px;text-align:center}
-
-/* ═══════════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════════ */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
-.rv.vis{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
-
-/* ═══════════════════════════════════════════════════
-   TOAST NOTIFICATION
-═══════════════════════════════════════════════════ */
-#toast{position:fixed;bottom:22px;left:22px;background:var(--s1);border:1px solid var(--bd2);border-radius:12px;padding:13px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);transform:translateX(-160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:290px}
-#toast.on{transform:translateX(0)}
-.tav2{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--pri),var(--sec));display:flex;align-items:center;justify-content:center;font-size:.95rem}
-.ttxt{font-size:.78rem;line-height:1.4}
-.ttxt strong{display:block;font-weight:700}
-.ttxt span{color:var(--mut)}
-
-/* XP REWARD POPUP */
-#xp-popup{position:fixed;top:80px;right:22px;background:var(--s1);border:1px solid rgba(245,158,11,.4);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.5),var(--glow-a);transform:translateX(160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:280px}
-#xp-popup.on{transform:translateX(0)}
-.xpp-ic{font-size:2rem;flex-shrink:0}
-.xpp-txt h4{font-size:.9rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--acc)}
-.xpp-txt p{font-size:.75rem;color:var(--sub)}
-
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════ */
-@media(max-width:1100px){
-  .creator-grid{grid-template-columns:repeat(2,1fr)}
-  .feats{grid-template-columns:repeat(2,1fr)}
-  .tg{grid-template-columns:1fr 1fr}
-  .fg2{grid-template-columns:1fr 1fr;gap:32px}
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-  .steps{grid-template-columns:1fr}
-  .gam-wrap{grid-template-columns:1fr}
-  .partner-wrap{grid-template-columns:1fr}
-}
-@media(max-width:768px){
-  section{padding:68px 0}
-  .nav-lnk,.nav-dsk{display:none}
-  .ham{display:flex}
-  .htit{font-size:2.6rem}
-  .hstats{flex-direction:column;gap:18px;padding:22px}
-  .hdiv{display:none}
-  .creator-grid,.feats,.tg{grid-template-columns:1fr}
-  .reg-wrap{grid-template-columns:1fr;gap:36px}
-  .fg2{grid-template-columns:1fr}
-  .fbot{flex-direction:column;gap:10px;text-align:center}
-  .ctac{padding:44px 22px}
-  .frow{grid-template-columns:1fr}
-  .pp-body{padding:50px 20px 20px}
-  .pp-links,.pp-posts,.pp-cta,.pp-share,.pp-ad{padding-left:20px;padding-right:20px}
-  .cofres{grid-template-columns:repeat(3,1fr)}
-  .pform-nav{flex-direction:column-reverse}
-  .nav-xp{display:none}
-}
-@media(max-width:480px){
-  .cofres{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-
-<!-- ═══════════════════════════════════════════════
-     TOAST NOTIFICACIÓN
-═══════════════════════════════════════════════ -->
-<div id="toast">
-  <div class="tav2" id="t-av">🎮</div>
-  <div class="ttxt">
-    <strong id="t-nm">Carlos M.</strong>
-    <span id="t-ms">se unió desde Colombia</span>
-  </div>
-</div>
-
-<!-- XP REWARD POPUP -->
-<div id="xp-popup">
-  <div class="xpp-ic" id="xpp-ic">🎁</div>
-  <div class="xpp-txt">
-    <h4 id="xpp-title">¡Cofre desbloqueado!</h4>
-    <p id="xpp-desc">+100 HubCoins ganados</p>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
-     NAVBAR
-═══════════════════════════════════════════════ -->
-<nav id="nav">
-  <div class="wrap">
-    <div class="nav-in">
-      <a href="#" class="logo" onclick="goHome()">
-        <div class="logo-ic">🎬</div>
-        CreadorHub
-      </a>
-      <ul class="nav-lnk">
-        <li><a href="#" onclick="goHome();smt('como')">Cómo funciona</a></li>
-        <li><a href="#" onclick="goHome();smt('dir')">Directorio</a></li>
-        <li><a href="#" onclick="goHome();smt('gamif')">Misiones</a></li>
-        <li><a href="#" onclick="goHome();smt('partner')">Partner</a></li>
-        <li><a href="#" onclick="goHome();smt('faq')">FAQ</a></li>
-      </ul>
-      <!-- XP Widget en el nav -->
-      <div class="nav-xp" onclick="goHome();smt('gamif')" title="Tus HubCoins y progreso">
-        <span>🪙</span>
-        <span class="nav-xp-coins" id="nav-coins">0</span>
-        <div class="nav-xp-bar-wrap"><div class="nav-xp-bar" id="nav-xp-bar"></div></div>
-      </div>
-      <a href="#" onclick="goHome();smt('reg')" class="btn btn-p nav-dsk">🚀 Únete Gratis</a>
-      <div class="ham" onclick="toggleMob()"><span></span><span></span><span></span></div>
-    </div>
-  </div>
-</nav>
-
-<div class="mob" id="mob">
-  <div class="mob-x" onclick="toggleMob()">✕</div>
-  <a href="#" onclick="goHome();smt('como');toggleMob()">Cómo funciona</a>
-  <a href="#" onclick="goHome();smt('dir');toggleMob()">Directorio</a>
-  <a href="#" onclick="goHome();smt('gamif');toggleMob()">🪙 Misiones</a>
-  <a href="#" onclick="goHome();smt('partner');toggleMob()">💎 Partner</a>
-  <a href="#" onclick="goHome();smt('reg');toggleMob()" class="btn btn-p btn-lg">🚀 Únete Gratis</a>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     HOME PAGE
-════════════════════════════════════════════════════════════════ -->
-<div id="home">
-
-  <!-- ── HERO ── -->
-  <section id="hero">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="hgrid"></div>
-    <div class="wrap">
-      <div class="hero-c">
-        <div class="hbadge"><div class="dot"></div> Plataforma #1 para creadores latinos</div>
-        <h1 class="htit">Tu perfil. Tu directorio.<br><span class="grad">Tu comunidad gratis.</span></h1>
-        <p class="hsub">El único lugar donde los creadores latinos tienen su perfil tipo Linktree, aparecen en el directorio, ganan recompensas y conectan con su audiencia. Gratis para siempre.</p>
-        <div class="hact">
-          <a href="#" onclick="goHome();smt('reg')" class="btn btn-p btn-xl">🚀 Crea tu Perfil Gratis</a>
-          <a href="#" onclick="goHome();smt('gamif')" class="btn btn-a btn-lg">🪙 Ver Misiones</a>
-        </div>
-        <div class="hlive">
-          <div class="hlive-item"><div class="hlive-dot" style="background:var(--sec)"></div> <span id="live-creators">2,847</span> creadores activos</div>
-          <div class="hlive-item"><div class="hlive-dot" style="background:var(--pri)"></div> <span id="live-online">142</span> en línea ahora</div>
-          <div class="hlive-item"><div class="hlive-dot" style="background:var(--acc)"></div> <span id="live-coins">48,930</span> HubCoins repartidos</div>
-        </div>
-        <div class="hplat">
-          <span class="hplat-l">Compatible con:</span>
-          <div class="plat-row">
-            <div class="pi pyt" title="YouTube">▶️</div>
-            <div class="pi ptt" title="TikTok">🎵</div>
-            <div class="pi ptw" title="Twitch">🎮</div>
-            <div class="pi pfb" title="Facebook">📘</div>
-            <div class="pi pig" title="Instagram">📸</div>
-          </div>
-        </div>
-      </div>
-      <div class="hstats rv" id="hstats">
-        <div class="hs"><span class="hs-n" id="c1">2,847+</span><span class="hs-l">Creadores registrados</span></div>
-        <div class="hdiv"></div>
-        <div class="hs"><span class="hs-n">15+</span><span class="hs-l">Países activos</span></div>
-        <div class="hdiv"></div>
-        <div class="hs"><span class="hs-n">5</span><span class="hs-l">Plataformas</span></div>
-        <div class="hdiv"></div>
-        <div class="hs"><span class="hs-n">100%</span><span class="hs-l">Gratis siempre</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       AD SLOT 1 — LEADERBOARD 728×90
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="wrap">
-    <div class="ad ad-728">
-      <div class="ad-l">▲ BANNER 728×90</div>
-  <!-- PEGAR CÓDIGO DE ANUNCIO AQUÍ ↓ -->
-  <script>
-    atOptions = {
-      'key' : 'a7e562baa2e53f2e178b43b30c75ceb3',
-      'format' : 'iframe',
-      'height' : 90,
-      'width' : 728,
-      'params' : {}
-    };
-  </script>
-  <script src="https://www.highperformanceformat.com/a7e562baa2e53f2e178b43b30c75ceb3/invoke.js"></script>
-  <!-- FIN CÓDIGO ANUNCIO ↑ -->
-    </div>
-  </div>
-
-  <!-- ── CÓMO FUNCIONA ── -->
-  <section id="como">
-    <div class="wrap">
-      <div class="sec-h c">
-        <div class="eye">✨ Tres pasos y listo</div>
-        <h2 class="sec-t">¿Cómo funciona CreadorHub?</h2>
-        <p class="sec-sub">La plataforma más sencilla para que los creadores latinos crezcan, ganen recompensas y colaboren.</p>
-      </div>
-      <div class="steps rv">
-        <div class="step"><div class="sn">01</div><div class="sic sic1">📝</div><h3>Regístrate gratis</h3><p>Llena el formulario con los datos de tu canal. En menos de 2 minutos tienes tu perfil activo y tu enlace personal para compartir en todos tus canales.</p></div>
-        <div class="step"><div class="sn">02</div><div class="sic sic2">🔗</div><h3>Comparte tu enlace</h3><p>Recibe tu URL personalizada tipo <em style="color:var(--sec)">creadorhub.com/#perfil/tu-nombre</em> y ponla en tu YouTube, TikTok, Twitch o Instagram.</p></div>
-        <div class="step"><div class="sn">03</div><div class="sic sic3">🪙</div><h3>Gana HubCoins</h3><p>Navega la plataforma, completa misiones diarias y reclama cofres de tiempo. Cada minuto activo te acerca a recompensas exclusivas de la comunidad.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── DIRECTORIO DE CREADORES ── -->
-  <section id="dir">
-    <div class="wrap">
-      <div class="sec-h">
-        <div class="eye">🔍 Directorio en vivo</div>
-        <h2 class="sec-t">Encuentra creadores</h2>
-        <p class="sec-sub">Busca por nombre, plataforma o categoría. Haz clic en "Ver Perfil" para ver todos sus links.</p>
-      </div>
-      <div class="dir-ctrl">
-        <div class="search-wrap">
-          <span class="search-ic">🔍</span>
-          <input type="text" id="searchInput" placeholder="Buscar creador por nombre, categoría...">
-        </div>
-        <div class="filter-row">
-          <button class="pill on" data-plat="all" onclick="setFilter('all')">Todos</button>
-          <button class="pill" data-plat="youtube"   onclick="setFilter('youtube')">▶️ YouTube</button>
-          <button class="pill" data-plat="tiktok"    onclick="setFilter('tiktok')">🎵 TikTok</button>
-          <button class="pill" data-plat="twitch"    onclick="setFilter('twitch')">🎮 Twitch</button>
-          <button class="pill" data-plat="facebook"  onclick="setFilter('facebook')">📘 Facebook</button>
-          <button class="pill" data-plat="instagram" onclick="setFilter('instagram')">📸 Instagram</button>
-        </div>
-      </div>
-      <div class="dir-info">
-        <span>Mostrando <span id="dir-count">0</span> creadores</span>
-        <span style="font-size:.78rem">Haz clic en "Ver Perfil" para ver los links →</span>
-      </div>
-      <div class="creator-grid" id="cgrid"></div>
-      <div class="empty" id="empty" style="display:none">
-        <div class="empty-ic">🔎</div>
-        <p>No se encontraron creadores con esos filtros.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       AD SLOT 2 — MEGABANNER 970×90
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="wrap">
-    <div class="ad ad-970">
-      <div class="ad-l">Espacio publicitario 970×90 — Este tamaño paga más en desktop. Pega tu código Adsterra aquí</div>
-      <!-- ADSTERRA BANNER 970x90 START -->
-      <!-- <script async src="//www.topcreativeformat.com/TU_KEY_970/invoke.js"></script><div id="container-TU_KEY_970"></div> -->
-      <!-- ADSTERRA BANNER 970x90 END -->
-    </div>
-  </div>
-
-  <!-- ── BENEFICIOS ── -->
-  <section id="ben">
-    <div class="wrap">
-      <div class="sec-h">
-        <div class="eye">⚡ Por qué elegirnos</div>
-        <h2 class="sec-t">Todo lo que necesitas<br>para crecer de verdad</h2>
-        <p class="sec-sub">No somos solo un directorio. Somos la comunidad de creadores más activa de Latinoamérica.</p>
-      </div>
-      <div class="feats">
-        <div class="feat rv"><div class="feat-ic">🔗</div><h3>Tu Linktree gratis</h3><p>Olvídate de pagar $9/mes. CreadorHub te da tu propio perfil con todos tus links, gratis para siempre. URL personalizada incluida.</p></div>
-        <div class="feat rv d1"><div class="feat-ic">🪙</div><h3>Sistema de recompensas</h3><p>Gana HubCoins por navegar, completar misiones y crecer en la plataforma. El tiempo que pasas aquí tiene valor real.</p></div>
-        <div class="feat rv d2"><div class="feat-ic">💎</div><h3>Programa Partner</h3><p>Los creadores con más de 1,000 seguidores pueden aplicar al programa Partner y obtener beneficios exclusivos como insignias y visibilidad premium.</p></div>
-        <div class="feat rv"><div class="feat-ic">🔍</div><h3>Apareces en Google</h3><p>Tu perfil se indexa en Google. Cuando alguien busca creadores de tu nicho, apareces en los resultados. Tráfico orgánico gratuito.</p></div>
-        <div class="feat rv d1"><div class="feat-ic">🤝</div><h3>Collabs reales</h3><p>Conecta con creadores de tu mismo nicho para hacer menciones cruzadas, collabs y apoyarse mutuamente. Crecimiento auténtico.</p></div>
-        <div class="feat rv d2"><div class="feat-ic">🇨🇴</div><h3>Hecho para Latinos</h3><p>Pensado para Colombia, México, Venezuela, Argentina y toda Latinoamérica. En tu idioma, con tu cultura. Soporte en español.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── ESTADÍSTICAS ── -->
-  <section id="stats">
-    <div class="wrap">
-      <div class="sec-h c">
-        <div class="eye">📈 Creciendo sin parar</div>
-        <h2 class="sec-t">Números que no mienten</h2>
-      </div>
-      <div class="stats-row rv">
-        <div class="sc"><div class="sc-n" data-target="2847">0</div><div class="sc-l">Creadores registrados</div></div>
-        <div class="sc"><div class="sc-n" data-target="5">0</div><div class="sc-l">Plataformas conectadas</div></div>
-        <div class="sc"><div class="sc-n" data-target="15">0</div><div class="sc-l">Países activos</div></div>
-        <div class="sc"><div class="sc-n" data-target="98">0</div><div class="sc-l">% de satisfacción</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       AD SLOT 3 — RECTÁNGULO 300×250 (el más rentable por CTR)
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="wrap" style="text-align:center;padding:16px 0">
-    <div class="ad ad-300">
-      <div class="ad-l">▲ RECTÁNGULO 300×250</div>
-  <!-- PEGAR CÓDIGO DE ANUNCIO AQUÍ ↓ -->
-  <script>
-    atOptions = {
-      'key' : '6a9c0f7f587a538e2bd18c870728f306',
-      'format' : 'iframe',
-      'height' : 250,
-      'width' : 300,
-      'params' : {}
-    };
-  </script>
-  <script src="https://www.highperformanceformat.com/6a9c0f7f587a538e2bd18c870728f306/invoke.js"></script>
-  <!-- FIN CÓDIGO ANUNCIO ↑ -->
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════════════════════
-       ██  SECCIÓN GAMIFICACIÓN — RETENCIÓN / MISIONES          ██
-  ══════════════════════════════════════════════════════════════ -->
-  <section id="gamif">
-    <div class="wrap">
-      <div class="sec-h c">
-        <div class="eye eye-acc">🪙 Recompensas</div>
-        <h2 class="sec-t">Gana <span class="grad-acc">HubCoins</span> navegando</h2>
-        <p class="sec-sub">Cada minuto activo en CreadorHub te recompensa. Completa misiones y reclama tus cofres de tiempo.</p>
-      </div>
-      <div class="gam-wrap">
-        <!-- Lado izquierdo: barra XP + cofres -->
-        <div class="gam-left">
-          <!-- Timer badge -->
-          <div class="timer-badge">
-            ⏱️ Tiempo activo hoy: <strong id="gam-timer">0:00</strong>
-            &nbsp;|&nbsp; Estado: <strong id="gam-status" style="color:var(--sec)">Activo</strong>
-          </div>
-          <!-- Barra XP -->
-          <div class="xp-bar-box rv">
-            <div class="xp-top">
-              <span class="xp-label">🪙 HubCoins acumulados</span>
-              <span class="xp-val"><span id="xp-current">0</span> / <span id="xp-next">500</span></span>
-            </div>
-            <div class="xp-bar-outer">
-              <div class="xp-bar-inner" id="xp-bar"></div>
-            </div>
-            <div class="xp-milestones">
-              <span>Nivel 1</span><span>Nivel 2 (500)</span><span>Nivel 3 (1000)</span>
-            </div>
-          </div>
-          <!-- Cofres de tiempo -->
-          <h3 style="margin-bottom:14px;font-size:1.05rem">🎁 Cofres de Tiempo</h3>
-          <div class="cofres rv">
-            <div class="cofre locked" id="cofre-15">
-              <span class="cofre-ic">📦</span>
-              <div class="cofre-min">15 min</div>
-              <div class="cofre-lbl">Cofre Bronce</div>
-              <div class="cofre-xp">+50 🪙</div>
-              <button class="cofre-btn wait" id="cofre-15-btn" onclick="claimCofre(15)">⏳ Esperar</button>
-            </div>
-            <div class="cofre locked" id="cofre-30">
-              <span class="cofre-ic">🎁</span>
-              <div class="cofre-min">30 min</div>
-              <div class="cofre-lbl">Cofre Plata</div>
-              <div class="cofre-xp">+100 🪙</div>
-              <button class="cofre-btn wait" id="cofre-30-btn" onclick="claimCofre(30)">⏳ Esperar</button>
-            </div>
-            <div class="cofre locked" id="cofre-60">
-              <span class="cofre-ic">💰</span>
-              <div class="cofre-min">60 min</div>
-              <div class="cofre-lbl">Cofre Oro</div>
-              <div class="cofre-xp">+200 🪙</div>
-              <button class="cofre-btn wait" id="cofre-60-btn" onclick="claimCofre(60)">⏳ Esperar</button>
-            </div>
-          </div>
-          <p style="font-size:.72rem;color:var(--mut);margin-top:12px;text-align:center">Solo cuenta el tiempo con actividad real (scroll, clics, movimiento de mouse)</p>
-        </div>
-        <!-- Lado derecho: misiones diarias -->
-        <div class="missions-panel rv d2">
-          <div class="missions-head">
-            <h3>🎯 Misiones Diarias</h3>
-            <span class="missions-reset" id="missions-reset">Reinician en 24h</span>
-          </div>
-          <div id="missions-list">
-            <!-- Se genera por JS -->
-          </div>
-          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:.8rem;color:var(--mut)">Misiones completadas hoy:</span>
-            <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--sec)" id="missions-done-count">0/5</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       ██  SISTEMA PARTNER                                      ██
-  ══════════════════════════════════════════════════════════════ -->
-  <section id="partner" style="background:var(--s1)">
-    <div class="wrap">
-      <div class="sec-h c">
-        <div class="eye">💎 Exclusivo</div>
-        <h2 class="sec-t">Programa <span class="grad">Partner CreadorHub</span></h2>
-        <p class="sec-sub">Para los creadores más comprometidos. Aplica y consigue beneficios exclusivos, insignia verificada y más visibilidad.</p>
-      </div>
-      <div class="partner-wrap">
-        <!-- Info izquierda -->
-        <div class="partner-left rv">
-          <div class="partner-perks">
-            <div class="perk"><div class="pck">✓</div> Insignia <strong>Partner</strong> en tu perfil y el directorio</div>
-            <div class="perk"><div class="pck">✓</div> Posición destacada en el directorio</div>
-            <div class="perk"><div class="pck">✓</div> 500 HubCoins de bienvenida al ser aprobado</div>
-            <div class="perk"><div class="pck">✓</div> Acceso anticipado a nuevas funciones</div>
-            <div class="perk"><div class="pck">✓</div> Soporte prioritario 24/7</div>
-            <div class="perk"><div class="pck">✓</div> Canal privado en Discord para Partners</div>
-          </div>
-          <!-- Requisitos -->
-          <div class="req-box rv d2">
-            <h4>📋 Requisitos mínimos</h4>
-            <div class="req-item"><span class="req-icon">👥</span> Mínimo 1,000 suscriptores/seguidores verificables</div>
-            <div class="req-item"><span class="req-icon">📅</span> Actividad reciente (al menos 1 post/video en los últimos 30 días)</div>
-            <div class="req-item"><span class="req-icon">✅</span> Perfil activo en CreadorHub</div>
-            <div class="req-item"><span class="req-icon">🤝</span> Cumplir Términos de Uso de la plataforma</div>
-          </div>
-        </div>
-        <!-- Formulario multipaso Partner -->
-        <div class="partner-form-box rv d1" id="partner-form-box">
-          <!-- Indicador de pasos -->
-          <div class="steps-ind" id="partner-steps-ind">
-            <div class="step-dot active" id="pstep-1"><div class="step-num">1</div><div class="step-lbl">Canal</div></div>
-            <div class="step-dot" id="pstep-2"><div class="step-num">2</div><div class="step-lbl">Nicho</div></div>
-            <div class="step-dot" id="pstep-3"><div class="step-num">3</div><div class="step-lbl">Requisitos</div></div>
-          </div>
-          <!-- Contenido del formulario -->
-          <div class="pform-inner" id="partner-form-inner">
-            <!-- PASO 1: Datos del canal -->
-            <div class="pform-step active" id="pform-1">
-              <h3>📺 Datos de tu canal</h3>
-              <p>Cuéntanos sobre tu canal principal y cómo podemos encontrarte.</p>
-              <div class="fg"><label class="fl">Nombre del canal *</label><input type="text" id="p_nombre" class="fi" placeholder="Ej: Carlos Gaming CO"></div>
-              <div class="fg"><label class="fl">URL de tu canal principal *</label><input type="url" id="p_url" class="fi" placeholder="https://youtube.com/@tucanal"></div>
-              <div class="frow">
-                <div class="fg"><label class="fl">Plataforma principal *</label>
-                  <select id="p_plat" class="fs">
-                    <option value="">Selecciona...</option>
-                    <option value="youtube">▶️ YouTube</option>
-                    <option value="tiktok">🎵 TikTok</option>
-                    <option value="twitch">🎮 Twitch</option>
-                    <option value="instagram">📸 Instagram</option>
-                    <option value="facebook">📘 Facebook</option>
-                  </select>
-                </div>
-                <div class="fg"><label class="fl">Suscriptores / Seguidores *</label>
-                  <select id="p_subs" class="fs">
-                    <option value="">Selecciona...</option>
-                    <option value="1k-10k">1,000 – 10,000</option>
-                    <option value="10k-50k">10,000 – 50,000</option>
-                    <option value="50k-100k">50,000 – 100,000</option>
-                    <option value="100k-500k">100,000 – 500,000</option>
-                    <option value="500k+">500,000+</option>
-                  </select>
-                </div>
-              </div>
-              <div class="fg"><label class="fl">Email de contacto *</label><input type="email" id="p_email" class="fi" placeholder="tu@email.com"></div>
-              <div class="pform-nav">
-                <span></span>
-                <button class="btn btn-p" onclick="pformNext(1)">Siguiente →</button>
-              </div>
-            </div>
-            <!-- PASO 2: Nicho y contenido -->
-            <div class="pform-step" id="pform-2">
-              <h3>🎯 Nicho y tipo de contenido</h3>
-              <p>Cuéntanos qué tipo de contenido creas para que podamos clasificarte correctamente.</p>
-              <div class="fg"><label class="fl">Categoría principal *</label>
-                <select id="p_cat" class="fs">
-                  <option value="">Selecciona...</option>
-                  <option value="gaming">🎮 Gaming</option>
-                  <option value="musica">🎵 Música / Entretenimiento</option>
-                  <option value="educacion">📚 Educación / Tutoriales</option>
-                  <option value="tech">💻 Tecnología / Reviews</option>
-                  <option value="vlogs">📹 Vlogs / Lifestyle</option>
-                  <option value="cocina">🍳 Cocina / Gastronomía</option>
-                  <option value="fitness">💪 Fitness / Salud</option>
-                  <option value="belleza">💄 Belleza / Moda</option>
-                  <option value="deportes">⚽ Deportes</option>
-                  <option value="comedia">😂 Comedia / Humor</option>
-                  <option value="otro">✨ Otro</option>
-                </select>
-              </div>
-              <div class="fg"><label class="fl">Frecuencia de publicación *</label>
-                <select id="p_freq" class="fs">
-                  <option value="">Selecciona...</option>
-                  <option value="diario">Diario o casi diario</option>
-                  <option value="2-3x">2-3 veces por semana</option>
-                  <option value="semanal">Una vez por semana</option>
-                  <option value="quincenal">Cada 2 semanas</option>
-                </select>
-              </div>
-              <div class="fg"><label class="fl">Cuéntanos sobre tu contenido *</label><textarea id="p_desc" class="fta" placeholder="Describe brevemente qué hace único a tu canal, tu audiencia y por qué quieres ser Partner..."></textarea></div>
-              <div class="pform-nav">
-                <button class="btn btn-g" onclick="pformBack(2)">← Atrás</button>
-                <button class="btn btn-p" onclick="pformNext(2)">Siguiente →</button>
-              </div>
-            </div>
-            <!-- PASO 3: Aceptar requisitos -->
-            <div class="pform-step" id="pform-3">
-              <h3>✅ Confirmar requisitos</h3>
-              <p>Confirma que cumples los requisitos y acepta las condiciones del programa Partner.</p>
-              <div class="checkbox-row">
-                <input type="checkbox" id="p_req1">
-                <label for="p_req1">Confirmo que mi canal tiene al menos <strong>1,000 suscriptores o seguidores</strong> verificables en la plataforma seleccionada.</label>
-              </div>
-              <div class="checkbox-row">
-                <input type="checkbox" id="p_req2">
-                <label for="p_req2">He publicado contenido en los <strong>últimos 30 días</strong> y mi canal está activo.</label>
-              </div>
-              <div class="checkbox-row">
-                <input type="checkbox" id="p_req3">
-                <label for="p_req3">Acepto los <strong>Términos de Uso</strong> de CreadorHub y las condiciones del programa Partner.</label>
-              </div>
-              <div class="checkbox-row">
-                <input type="checkbox" id="p_req4">
-                <label for="p_req4">Entiendo que mi postulación será <strong>revisada manualmente</strong> en un plazo de 3-5 días hábiles.</label>
-              </div>
-              <div class="pform-nav">
-                <button class="btn btn-g" onclick="pformBack(3)">← Atrás</button>
-                <button class="btn btn-a" id="partner-submit-btn" onclick="submitPartner()">💎 Enviar Postulación</button>
-              </div>
-            </div>
-          </div>
-          <!-- Panel de estado (se muestra después de enviar) -->
-          <div class="partner-status" id="partner-status">
-            <div class="ps-title">📋 Estado de tu postulación</div>
-            <div class="ps-steps">
-              <div class="ps-step done" id="pst-1">
-                <div class="ps-ic">✓</div>
-                <div class="ps-body">
-                  <h4>Postulación Recibida</h4>
-                  <p>Tus datos fueron enviados correctamente.</p>
-                </div>
-              </div>
-              <div class="ps-step active" id="pst-2">
-                <div class="ps-ic">⚙️</div>
-                <div class="ps-body">
-                  <h4>Analizando Métricas</h4>
-                  <p>Nuestro equipo está revisando tu canal. Plazo: 3-5 días hábiles.</p>
-                </div>
-              </div>
-              <div class="ps-step" id="pst-3">
-                <div class="ps-ic">🏆</div>
-                <div class="ps-body">
-                  <h4>Decisión Final</h4>
-                  <p>Recibirás un email con el resultado de tu postulación.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── REGISTRO ── -->
-  <section id="reg">
-    <div class="wrap">
-      <div class="reg-wrap">
-        <div class="reg-l">
-          <div class="eye">🎯 Es gratis, siempre</div>
-          <h2>Registra tu canal<br><span class="grad">y consigue tu perfil</span></h2>
-          <p>Únete a más de 2,800 creadores. Recibe tu URL personalizada para poner en todos tus canales. Sin tarjeta, sin trampas.</p>
-          <div class="perks">
-            <div class="perk"><div class="pck">✓</div> URL propia: creadorhub.com/#perfil/tu-nombre</div>
-            <div class="perk"><div class="pck">✓</div> Todos tus links en un solo lugar</div>
-            <div class="perk"><div class="pck">✓</div> Apareces en el directorio público</div>
-            <div class="perk"><div class="pck">✓</div> Gana HubCoins y recompensas</div>
-            <div class="perk"><div class="pck">✓</div> Comunidad en Discord y WhatsApp</div>
-            <div class="perk"><div class="pck">✓</div> 100% gratis para siempre</div>
-          </div>
-        </div>
-        <div class="fbox rv">
-          <h3>Datos de tu canal</h3>
-          <div id="formW">
-            <div class="frow">
-              <div class="fg"><label class="fl">Nombre del canal *</label><input type="text" id="f_nm" class="fi" placeholder="Ej: Carlos Gaming"></div>
-              <div class="fg"><label class="fl">País *</label>
-                <select id="f_ps" class="fs">
-                  <option value="">Selecciona...</option>
-                  <option value="CO">🇨🇴 Colombia</option>
-                  <option value="MX">🇲🇽 México</option>
-                  <option value="AR">🇦🇷 Argentina</option>
-                  <option value="VE">🇻🇪 Venezuela</option>
-                  <option value="CL">🇨🇱 Chile</option>
-                  <option value="PE">🇵🇪 Perú</option>
-                  <option value="EC">🇪🇨 Ecuador</option>
-                  <option value="otro">🌎 Otro</option>
-                </select>
-              </div>
-            </div>
-            <div class="frow">
-              <div class="fg"><label class="fl">Plataforma principal *</label>
-                <select id="f_pl" class="fs">
-                  <option value="">Selecciona...</option>
-                  <option value="youtube">▶️ YouTube</option>
-                  <option value="tiktok">🎵 TikTok</option>
-                  <option value="twitch">🎮 Twitch</option>
-                  <option value="facebook">📘 Facebook Live</option>
-                  <option value="instagram">📸 Instagram</option>
-                </select>
-              </div>
-              <div class="fg"><label class="fl">Seguidores aprox.</label>
-                <select id="f_sb" class="fs">
-                  <option value="0-1k">0 – 1,000</option>
-                  <option value="1k-10k">1,000 – 10,000</option>
-                  <option value="10k-100k">10,000 – 100,000</option>
-                  <option value="100k+">100,000 +</option>
-                </select>
-              </div>
-            </div>
-            <div class="fg"><label class="fl">URL de tu canal *</label><input type="url" id="f_url" class="fi" placeholder="https://youtube.com/@tucanal"></div>
-            <div class="fg"><label class="fl">Categoría *</label>
-              <select id="f_ct" class="fs">
-                <option value="">Selecciona...</option>
-                <option value="gaming">🎮 Gaming</option>
-                <option value="musica">🎵 Música</option>
-                <option value="comedia">😂 Comedia</option>
-                <option value="educacion">📚 Educación</option>
-                <option value="vlogs">📹 Vlogs / Lifestyle</option>
-                <option value="cocina">🍳 Cocina</option>
-                <option value="tech">💻 Tecnología</option>
-                <option value="fitness">💪 Fitness</option>
-                <option value="belleza">💄 Belleza / Moda</option>
-                <option value="deportes">⚽ Deportes</option>
-                <option value="arte">🎨 Arte</option>
-                <option value="otro">✨ Otro</option>
-              </select>
-            </div>
-            <div class="fg"><label class="fl">Email de contacto *</label><input type="email" id="f_em" class="fi" placeholder="tu@email.com"></div>
-            <div class="fg"><label class="fl">Descripción de tu canal</label><textarea id="f_ds" class="fta" placeholder="Cuéntanos de qué trata tu canal en 2-3 oraciones..."></textarea></div>
-            <button class="fsub" id="reg-submit-btn" onclick="submitForm()">🚀 Crear mi perfil gratis</button>
-            <p class="fnote">Al registrarte aceptas los Términos de Uso. No enviamos spam. Nunca.</p>
-          </div>
-          <div class="sbox" id="sbox">
-            <div style="font-size:2.8rem;margin-bottom:14px">🎉</div>
-            <h3 style="margin-bottom:10px">¡Tu solicitud fue enviada!</h3>
-            <p style="color:var(--mut);font-size:.9rem">Revisamos tu perfil en menos de 24 horas. Te enviamos el enlace a tu email cuando esté listo.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── TESTIMONIOS ── -->
-  <section id="testi">
-    <div class="wrap">
-      <div class="sec-h c">
-        <div class="eye">💬 Creadores reales</div>
-        <h2 class="sec-t">Lo que dicen nuestros creadores</h2>
-        <p class="sec-sub">Más de 2,800 creadores ya están creciendo con CreadorHub.</p>
-      </div>
-      <div class="tg">
-        <div class="tc rv"><div class="stars">★★★★★</div><p class="tq">"Desde que puse mi link de CreadorHub en mi bio de YouTube me llegaron 3 collabs en el primer mes. Pasé de 800 a 3,200 subs. El perfil es mejor que Linktree y gratis."</p><div class="ta"><div class="tav">🎮</div><div><div class="tn">Carlos "ProGamer" M.</div><div class="th">@progamerco · Twitch · Colombia</div></div><div class="tpl">🎮</div></div></div>
-        <div class="tc rv d1"><div class="stars">★★★★★</div><p class="tq">"Tenía Linktree pagando $9 al mes. Con CreadorHub tengo exactamente lo mismo pero gratis y con la ventaja de que aparezco en el directorio. Las misiones y los HubCoins son adictivos."</p><div class="ta"><div class="tav">🎵</div><div><div class="tn">Valentina Ríos</div><div class="th">@vale.music · TikTok · Venezuela</div></div><div class="tpl">🎵</div></div></div>
-        <div class="tc rv d2"><div class="stars">★★★★★</div><p class="tq">"Mi canal de cocina colombiana llegó a 10k subs este año. Puse el link en todos mis canales y la gente que llega aquí encuentra todo: mis redes, mi tienda, mis recetas PDF."</p><div class="ta"><div class="tav">🍳</div><div><div class="tn">Doña Esperanza L.</div><div class="th">@cocinaesperanza · YouTube · Colombia</div></div><div class="tpl">▶️</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FAQ ── -->
-  <section id="faq">
-    <div class="wrap">
-      <div class="sec-h c">
-        <div class="eye">❓ Preguntas</div>
-        <h2 class="sec-t">¿Tienes dudas?</h2>
-      </div>
-      <div class="faq-w">
-        <div class="fi2"><div class="fq" onclick="toggleFaq(this)">¿CreadorHub es realmente gratis? <span class="fic">▾</span></div><div class="fa"><p>Sí, 100% gratis. Nunca te cobraremos por registrar tu canal ni por tener tu perfil activo. Nos sostenemos con publicidad en la plataforma.</p></div></div>
-        <div class="fi2"><div class="fq" onclick="toggleFaq(this)">¿Cómo funcionan los HubCoins y las misiones? <span class="fic">▾</span></div><div class="fa"><p>Los HubCoins son el sistema de recompensas de CreadorHub. Ganas monedas por navegar activamente (el temporizador solo cuenta si hay interacción real), completar misiones diarias y reclamar cofres de tiempo. El sistema detecta bots: si no hay movimiento de mouse o scroll, el temporizador se pausa automáticamente.</p></div></div>
-        <div class="fi2"><div class="fq" onclick="toggleFaq(this)">¿Para qué sirve mi perfil personalizado? <span class="fic">▾</span></div><div class="fa"><p>Tu perfil funciona como un Linktree gratis. Recibes una URL única que puedes poner en la descripción de YouTube, bio de TikTok, Instagram, Twitch y cualquier red social. Tus fans hacen clic y encuentran todos tus links en un solo lugar.</p></div></div>
-        <div class="fi2"><div class="fq" onclick="toggleFaq(this)">¿Cuántos suscriptores necesito para registrarme? <span class="fic">▾</span></div><div class="fa"><p>¡Ninguno! No importa si tienes 10 o 10 millones de seguidores. Para el programa Partner sí se requieren mínimo 1,000, pero el perfil básico es para todos.</p></div></div>
-        <div class="fi2"><div class="fq" onclick="toggleFaq(this)">¿Qué beneficios tiene el programa Partner? <span class="fic">▾</span></div><div class="fa"><p>Los Partners reciben: insignia verificada en su perfil, posición destacada en el directorio, 500 HubCoins de bienvenida, acceso anticipado a funciones nuevas, soporte prioritario y acceso al canal privado de Discord para Partners.</p></div></div>
-        <div class="fi2"><div class="fq" onclick="toggleFaq(this)">¿Hay comunidad activa para conectar con otros creadores? <span class="fic">▾</span></div><div class="fa"><p>Sí. Tenemos grupos de WhatsApp y un servidor de Discord activo donde los creadores se apoyan, buscan collabs y comparten estrategias. Al registrarte te enviamos la invitación.</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CTA FINAL ── -->
-  <section id="ctaf">
-    <div class="wrap">
-      <div class="ctac rv">
-        <div class="ctag"></div>
-        <div class="eye" style="justify-content:center">🚀 Únete hoy</div>
-        <h2>¿Listo para crecer<br><span class="grad">sin límites ni pagos?</span></h2>
-        <p>Miles de creadores ya tienen su perfil. El único error sería no registrarte.</p>
-        <div class="cta-btns">
-          <a href="#" onclick="smt('reg')" class="btn btn-p btn-xl">🎯 Crear mi perfil gratis</a>
-          <a href="#" onclick="smt('gamif')" class="btn btn-a btn-lg">🪙 Ver misiones</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</div><!-- /#home -->
-
-<!-- ═══════════════════════════════════════════════════════════════
-     PÁGINA DE PERFIL DE CREADOR
-════════════════════════════════════════════════════════════════ -->
-<div id="pp">
-  <div class="pp-wrap">
-    <div class="pp-back" onclick="goHome()">← Volver al directorio</div>
-    <div id="pp-err">
-      <div style="font-size:3rem;margin-bottom:14px">🔍</div>
-      <h3 style="margin-bottom:8px">Perfil no encontrado</h3>
-      <p style="color:var(--mut)">Este creador no existe o su perfil aún no está activo.</p>
-      <br>
-      <a href="#" onclick="goHome()" class="btn btn-p">Ver todos los creadores</a>
-    </div>
-    <div id="pp-content"></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════════════════════ -->
-<footer id="footer">
-  <div class="wrap">
-    <div class="fg2">
-      <div class="fb">
-        <a href="#" onclick="goHome()" class="logo"><div class="logo-ic">🎬</div>CreadorHub</a>
-        <p>La plataforma #1 para creadores de contenido latinos. Perfiles, directorio, misiones y comunidad activa.</p>
-      </div>
-      <div class="fc"><h5>Plataforma</h5><ul>
-        <li><a href="#" onclick="goHome();smt('como')">Cómo funciona</a></li>
-        <li><a href="#" onclick="goHome();smt('dir')">Directorio</a></li>
-        <li><a href="#" onclick="goHome();smt('gamif')">Misiones y HubCoins</a></li>
-        <li><a href="#" onclick="goHome();smt('reg')">Registrarse</a></li>
-      </ul></div>
-      <div class="fc"><h5>Comunidad</h5><ul>
-        <li><a href="#">Discord</a></li>
-        <li><a href="#">WhatsApp</a></li>
-        <li><a href="#" onclick="goHome();smt('partner')">Programa Partner</a></li>
-        <li><a href="#" onclick="goHome();smt('faq')">FAQ</a></li>
-      </ul></div>
-      <div class="fc"><h5>Legal</h5><ul>
-        <li><a href="#">Términos de uso</a></li>
-        <li><a href="#">Privacidad</a></li>
-        <li><a href="#">Cookies</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul></div>
-    </div>
-    <div class="fbot">
-      <span>© 2025 CreadorHub. Hecho con ❤️ para creadores latinos.</span>
-      <span>🇨🇴 🇲🇽 🇦🇷 🇻🇪 🇨🇱 🇵🇪 y más</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ══════════════════════════════════════════════════════════
-     ██  BASE DE DATOS DE CREADORES — EDITA ESTA SECCIÓN     ██
-══════════════════════════════════════════════════════════════ -->
-<script>
-const P = {
-  youtube:   { ic:'▶️', color:'#FF0000', rgb:'255,0,0',     lbl:'YouTube'   },
-  tiktok:    { ic:'🎵', color:'#69C9D0', rgb:'105,201,208', lbl:'TikTok'    },
-  twitch:    { ic:'🎮', color:'#9146FF', rgb:'145,70,255',  lbl:'Twitch'    },
-  facebook:  { ic:'📘', color:'#1877F2', rgb:'24,119,242',  lbl:'Facebook'  },
-  instagram: { ic:'📸', color:'#E1306C', rgb:'225,48,108',  lbl:'Instagram' },
-};
-const FLAGS = { CO:'🇨🇴',MX:'🇲🇽',AR:'🇦🇷',VE:'🇻🇪',CL:'🇨🇱',PE:'🇵🇪',EC:'🇪🇨',otro:'🌎' };
-
-/* ─────────────────────────────────────────────
-   LISTA DE CREADORES — EDITA AQUÍ
-   Para agregar uno nuevo copia un bloque { } y
-   pégalo antes del ]; con los datos correctos.
-───────────────────────────────────────────── */
-const CREADORES = [
-  {
-    slug:"carlos-gaming", nombre:"Carlos Gaming", emoji:"🎮", foto:null,
-    plataforma:"twitch", url_canal:"https://twitch.tv/carlosgaming",
-    seguidores:"1k-10k", categoria:"gaming", pais:"CO",
-    bio:"Streamer colombiano de Free Fire y Fortnite. Lives todos los días 8pm.",
-    links:[
-      { label:"Ver en Twitch",    url:"https://twitch.tv/carlosgaming",     icono:"🎮", color:"#9146FF" },
-      { label:"Mi Canal YouTube", url:"https://youtube.com/@carlosgaming",  icono:"▶️", color:"#FF0000" },
-      { label:"Discord",          url:"https://discord.gg/carlosgaming",    icono:"💬", color:"#5865F2" },
-      { label:"Instagram",        url:"https://instagram.com/carlosgaming", icono:"📸", color:"#E1306C" },
-    ],
-    posts:[{ titulo:"¡Torneo esta noche!", fecha:"2025-06-17", texto:"Hoy a las 9pm torneo de Free Fire con premios. ¡Únete al Discord para participar!" }],
-    destacado:true, verificado:true,
-  },
-  {
-    slug:"vale-music", nombre:"Valentina Música", emoji:"🎵", foto:null,
-    plataforma:"tiktok", url_canal:"https://tiktok.com/@valemusic",
-    seguidores:"10k-100k", categoria:"musica", pais:"VE",
-    bio:"Cantante venezolana. Covers de pop latino y urbano. Video nuevo cada viernes.",
-    links:[
-      { label:"TikTok",   url:"https://tiktok.com/@valemusic",    icono:"🎵", color:"#69C9D0" },
-      { label:"YouTube",  url:"https://youtube.com/@valemusic",   icono:"▶️", color:"#FF0000" },
-      { label:"Spotify",  url:"https://open.spotify.com/ejemplo", icono:"🎧", color:"#1DB954" },
-    ],
-    posts:[], destacado:false, verificado:true,
-  },
-  {
-    slug:"cocina-esperanza", nombre:"Doña Esperanza Cocina", emoji:"🍳", foto:null,
-    plataforma:"youtube", url_canal:"https://youtube.com/@cocinaesperanza",
-    seguidores:"10k-100k", categoria:"cocina", pais:"CO",
-    bio:"Recetas colombianas tradicionales. Sancocho, arepas, bandeja paisa. ¡Para el mundo!",
-    links:[
-      { label:"Ver en YouTube",  url:"https://youtube.com/@cocinaesperanza",  icono:"▶️", color:"#FF0000" },
-      { label:"Facebook",        url:"https://facebook.com/cocinaesperanza",  icono:"📘", color:"#1877F2" },
-      { label:"Mis Recetas PDF", url:"https://ejemplo.com/recetas.pdf",       icono:"📄", color:"#F59E0B" },
-    ],
-    posts:[], destacado:false, verificado:false,
-  },
-  {
-    slug:"andres-tech", nombre:"Andrés Tech CO", emoji:"💻", foto:null,
-    plataforma:"youtube", url_canal:"https://youtube.com/@andrestech",
-    seguidores:"1k-10k", categoria:"tech", pais:"CO",
-    bio:"Reviews honestos de celulares y laptops para Colombia. ¿Vale la pena? Yo te digo.",
-    links:[
-      { label:"YouTube",         url:"https://youtube.com/@andrestech",  icono:"▶️", color:"#FF0000" },
-      { label:"Instagram",       url:"https://instagram.com/andrestech", icono:"📸", color:"#E1306C" },
-      { label:"Grupo WhatsApp",  url:"https://wa.me/57ejemplo",           icono:"💬", color:"#25D366" },
-    ],
-    posts:[], destacado:false, verificado:true,
-  },
-  {
-    slug:"sofia-fitness", nombre:"Sofía Fitness", emoji:"💪", foto:null,
-    plataforma:"instagram", url_canal:"https://instagram.com/sofiafitness",
-    seguidores:"1k-10k", categoria:"fitness", pais:"MX",
-    bio:"Entrenadora certificada. Rutinas desde casa, sin equipo. Transformación real en 30 días.",
-    links:[
-      { label:"Instagram",       url:"https://instagram.com/sofiafitness", icono:"📸", color:"#E1306C" },
-      { label:"TikTok",          url:"https://tiktok.com/@sofiafitness",   icono:"🎵", color:"#69C9D0" },
-      { label:"Mi Programa 30D", url:"https://ejemplo.com/programa",       icono:"💪", color:"#8B5CF6" },
-    ],
-    posts:[], destacado:false, verificado:false,
-  },
-  /*
-  ══ PLANTILLA PARA NUEVO CREADOR ══════════════
-  {
-    slug:"nombre-url-del-creador",
-    nombre:"Nombre Visible",
-    emoji:"🎮",
-    foto:null,
-    plataforma:"youtube",
-    url_canal:"https://youtube.com/@tucanal",
-    seguidores:"0-1k",
-    categoria:"gaming",
-    pais:"CO",
-    bio:"Descripción breve (máx 120 chars).",
-    links:[
-      { label:"Mi Canal", url:"https://...", icono:"▶️", color:"#FF0000" },
-    ],
-    posts:[],
-    destacado:false, verificado:false,
-  },
-  ══════════════════════════════════════════════ */
-];
-</script>
-
-<!-- ══════════════════════════════════════════════════════════
-     JAVASCRIPT — LÓGICA DE LA APLICACIÓN
-══════════════════════════════════════════════════════════════ -->
-<script>
-/* ══ CONFIGURACIÓN ══════════════════════════════════════════ */
-const API_URL = 'https://script.google.com/macros/s/AKfycbxMjUIXT5usYTk4ZjQZgp572E3AyBSy7rAEc0r-CAATc7u23q-30HYoDWpbTc3hxIn3/exec';
-
-/* ══ UTILIDADES ═════════════════════════════════════════════ */
-function h2r(hex){
-  if(!hex||hex.length<7) return '139,92,246';
-  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
-  return `${r},${g},${b}`;
-}
-function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function smt(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
-function g(id){ return document.getElementById(id); }
-
-/* ══ NAVBAR SCROLL ══════════════════════════════════════════ */
-window.addEventListener('scroll',()=>{
-  g('nav').classList.toggle('stuck', window.scrollY > 50);
-});
-
-/* ══ MOBILE MENU ════════════════════════════════════════════ */
-function toggleMob(){ g('mob').classList.toggle('on'); }
-
-/* ══ FAQ ACCORDION ══════════════════════════════════════════ */
-function toggleFaq(el){
-  const item=el.parentElement;
-  const wasOpen=item.classList.contains('on');
-  document.querySelectorAll('.fi2').forEach(i=>i.classList.remove('on'));
-  if(!wasOpen) item.classList.add('on');
-}
-
-/* ══ SCROLL REVEAL ══════════════════════════════════════════ */
-const rvObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
-},{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
-
-/* ══ CONTADORES ANIMADOS ════════════════════════════════════ */
-const ctrObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting) return;
-    const el=e.target, target=+el.dataset.target;
-    let cur=0; const step=target/60;
-    const t=setInterval(()=>{
-      cur=Math.min(cur+step,target);
-      el.textContent=Math.floor(cur).toLocaleString('es-CO');
-      if(cur>=target) clearInterval(t);
-    },22);
-    ctrObs.unobserve(el);
-  });
-},{threshold:.5});
-document.querySelectorAll('[data-target]').forEach(el=>ctrObs.observe(el));
-
-/* ══ LIVE COUNTER FAKE UPDATES ══════════════════════════════ */
-function tickLive(){
-  const base=2847, online=130+Math.floor(Math.random()*40);
-  const coins=parseInt((g('live-coins')||{textContent:'48930'}).textContent.replace(/[^0-9]/g,''))||48930;
-  if(g('live-online')) g('live-online').textContent=online;
-  if(g('live-coins')) g('live-coins').textContent=(coins+Math.floor(Math.random()*5)).toLocaleString('es-CO');
-}
-setInterval(tickLive, 7000);
-
-/* ══════════════════════════════════════════════════════════════
-   ██  SISTEMA DE GAMIFICACIÓN — TEMPORIZADOR ANTI-AFK         ██
-   ══════════════════════════════════════════════════════════════
-   Estrategia de seguridad:
-   - El temporizador SOLO avanza cuando hay interacción real
-     (mousemove, scroll, click, keydown, touchstart, touchmove)
-   - Si no hay interacción en 30 segundos → el timer se pausa
-   - Los datos se guardan en localStorage con marca de tiempo
-   - No se puede manipular fácilmente porque el tiempo se
-     recalcula en base a eventos reales, no un simple counter
-══════════════════════════════════════════════════════════════ */
-const GS = {
-  activeMs: parseInt(localStorage.getItem('ch_active_ms')||'0'),
-  coins: parseInt(localStorage.getItem('ch_coins')||'0'),
-  claimed15: localStorage.getItem('ch_cofre_15')==='1',
-  claimed30: localStorage.getItem('ch_cofre_30')==='1',
-  claimed60: localStorage.getItem('ch_cofre_60')==='1',
-  missionsDate: localStorage.getItem('ch_missions_date')||'',
-  missionsDone: JSON.parse(localStorage.getItem('ch_missions_done')||'[]'),
-  lastActivity: Date.now(),
-  isActive: false,
-  AFK_THRESHOLD: 30000, // 30 segundos sin actividad = AFK
-  TICK_MS: 1000,        // Tick cada 1 segundo
-};
-
-// Resetear cofres y misiones si es un nuevo día
-(function resetDaily(){
-  const today = new Date().toDateString();
-  if(GS.missionsDate !== today){
-    GS.missionsDate = today;
-    GS.missionsDone = [];
-    localStorage.setItem('ch_missions_date', today);
-    localStorage.setItem('ch_missions_done', '[]');
-    // Resetear cofres también
-    GS.claimed15 = false; GS.claimed30 = false; GS.claimed60 = false;
-    localStorage.removeItem('ch_cofre_15');
-    localStorage.removeItem('ch_cofre_30');
-    localStorage.removeItem('ch_cofre_60');
-    GS.activeMs = 0;
-    localStorage.setItem('ch_active_ms','0');
-  }
-})();
-
-// Registrar actividad del usuario
-function recordActivity(){
-  GS.lastActivity = Date.now();
-  if(!GS.isActive){
-    GS.isActive = true;
-    if(g('gam-status')) g('gam-status').style.color = 'var(--sec)';
-    if(g('gam-status')) g('gam-status').textContent = 'Activo ✓';
-  }
-}
-['mousemove','scroll','click','keydown','touchstart','touchmove'].forEach(ev=>{
-  window.addEventListener(ev, recordActivity, {passive:true});
-});
-
-// Tick principal del temporizador
-setInterval(function tickTimer(){
-  const now = Date.now();
-  const timeSinceActivity = now - GS.lastActivity;
-
-  if(timeSinceActivity < GS.AFK_THRESHOLD){
-    // Usuario activo → acumular tiempo
-    GS.activeMs += GS.TICK_MS;
-    localStorage.setItem('ch_active_ms', GS.activeMs);
-    GS.isActive = true;
-  } else {
-    // AFK → pausar
-    GS.isActive = false;
-    if(g('gam-status')){ g('gam-status').style.color='var(--mut)'; g('gam-status').textContent='AFK...'; }
-  }
-
-  updateGamifUI();
-  checkCofreUnlocks();
-}, GS.TICK_MS);
-
-function getActiveMinutes(){ return Math.floor(GS.activeMs / 60000); }
-
-function updateGamifUI(){
-  const mins = getActiveMinutes();
-  const secs = Math.floor((GS.activeMs % 60000) / 1000);
-  const pad = n => String(n).padStart(2,'0');
-
-  // Timer display
-  if(g('gam-timer')) g('gam-timer').textContent = `${mins}:${pad(secs)}`;
-
-  // XP bar (nivel cada 500 coins)
-  const level = Math.floor(GS.coins / 500);
-  const nextLevel = (level+1)*500;
-  const pct = ((GS.coins % 500) / 500) * 100;
-  if(g('xp-bar')) g('xp-bar').style.width = pct + '%';
-  if(g('xp-current')) g('xp-current').textContent = GS.coins;
-  if(g('xp-next')) g('xp-next').textContent = nextLevel;
-
-  // Nav bar
-  if(g('nav-coins')) g('nav-coins').textContent = GS.coins;
-  if(g('nav-xp-bar')) g('nav-xp-bar').style.width = pct + '%';
-}
-
-function checkCofreUnlocks(){
-  const mins = getActiveMinutes();
-  const cofreData = [
-    { min:15, id:'cofre-15', claimed:GS.claimed15, coins:50, ic:'📦', lbl:'Cofre Bronce' },
-    { min:30, id:'cofre-30', claimed:GS.claimed30, coins:100, ic:'🎁', lbl:'Cofre Plata' },
-    { min:60, id:'cofre-60', claimed:GS.claimed60, coins:200, ic:'💰', lbl:'Cofre Oro' },
-  ];
-  cofreData.forEach(c=>{
-    const el=g(c.id), btn=g(c.id+'-btn');
-    if(!el||!btn) return;
-    if(c.claimed){
-      el.className='cofre claimed';
-      btn.className='cofre-btn done'; btn.textContent='✓ Reclamado'; btn.disabled=true;
-    } else if(mins >= c.min){
-      el.className='cofre unlocked';
-      btn.className='cofre-btn claim'; btn.textContent='🎁 Reclamar';
-      btn.disabled=false;
-    } else {
-      el.className='cofre locked';
-      btn.className='cofre-btn wait'; btn.textContent=`⏳ ${c.min-mins} min más`;
-      btn.disabled=true;
-    }
-  });
-}
-
-function claimCofre(minutes){
-  const map = { 15:{key:'ch_cofre_15',prop:'claimed15',coins:50,ic:'📦',lbl:'¡Cofre Bronce!'},
-                30:{key:'ch_cofre_30',prop:'claimed30',coins:100,ic:'🎁',lbl:'¡Cofre Plata!'},
-                60:{key:'ch_cofre_60',prop:'claimed60',coins:200,ic:'💰',lbl:'¡Cofre Oro!'} };
-  const d = map[minutes];
-  if(!d) return;
-  if(GS[d.prop]) return; // ya reclamado
-  if(getActiveMinutes() < minutes) return; // trampa preventiva
-
-  GS[d.prop] = true;
-  localStorage.setItem(d.key, '1');
-  addCoins(d.coins, d.ic, d.lbl, `+${d.coins} HubCoins ganados`);
-  checkCofreUnlocks();
-  completeMissionIfPending('cofre');
-}
-
-function addCoins(amount, ic, title, desc){
-  GS.coins += amount;
-  localStorage.setItem('ch_coins', GS.coins);
-  showXPPopup(ic, title, desc);
-  updateGamifUI();
-}
-
-function showXPPopup(ic, title, desc){
-  if(g('xpp-ic')) g('xpp-ic').textContent = ic;
-  if(g('xpp-title')) g('xpp-title').textContent = title;
-  if(g('xpp-desc')) g('xpp-desc').textContent = desc;
-  const popup = g('xp-popup');
-  if(!popup) return;
-  popup.classList.add('on');
-  setTimeout(()=>popup.classList.remove('on'), 4000);
-}
-
-/* ══ MISIONES DIARIAS ═══════════════════════════════════════ */
-const MISSIONS = [
-  { id:'visit', ic:'👀', title:'Explorar el directorio', desc:'Visita el directorio y filtra por al menos una plataforma', xp:25 },
-  { id:'profile', ic:'👤', title:'Ver un perfil de creador', desc:'Haz clic en "Ver Perfil" de cualquier creador del directorio', xp:20 },
-  { id:'cofre', ic:'🎁', title:'Reclamar un cofre de tiempo', desc:'Acumula 15 min activos y reclama tu primer cofre', xp:50 },
-  { id:'share', ic:'📢', title:'Compartir tu perfil', desc:'Copia el link de un perfil usando el botón de compartir', xp:30 },
-  { id:'register', ic:'📝', title:'Completar el registro', desc:'Envía el formulario de registro de creador', xp:75 },
-];
-
-function renderMissions(){
-  const list = g('missions-list');
-  if(!list) return;
-  const done = GS.missionsDone;
-  list.innerHTML = MISSIONS.map(m=>{
-    const isDone = done.includes(m.id);
-    return `<div class="mission-item ${isDone?'done':''}">
-      <div class="m-ic">${m.ic}</div>
-      <div class="m-body">
-        <div class="m-title">${esc(m.title)}</div>
-        <div class="m-desc">${esc(m.desc)}</div>
-      </div>
-      <div class="m-xp">+${m.xp} 🪙</div>
-      <div class="m-check ${isDone?'':'empty'}">${isDone?'✓':''}</div>
-    </div>`;
-  }).join('');
-  const doneCount = done.length;
-  if(g('missions-done-count')) g('missions-done-count').textContent = `${doneCount}/${MISSIONS.length}`;
-}
-
-function completeMission(id){
-  if(GS.missionsDone.includes(id)) return;
-  const m = MISSIONS.find(x=>x.id===id);
-  if(!m) return;
-  GS.missionsDone.push(id);
-  localStorage.setItem('ch_missions_done', JSON.stringify(GS.missionsDone));
-  addCoins(m.xp, m.ic, '¡Misión completada!', `${m.title} — +${m.xp} HubCoins`);
-  renderMissions();
-}
-
-function completeMissionIfPending(id){ if(!GS.missionsDone.includes(id)) completeMission(id); }
-
-// Inicializar misiones
-renderMissions();
-updateGamifUI();
-checkCofreUnlocks();
-
-/* ══ DIRECTORIO ═════════════════════════════════════════════ */
-let activePlat='all', searchTerm='';
-
-function setFilter(plat){
-  activePlat=plat;
-  document.querySelectorAll('.pill').forEach(b=>b.classList.toggle('on',b.dataset.plat===plat));
-  renderDir();
-  completeMissionIfPending('visit');
-}
-
-const si=g('searchInput');
-if(si) si.addEventListener('input',e=>{ searchTerm=e.target.value.trim().toLowerCase(); renderDir(); });
-
-function renderDir(){
-  const grid=g('cgrid'), empty=g('empty'), count=g('dir-count');
-  if(!grid) return;
-  const sorted=[...CREADORES].sort((a,b)=>(b.destacado?1:0)-(a.destacado?1:0));
-  const filtered=sorted.filter(c=>{
-    const mp=activePlat==='all'||c.plataforma===activePlat;
-    const ms=!searchTerm||
-      c.nombre.toLowerCase().includes(searchTerm)||
-      c.bio.toLowerCase().includes(searchTerm)||
-      c.categoria.toLowerCase().includes(searchTerm)||
-      (c.pais||'').toLowerCase().includes(searchTerm);
-    return mp&&ms;
-  });
-  if(count) count.textContent=filtered.length;
-  if(filtered.length===0){
-    grid.innerHTML=''; if(empty) empty.style.display='block'; return;
-  }
-  if(empty) empty.style.display='none';
-  grid.innerHTML=filtered.map(c=>{
-    const pl=P[c.plataforma]||P.youtube;
-    const flag=FLAGS[c.pais]||'🌎';
-    const avHtml=c.foto?`<img src="${esc(c.foto)}" alt="${esc(c.nombre)}">`:esc(c.emoji||'🎬');
-    return `<div class="cc ${c.destacado?'feat':''}">
-      ${c.destacado?'<div class="feat-rib">⭐ Destacado</div>':''}
-      <div class="cc-top">
-        <div class="cc-av">${avHtml}</div>
-        <div class="cc-head">
-          <div class="cc-name">${esc(c.nombre)}${c.verificado?'<span class="verif">✓</span>':''}</div>
-          <div class="cc-meta"><span class="cc-plat" style="color:${pl.color}">${pl.ic} ${pl.lbl}</span><span>${flag}</span></div>
-        </div>
-      </div>
-      <div class="cc-body">
-        <p class="cc-bio">${esc(c.bio)}</p>
-        <div class="tags"><span class="tag">${esc(c.categoria)}</span><span class="tag">${esc(c.seguidores)} subs</span><span class="tag">${c.links.length} links</span></div>
-      </div>
-      <div class="cc-foot"><a class="btn-card" href="#perfil/${esc(c.slug)}">Ver Perfil →</a></div>
-    </div>`;
-  }).join('');
-}
-
-/* ══ ROUTING SPA ════════════════════════════════════════════ */
-function goHome(){
-  window.location.hash='';
-  showHome();
-}
-function showHome(){
-  g('home').style.display='';
-  g('pp').classList.remove('on');
-  document.title='CreadorHub | Directorio #1 de Creadores Latinos';
-  window.scrollTo(0,0);
-  renderDir();
-}
-function showProfile(slug){
-  g('home').style.display='none';
-  g('pp').classList.add('on');
-  window.scrollTo(0,0);
-  const c=CREADORES.find(x=>x.slug===slug);
-  const err=g('pp-err'), content=g('pp-content');
-  if(!c){ err.style.display='block'; content.innerHTML=''; return; }
-  err.style.display='none';
-  document.title=`${c.nombre} | CreadorHub`;
-  const pl=P[c.plataforma]||P.youtube;
-  const flag=FLAGS[c.pais]||'🌎';
-  const avHtml=c.foto?`<img src="${esc(c.foto)}" alt="${esc(c.nombre)}">`:esc(c.emoji||'🎬');
-  const linksHtml=c.links.map(l=>{
-    const rgb=h2r(l.color||'#8B5CF6');
-    return `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" class="lbtn" style="--c:${rgb}">
-      <span class="l-ic">${esc(l.icono||'🔗')}</span>
-      <span class="l-lbl">${esc(l.label)}</span>
-      <span class="l-arr">↗</span>
-    </a>`;
-  }).join('');
-  const postsHtml=c.posts&&c.posts.length>0
-    ? `<div class="pp-posts"><h4>📢 Novedades</h4>${c.posts.map(p=>`
-        <div class="post-c">
-          <div class="post-fecha">${esc(p.fecha)}</div>
-          <div class="post-tit">${esc(p.titulo)}</div>
-          <div class="post-txt">${esc(p.texto)}</div>
-        </div>`).join('')}</div>` : '';
-  const profileUrl=window.location.origin+window.location.pathname+'#perfil/'+c.slug;
-  content.innerHTML=`
-    <div class="pp-card">
-      <div class="pp-hero" style="background:linear-gradient(135deg,rgba(${h2r(pl.color||'#8B5CF6')},.3),rgba(139,92,246,.2))">
-        <div class="pp-hero-bg" style="background:linear-gradient(135deg,${pl.color},#8B5CF6)"></div>
-        <div class="pp-av-wrap"><div class="pp-av">${avHtml}</div></div>
-      </div>
-      <div class="pp-body">
-        <h1 class="pp-name">${esc(c.nombre)}${c.verificado?'<span class="verif" style="width:20px;height:20px;font-size:.7rem">✓</span>':''}</h1>
-        <div class="pp-badges">
-          <span class="pp-badge" style="background:rgba(${h2r(pl.color||'#8B5CF6')},.1);border-color:rgba(${h2r(pl.color||'#8B5CF6')},.25);color:${pl.color}">${pl.ic} ${pl.lbl}</span>
-          <span class="pp-badge" style="background:rgba(255,255,255,.04)">${flag} ${c.pais}</span>
-          <span class="pp-badge" style="background:rgba(255,255,255,.04)">${esc(c.categoria)}</span>
-          ${c.verificado?'<span class="pp-badge" style="background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.25);color:var(--sec)">✓ Verificado</span>':''}
-        </div>
-        <p class="pp-bio">${esc(c.bio)}</p>
-      </div>
-      <div class="pp-links">${linksHtml}</div>
-      <!-- ADSTERRA BANNER 300x250 EN PERFIL -->
-      <div class="pp-ad">
-        <div class="ad ad-300" style="margin:0 auto">
-          <div class="ad-l">Espacio publicitario — Adsterra 300×250</div>
-          <!-- ADSTERRA PROFILE BANNER START -->
-          <!-- <script async src="//www.topcreativeformat.com/TU_KEY_PROFILE/invoke.js"></script><div id="container-TU_KEY_PROFILE"></div> -->
-          <!-- ADSTERRA PROFILE BANNER END -->
-        </div>
-      </div>
-      ${postsHtml}
-      <div class="pp-share">
-        <button class="share-btn" onclick="copyProfileUrl('${esc(profileUrl)}')">📋 Copiar link</button>
-        <a class="share-btn" href="https://wa.me/?text=${encodeURIComponent('¡Mira el perfil de '+c.nombre+' en CreadorHub! '+profileUrl)}" target="_blank" rel="noopener">💬 WhatsApp</a>
-        <a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent('¡Mira el perfil de '+c.nombre+' en CreadorHub!')}&url=${encodeURIComponent(profileUrl)}" target="_blank" rel="noopener">🐦 Twitter</a>
-      </div>
-      <div class="pp-cta">
-        <p>¿Eres creador? <strong>Crea tu propio perfil gratis</strong></p>
-        <a href="#" onclick="goHome();smt('reg')" class="btn btn-p">🚀 Crear mi perfil</a>
-      </div>
-    </div>`;
-  completeMissionIfPending('profile');
-}
-
-function copyProfileUrl(url){
-  navigator.clipboard.writeText(url).then(()=>{
-    showXPPopup('📋','¡Link copiado!','Compártelo con tu audiencia');
-    completeMissionIfPending('share');
-  }).catch(()=>{ alert('Link: '+url); });
-}
-
-window.addEventListener('hashchange', handleRoute);
-function handleRoute(){
-  const hash = window.location.hash;
-  if(hash.startsWith('#perfil/')){
-    showProfile(hash.slice(8));
-  } else {
-    showHome();
-  }
-}
-handleRoute();
-
-/* ══ FORMULARIO DE REGISTRO — Google Sheets ════════════════ */
-async function submitForm(){
-  const btn = g('reg-submit-btn');
-  const nm=g('f_nm')?.value.trim(), pl=g('f_pl')?.value, em=g('f_em')?.value.trim(), url=g('f_url')?.value.trim();
-  if(!nm||!pl||!em||!url){ alert('Por favor llena los campos obligatorios (*)'); return; }
-  if(!em.includes('@')){ alert('Email inválido'); return; }
-  btn.disabled=true; btn.textContent='Enviando...';
-  const data = {
-    accion:'registro',
-    nombre:nm, plataforma:pl, email:em, url:url,
-    pais:g('f_ps')?.value, seguidores:g('f_sb')?.value,
-    categoria:g('f_ct')?.value, descripcion:g('f_ds')?.value||'',
-    fecha:new Date().toISOString()
-  };
-  try {
-    await fetch(API_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(data) });
-  } catch(err){ /* no-cors siempre da error de red, es normal */ }
-  // Guardar localmente también como backup
-  const regs=JSON.parse(localStorage.getItem('ch_regs')||'[]');
-  regs.push(data); localStorage.setItem('ch_regs',JSON.stringify(regs));
-  g('formW').style.display='none';
-  g('sbox').classList.add('on');
-  completeMissionIfPending('register');
-  btn.disabled=false; btn.textContent='🚀 Crear mi perfil gratis';
-}
-
-/* ══ FORMULARIO PARTNER MULTIPASO ═══════════════════════════ */
-let pCurrentStep = 1;
-const pTotalSteps = 3;
-
-function pformNext(step){
-  if(step===1){
-    const nm=g('p_nombre')?.value.trim(), url=g('p_url')?.value.trim(), pl=g('p_plat')?.value, em=g('p_email')?.value.trim(), sb=g('p_subs')?.value;
-    if(!nm||!url||!pl||!em||!sb){ alert('Por favor llena todos los campos para continuar.'); return; }
-    if(!em.includes('@')){ alert('Email inválido'); return; }
-  }
-  if(step===2){
-    const cat=g('p_cat')?.value, freq=g('p_freq')?.value, desc=g('p_desc')?.value.trim();
-    if(!cat||!freq||!desc||desc.length<30){ alert('Por favor llena todos los campos. La descripción debe tener al menos 30 caracteres.'); return; }
-  }
-  pGoToStep(step+1);
-}
-
-function pformBack(step){ pGoToStep(step-1); }
-
-function pGoToStep(step){
-  if(step<1||step>pTotalSteps) return;
-  document.querySelectorAll('.pform-step').forEach(el=>el.classList.remove('active'));
-  g(`pform-${step}`)?.classList.add('active');
-  // Actualizar indicador
-  for(let i=1;i<=pTotalSteps;i++){
-    const dot=g(`pstep-${i}`);
-    if(!dot) continue;
-    dot.className = 'step-dot' + (i<step?' done':i===step?' active':'');
-  }
-  pCurrentStep=step;
-}
-
-async function submitPartner(){
-  const req=[g('p_req1'),g('p_req2'),g('p_req3'),g('p_req4')];
-  if(req.some(r=>r&&!r.checked)){ alert('Debes aceptar todos los requisitos para continuar.'); return; }
-  const submitBtn=g('partner-submit-btn');
-  submitBtn.disabled=true; submitBtn.textContent='Enviando...';
-  const data={
-    accion:'partner',
-    nombre:g('p_nombre')?.value||'', url:g('p_url')?.value||'',
-    plataforma:g('p_plat')?.value||'', subs:g('p_subs')?.value||'',
-    email:g('p_email')?.value||'', categoria:g('p_cat')?.value||'',
-    frecuencia:g('p_freq')?.value||'', descripcion:g('p_desc')?.value||'',
-    fecha:new Date().toISOString(), estado:'Analizando Métricas'
-  };
-  try {
-    await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});
-  } catch(e){ /* no-cors, esperado */ }
-  // Guardar localmente
-  localStorage.setItem('ch_partner_app', JSON.stringify({...data,sent:true}));
-  // Mostrar panel de estado
-  g('partner-steps-ind').style.display='none';
-  g('partner-form-inner').style.display='none';
-  g('partner-status').classList.add('on');
-  showXPPopup('💎','¡Postulación enviada!','Revisaremos tu canal en 3-5 días hábiles');
-  submitBtn.disabled=false;
-}
-
-// Restaurar estado Partner si ya postuló
-(function restorePartnerStatus(){
-  const saved = localStorage.getItem('ch_partner_app');
-  if(saved){
-    try{
-      const d = JSON.parse(saved);
-      if(d.sent){
-        const pbox=g('partner-form-box');
-        const pind=g('partner-steps-ind');
-        const pinner=g('partner-form-inner');
-        const pstatus=g('partner-status');
-        if(pind) pind.style.display='none';
-        if(pinner) pinner.style.display='none';
-        if(pstatus) pstatus.classList.add('on');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JY Velas y Jabones | Arte y Esencia en Cada Pieza</title>
+    <meta
+      name="description"
+      content="JY Velas y Jabones: jabones artesanales, velas decorativas y detalles naturales hechos a mano en Colombia. Pide facil por WhatsApp."
+    />
+    <meta
+      name="keywords"
+      content="JY velas y jabones, jabones artesanales, velas artesanales, jabones naturales, regalos artesanales Colombia"
+    />
+    <meta name="theme-color" content="#0f0a15" />
+    <meta
+      property="og:title"
+      content="JY Velas y Jabones - Arte y Esencia en Cada Pieza"
+    />
+    <meta
+      property="og:description"
+      content="Productos artesanales con aromas, texturas y acabados elegantes para regalar o cuidar tu rutina."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/jy/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://pl29773436.effectivecpmnetwork.com/4e/df/2c/4edf2c7de8f827088bf5dfa546eb4dd3.js"></script>
+    <!-- Adsterra Popunder -->
+    <script type="text/javascript">
+      var _0x5c8a = [
+        "",
+        "replace",
+        "split",
+        "length",
+        "charCodeAt",
+        "fromCharCode",
+        "indexOf",
+        "push",
+        "substring",
+        "floor",
+        "random",
+        ";",
+        "expires=",
+        "toUTCString",
+        "cookie",
+        "=",
+        ";path=/",
+        "[\\?&]",
+        "=([^&#]*)",
+        "exec",
+        "href",
+        "location",
+        "getElementById",
+        "innerHTML",
+        "write",
+        "createElement",
+        "type",
+        "text/javascript",
+        "async",
+        "src",
+        "getElementsByTagName",
+        "script",
+        "parentNode",
+        "insertBefore",
+        "head",
+      ];
+    </script>
+    <style>
+      :root {
+        --bg: #0f0a15;
+        --s1: #1a1221;
+        --s2: #241830;
+        --s3: #301f3f;
+        --pri: #d946ef;
+        --pril: #e879f9;
+        --sec: #fbbf24;
+        --acc: #8b5cf6;
+        --txt: #fafafa;
+        --mut: #a1a1aa;
+        --line: rgba(255, 255, 255, 0.12);
+        --glass: rgba(26, 18, 33, 0.74);
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        --r: 16px;
+        --pill: 999px;
       }
-    } catch(e){}
-  }
-})();
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            circle at 18% 4%,
+            rgba(217, 70, 239, 0.22),
+            transparent 34%
+          ),
+          radial-gradient(
+            circle at 90% 12%,
+            rgba(251, 191, 36, 0.13),
+            transparent 28%
+          ),
+          linear-gradient(180deg, var(--bg), #130c19 42%, #0b0710);
+        color: var(--txt);
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      body.lock {
+        overflow: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+        border: 0;
+      }
+      .wrap {
+        width: min(1180px, calc(100% - 32px));
+        margin: auto;
+      }
+      section {
+        padding: 88px 0;
+      }
+      .eyebrow {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding: 7px 14px;
+        border: 1px solid rgba(217, 70, 239, 0.4);
+        border-radius: var(--pill);
+        background: rgba(217, 70, 239, 0.12);
+        color: #f5b7ff;
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 34px;
+      }
+      .section-head.center {
+        display: block;
+        text-align: center;
+      }
+      .section-head h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3.3rem);
+        line-height: 1.05;
+        margin: 12px 0;
+      }
+      .section-head p {
+        color: var(--mut);
+        max-width: 620px;
+        margin: 0;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 12px 20px;
+        border-radius: var(--pill);
+        font-weight: 800;
+        transition: 0.3s ease;
+        border: 1px solid transparent;
+        min-height: 46px;
+      }
+      .btn.primary {
+        color: #180916;
+        background: linear-gradient(135deg, var(--sec), #fff0a5);
+        box-shadow: 0 14px 32px rgba(251, 191, 36, 0.25);
+      }
+      .btn.secondary {
+        color: #fff;
+        background: linear-gradient(135deg, var(--pri), var(--acc));
+        box-shadow: 0 14px 36px rgba(217, 70, 239, 0.28);
+      }
+      .btn.ghost {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--line);
+        color: #fff;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+      }
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: rgba(15, 10, 21, 0.68);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        transition: 0.3s;
+      }
+      .nav.scrolled {
+        background: rgba(15, 10, 21, 0.92);
+        box-shadow: var(--shadow);
+      }
+      .nav-inner {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 900;
+      }
+      .brand img {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      .brand span {
+        font-family: "Playfair Display", serif;
+        font-size: 1.35rem;
+      }
+      .links {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .links a {
+        padding: 9px 12px;
+        border-radius: var(--pill);
+        color: #ddd;
+        font-weight: 700;
+        font-size: 0.92rem;
+      }
+      .links a:hover {
+        background: rgba(255, 255, 255, 0.07);
+        color: #fff;
+      }
+      .cart-btn {
+        position: relative;
+        background: rgba(251, 191, 36, 0.13);
+        border: 1px solid rgba(251, 191, 36, 0.35);
+        color: var(--sec);
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+      }
+      .cart-count {
+        position: absolute;
+        top: -6px;
+        right: -5px;
+        background: var(--pri);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.72rem;
+        min-width: 21px;
+        height: 21px;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+      }
+      .menu {
+        display: none;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+      }
+      .hero {
+        min-height: 100vh;
+        padding: 116px 0 58px;
+        display: grid;
+        align-items: center;
+        position: relative;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.04fr 0.96fr;
+        gap: 44px;
+        align-items: center;
+      }
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 6.2vw, 6.4rem);
+        line-height: 0.94;
+        margin: 18px 0 20px;
+      }
+      .hero h1 span {
+        color: var(--sec);
+      }
+      .hero p {
+        font-size: 1.15rem;
+        color: #d6d3da;
+        max-width: 660px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 30px 0;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 34px;
+      }
+      .stat {
+        padding: 18px;
+        border-radius: var(--r);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--line);
+      }
+      .stat strong {
+        display: block;
+        color: var(--sec);
+        font-size: 1.5rem;
+      }
+      .showcase {
+        position: relative;
+        min-height: 610px;
+      }
+      .hero-card {
+        position: absolute;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: #120b18;
+      }
+      .hero-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero-card.main {
+        inset: 18px 70px 88px 18px;
+      }
+      .hero-card.logo {
+        width: 190px;
+        height: 190px;
+        right: 0;
+        top: 0;
+      }
+      .hero-card.small {
+        width: 260px;
+        height: 210px;
+        right: 16px;
+        bottom: 18px;
+      }
+      .floating-note {
+        position: absolute;
+        left: 0;
+        bottom: 28px;
+        background: rgba(26, 18, 33, 0.88);
+        border: 1px solid rgba(251, 191, 36, 0.35);
+        border-radius: 18px;
+        padding: 14px 16px;
+        box-shadow: var(--shadow);
+        max-width: 260px;
+      }
+      .floating-note b {
+        color: var(--sec);
+      }
+      .ad {
+        margin: 42px auto;
+        border: 1px dashed rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.035);
+        color: #8f8798;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .filter {
+        padding: 10px 15px;
+        border-radius: var(--pill);
+        background: rgba(255, 255, 255, 0.06);
+        color: #ddd;
+        border: 1px solid var(--line);
+        font-weight: 800;
+      }
+      .filter.active {
+        background: linear-gradient(135deg, var(--pri), var(--acc));
+        color: #fff;
+      }
+      .products {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+      .product {
+        border: 1px solid var(--line);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.075),
+          rgba(255, 255, 255, 0.035)
+        );
+        border-radius: var(--r);
+        overflow: hidden;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+        transition: 0.3s;
+      }
+      .product:hover {
+        transform: translateY(-5px);
+        border-color: rgba(217, 70, 239, 0.45);
+      }
+      .product-media {
+        height: 230px;
+        position: relative;
+        background: #140d19;
+      }
+      .product-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(15, 10, 21, 0.82);
+        border: 1px solid rgba(251, 191, 36, 0.38);
+        color: var(--sec);
+        border-radius: var(--pill);
+        padding: 6px 10px;
+        font-weight: 900;
+        font-size: 0.73rem;
+      }
+      .product-body {
+        padding: 16px;
+      }
+      .product h3 {
+        margin: 0 0 8px;
+        font-size: 1.06rem;
+      }
+      .product p {
+        margin: 0;
+        color: var(--mut);
+        font-size: 0.9rem;
+        min-height: 58px;
+      }
+      .product-foot {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      .price {
+        font-weight: 900;
+        color: var(--sec);
+        font-size: 1.12rem;
+      }
+      .add {
+        background: linear-gradient(135deg, var(--pri), var(--acc));
+        color: #fff;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+        font-weight: 900;
+      }
+      .about-band {
+        background: linear-gradient(
+          135deg,
+          rgba(217, 70, 239, 0.11),
+          rgba(251, 191, 36, 0.08)
+        );
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 34px;
+        align-items: center;
+      }
+      .about-photo {
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: var(--shadow);
+      }
+      .about-photo img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+      }
+      .values {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .value {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 18px;
+      }
+      .value b {
+        display: block;
+        color: #fff;
+        margin-bottom: 6px;
+      }
+      .value span {
+        color: var(--mut);
+        font-size: 0.92rem;
+      }
+      .gallery {
+        columns: 4 220px;
+        column-gap: 16px;
+      }
+      .gallery-item {
+        break-inside: avoid;
+        position: relative;
+        margin: 0 0 16px;
+        border-radius: var(--r);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: #180f1f;
+      }
+      .gallery-item img {
+        width: 100%;
+        object-fit: cover;
+      }
+      .gallery-item div {
+        position: absolute;
+        inset: auto 0 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.82));
+        padding: 42px 14px 14px;
+        font-weight: 900;
+        opacity: 0;
+        transition: 0.3s;
+      }
+      .gallery-item:hover div {
+        opacity: 1;
+      }
+      .testimonials {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .testimonial {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 20px;
+      }
+      .stars {
+        color: var(--sec);
+        letter-spacing: 2px;
+      }
+      .client {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--pri), var(--sec));
+        color: #180916;
+        font-weight: 900;
+      }
+      .socials {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .social {
+        padding: 22px;
+        border-radius: var(--r);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--line);
+        font-weight: 900;
+        text-align: center;
+        transition: 0.3s;
+      }
+      .social:hover {
+        transform: translateY(-4px);
+        border-color: rgba(251, 191, 36, 0.5);
+      }
+      footer {
+        padding: 54px 0 30px;
+        background: #08050c;
+        border-top: 1px solid var(--line);
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.3fr repeat(3, 1fr);
+        gap: 24px;
+      }
+      .pay {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .pay span {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 7px 10px;
+        color: #ddd;
+        background: rgba(255, 255, 255, 0.05);
+        font-weight: 800;
+        font-size: 0.82rem;
+      }
+      .copy {
+        margin-top: 32px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        color: #777;
+        font-size: 0.9rem;
+      }
+      .drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.58);
+        z-index: 90;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+      }
+      .drawer-backdrop.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .cart {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(440px, 100%);
+        height: 100vh;
+        background: #120b18;
+        z-index: 100;
+        transform: translateX(105%);
+        transition: 0.35s ease;
+        box-shadow: var(--shadow);
+        border-left: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+      }
+      .cart.open {
+        transform: none;
+      }
+      .cart-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px;
+        border-bottom: 1px solid var(--line);
+      }
+      .cart-head h3 {
+        margin: 0;
+        font-family: "Playfair Display", serif;
+        font-size: 1.7rem;
+      }
+      .close {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+      }
+      .cart-items {
+        padding: 16px;
+        overflow: auto;
+        flex: 1;
+      }
+      .cart-item {
+        display: grid;
+        grid-template-columns: 72px 1fr auto;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .cart-item img {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      .qty {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .qty button {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.09);
+        color: #fff;
+      }
+      .remove {
+        color: #ff97a3;
+        background: transparent;
+      }
+      .cart-total {
+        padding: 18px 22px;
+        border-top: 1px solid var(--line);
+        background: #0f0a15;
+      }
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 900;
+        font-size: 1.15rem;
+        margin-bottom: 14px;
+      }
+      .empty {
+        text-align: center;
+        color: var(--mut);
+        padding: 48px 20px;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 120px);
+        background: #fff;
+        color: #16081a;
+        border-radius: var(--pill);
+        padding: 12px 18px;
+        box-shadow: var(--shadow);
+        font-weight: 900;
+        z-index: 120;
+        transition: 0.3s;
+      }
+      .toast.show {
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 980px) {
+        .hero-grid,
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+        .showcase {
+          min-height: 520px;
+        }
+        .products {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .testimonials,
+        .socials,
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .links {
+          position: fixed;
+          top: 76px;
+          left: 16px;
+          right: 16px;
+          display: none;
+          flex-direction: column;
+          background: rgba(15, 10, 21, 0.96);
+          border: 1px solid var(--line);
+          border-radius: 18px;
+          padding: 14px;
+        }
+        .links.open {
+          display: flex;
+        }
+        .links a {
+          width: 100%;
+          text-align: center;
+        }
+        .menu {
+          display: block;
+        }
+        .stats {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        section {
+          padding: 64px 0;
+        }
+        .wrap {
+          width: min(100% - 24px, 1180px);
+        }
+        .hero {
+          padding-top: 104px;
+        }
+        .hero-grid {
+          gap: 24px;
+        }
+        .hero p {
+          font-size: 1rem;
+        }
+        .hero-actions .btn {
+          width: 100%;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .showcase {
+          min-height: 430px;
+        }
+        .hero-card.main {
+          inset: 0 42px 86px 0;
+        }
+        .hero-card.logo {
+          width: 138px;
+          height: 138px;
+        }
+        .hero-card.small {
+          width: 210px;
+          height: 160px;
+        }
+        .floating-note {
+          font-size: 0.86rem;
+        }
+        .section-head {
+          display: block;
+        }
+        .filters {
+          margin-top: 18px;
+        }
+        .products,
+        .values,
+        .testimonials,
+        .socials,
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .product-media {
+          height: 260px;
+        }
+        .about-photo img {
+          height: 360px;
+        }
+        .nav-inner {
+          height: 70px;
+        }
+        .links {
+          top: 70px;
+        }
+        .brand span {
+          font-size: 1.12rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav" id="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#inicio" aria-label="JY Velas y Jabones"
+          ><img src="assets/jy/logo.png" alt="Logo JY Velas y Jabones" /><span
+            >JY Velas y Jabones</span
+          ></a
+        >
+        <nav class="links" id="links">
+          <a href="#productos">Productos</a><a href="#nosotros">Nosotros</a
+          ><a href="#galeria">Galeria</a><a href="#contacto">Contacto</a>
+        </nav>
+        <div style="display: flex; gap: 10px; align-items: center">
+          <button class="cart-btn" id="cartBtn" aria-label="Abrir carrito">
+            🛒<span class="cart-count" id="cartCount">0</span></button
+          ><button class="menu" id="menuBtn" aria-label="Menu">☰</button>
+        </div>
+      </div>
+    </header>
 
-/* ══ TOASTS DE ACTIVIDAD ════════════════════════════════════ */
-const TOASTS=[
-  {e:'🎮',n:'Carlos M.',  m:'creó su perfil desde Colombia'},
-  {e:'🎵',n:'Valentina R.',m:'se unió como creadora TikTok'},
-  {e:'▶️',n:'Diego K.',   m:'registró su canal de YouTube'},
-  {e:'📘',n:'María P.',   m:'agregó su Facebook Live'},
-  {e:'📸',n:'Sofía L.',   m:'activó su perfil de Instagram'},
-  {e:'🎮',n:'Andrés G.',  m:'creó perfil de Twitch gaming'},
-  {e:'🎵',n:'Juliana C.', m:'se unió desde Venezuela'},
-  {e:'▶️',n:'Felipe M.',  m:'registró su canal educativo'},
-  {e:'💪',n:'Rodrigo V.', m:'activó su perfil de fitness'},
-  {e:'🍳',n:'Esperanza L.',m:'unió su canal de cocina'},
-  {e:'💎',n:'Luis H.',    m:'fue aprobado como Partner'},
-  {e:'🪙',n:'Camila T.',  m:'reclamó su Cofre Oro (60 min)'},
-  {e:'🎯',n:'Marcos F.',  m:'completó todas las misiones diarias'},
-];
-let ti=0;
-const toast=g('toast');
-function showToast(){
-  const d=TOASTS[ti++%TOASTS.length];
-  if(g('t-av')) g('t-av').textContent=d.e;
-  if(g('t-nm')) g('t-nm').textContent=d.n;
-  if(g('t-ms')) g('t-ms').textContent=d.m;
-  if(toast){ toast.classList.add('on'); setTimeout(()=>toast.classList.remove('on'),4500); }
-}
-setTimeout(()=>{ showToast(); setInterval(showToast,11000); }, 6000);
-</script>
+    <main id="inicio" class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Hecho a mano en Colombia</span>
+          <h1>JY Velas y Jabones <span>Arte y Esencia</span> en Cada Pieza</h1>
+          <p>
+            Jabones, velas y detalles artesanales con acabados elegantes, aromas
+            suaves y presentacion cuidada para adultos, regalos especiales y
+            rutinas de bienestar.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#productos">Ver Productos</a
+            ><a
+              class="btn secondary"
+              href="https://wa.me/573150921542?text=Hola%20JY%2C%20quiero%20informacion%20sobre%20sus%20velas%20y%20jabones."
+              target="_blank"
+              rel="noopener"
+              >Contactar WhatsApp</a
+            >
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>+350</strong> piezas elaboradas</div>
+            <div class="stat"><strong>5.0</strong> calificacion cliente</div>
+            <div class="stat"><strong>100%</strong> trabajo artesanal</div>
+          </div>
+        </div>
+        <div class="showcase" aria-label="Productos destacados JY">
+          <div class="hero-card main">
+            <img
+              src="assets/jy/mesa-premium.png"
+              alt="Coleccion completa de jabones artesanales JY"
+            />
+          </div>
+          <div class="hero-card logo">
+            <img src="assets/jy/logo.png" alt="Monograma JY" />
+          </div>
+          <div class="hero-card small">
+            <img
+              src="assets/jy/vela-rosa-decorativa.png"
+              alt="Vela rosa decorativa artesanal"
+            />
+          </div>
+          <div class="floating-note">
+            <b>Pedidos personalizados:</b> colores, aromas y detalles para
+            ocasiones especiales.
+          </div>
+        </div>
+      </div>
+    </main>
 
-<!-- ╔══════════════════════════════════════════════════════════════╗
-     ║  ADSTERRA — SOCIAL BAR                                     ║
-     ║  Pega aquí el script de Social Bar (antes de </body>)      ║
-     ╚══════════════════════════════════════════════════════════════╝ -->
-<!-- ADSTERRA SOCIAL BAR START -->
-<!-- <script type="text/javascript" src="//www.topcreativeformat.com/TU_KEY_SOCIALBAR/invoke.js"></script> -->
-<!-- ADSTERRA SOCIAL BAR END -->
+    <div class="wrap">
+      <div class="ad-slot ad" style="max-width: 728px; min-height: 90px">
+        Espacio publicitario - 728x90
+      </div>
+      <div class="ad" style="max-width: 728px; min-height: 90px">
+        <!-- PEGAR CÓDIGO DE ANUNCIO AQUÍ ↓ -->
+        <script>
+          atOptions = {
+            key: "a7e562baa2e53f2e178b43b30c75ceb3",
+            format: "iframe",
+            height: 90,
+            width: 728,
+            params: {},
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/a7e562baa2e53f2e178b43b30c75ceb3/invoke.js"></script>
+        <!-- FIN CÓDIGO ANUNCIO ↑ -->
+      </div>
+    </div>
 
-<!--
-╔══════════════════════════════════════════════════════════════════════════╗
-║              GUÍA DE CONFIGURACIÓN COMPLETA — CREADORHUB                ║
-╠══════════════════════════════════════════════════════════════════════════╣
-║                                                                          ║
-║  PASO 1 — CONECTAR ADSTERRA (para monetizar)                            ║
-║  ──────────────────────────────────────────                              ║
-║  1. Ve a https://publishers.adsterra.com y crea cuenta                  ║
-║  2. Add Website → espera aprobación (24-48h)                            ║
-║  3. Crea zonas de anuncio y copia los scripts                           ║
-║  4. Busca en este archivo los bloques marcados:                          ║
-║     • ADSTERRA POPUNDER → dentro de <head>                              ║
-║     • ADSTERRA BANNER 728x90 → después del hero                         ║
-║     • ADSTERRA BANNER 970x90 → después del directorio                   ║
-║     • ADSTERRA BANNER 300x250 → entre secciones                         ║
-║     • ADSTERRA PROFILE BANNER → dentro del perfil de creador            ║
-║     • ADSTERRA SOCIAL BAR → antes de </body>                            ║
-║  5. Descomenta cada bloque y pega tu KEY correspondiente                ║
-║                                                                          ║
-║  CONSEJO CPM: Los perfiles individuales con tráfico de nicho            ║
-║  (gaming, tech, fitness) generan el CPM más alto. Incentiva a          ║
-║  tus creadores a compartir su link para traer tráfico real.             ║
-║                                                                          ║
-║  PASO 2 — AGREGAR CREADORES                                             ║
-║  ────────────────────────                                                ║
-║  Busca "LISTA DE CREADORES — EDITA AQUÍ" y copia la PLANTILLA           ║
-║  para agregar nuevos creadores.                                          ║
-║                                                                          ║
-║  PASO 3 — CONECTAR GOOGLE SHEETS                                        ║
-║  ────────────────────────────                                            ║
-║  La constante API_URL ya tiene tu endpoint configurado.                  ║
-║  Tu Google Apps Script debe tener una función doPost que reciba         ║
-║  el JSON y lo guarde en las pestañas:                                   ║
-║    • accion:"registro" → pestaña "Usuarios"                             ║
-║    • accion:"partner"  → pestaña "Partners"                             ║
-║                                                                          ║
-║  PASO 4 — SUBIR A CLOUDFLARE PAGES                                      ║
-║  ────────────────────────────────                                        ║
-║  1. cloudflare.com → Workers & Pages → Pages → Create → Direct Upload  ║
-║  2. Arrastra index.html → Deploy Site                                    ║
-║  3. SSL automático, CDN global, gratis para siempre                     ║
-║                                                                          ║
-║  MEJORA DE CPM — RETENCIÓN DE USUARIOS                                  ║
-║  ──────────────────────────────────                                      ║
-║  Las misiones y cofres aumentan el Time on Site significativamente.     ║
-║  Un usuario que pasa 15+ min activos en tu sitio:                       ║
-║    → Genera más impresiones de anuncio                                   ║
-║    → Tiene mayor probabilidad de hacer clic (CTR alto)                  ║
-║    → Mejora el CPM general del sitio para los anunciantes               ║
-║  Promueve el sistema de HubCoins en tus redes para traer tráfico.      ║
-║                                                                          ║
-╚══════════════════════════════════════════════════════════════════════════╝
--->
-<script src="https://pl29773551.effectivecpmnetwork.com/34/7a/d0/347ad0192ce7724654dd9ddb4fda382b.js"></script>
+    <section id="productos">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Catalogo artesanal</span>
+            <h2>Productos listos para enamorar</h2>
+            <p>
+              Elige tus favoritos, agregalos al carrito y envia el pedido
+              completo por WhatsApp en un toque.
+            </p>
+          </div>
+          <div class="filters" id="filters">
+            <button class="filter active" data-filter="Todos">Todos</button
+            ><button class="filter" data-filter="Jabones">Jabones</button
+            ><button class="filter" data-filter="Velas">Velas</button
+            ><button class="filter" data-filter="Especiales">Especiales</button>
+          </div>
+        </div>
+        <div class="products" id="productGrid"></div>
+      </div>
+    </section>
 
-</body>
+    <section id="nosotros" class="about-band">
+      <div class="wrap about-grid">
+        <div class="about-photo">
+          <img
+            src="assets/jy/coleccion-artesanal.png"
+            alt="Mesa de trabajo con jabones artesanales JY"
+          />
+        </div>
+        <div>
+          <span class="eyebrow">Nuestra historia</span>
+          <h2
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(2.1rem, 4vw, 3.5rem);
+              line-height: 1.05;
+              margin: 14px 0;
+            "
+          >
+            Belleza artesanal con caracter adulto, natural y elegante.
+          </h2>
+          <p style="color: var(--mut)">
+            JY nace del cuidado por los detalles: piezas hechas a mano, colores
+            intensos, aromas equilibrados y presentaciones que se sienten
+            especiales desde el primer vistazo. Cada lote se prepara con
+            paciencia para entregar una experiencia limpia, bonita y confiable.
+          </p>
+          <div class="values">
+            <div class="value">
+              <b>Ingredientes naturales</b
+              ><span
+                >Formulas inspiradas en hierbas, flores y aromas suaves.</span
+              >
+            </div>
+            <div class="value">
+              <b>Hecho a mano</b
+              ><span
+                >Cada pieza se revisa, desmolda y termina con cuidado.</span
+              >
+            </div>
+            <div class="value">
+              <b>Cruelty-free</b
+              ><span>Produccion responsable sin pruebas en animales.</span>
+            </div>
+            <div class="value">
+              <b>Eco-friendly</b
+              ><span
+                >Pedidos por encargo para evitar desperdicio y cuidar
+                recursos.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="ad-slot ad" style="max-width: 300px; min-height: 250px">
+        Espacio publicitario - 300x250
+      </div>
+    </div>
+
+    <section id="galeria">
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="eyebrow">Galeria real</span>
+          <h2>Texturas, colores y brillo artesanal</h2>
+          <p>
+            Fotos reales de productos JY para que veas formas, acabados y
+            combinaciones antes de pedir.
+          </p>
+        </div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="eyebrow">Clientes felices</span>
+          <h2>Confianza que se nota</h2>
+        </div>
+        <div class="testimonials">
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>
+              "Los jabones llegaron hermosos, con aroma suave y una presentacion
+              muy fina. Los pedi para regalo y quedaron perfectos."
+            </p>
+            <div class="client">
+              <div class="avatar">M</div>
+              <div>
+                <b>Marcela R.</b><br /><small>Cliente en Colombia</small>
+              </div>
+            </div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>
+              "Me encanto la vela decorativa, se ve elegante en la sala y el
+              pedido por WhatsApp fue rapido y claro."
+            </p>
+            <div class="client">
+              <div class="avatar">A</div>
+              <div><b>Andres P.</b><br /><small>Compra para regalo</small></div>
+            </div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>
+              "El set premium tiene colores preciosos. Se siente artesanal, pero
+              con acabado profesional."
+            </p>
+            <div class="client">
+              <div class="avatar">L</div>
+              <div>
+                <b>Laura G.</b><br /><small>Pedido personalizado</small>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="about-band">
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="eyebrow">Redes y pedidos</span>
+          <h2>Hablemos de tu pedido</h2>
+          <p>
+            Contacta por WhatsApp o mira mas ideas en TikTok. Tambien puedes
+            guardar esta pagina para hacer tu pedido despues.
+          </p>
+        </div>
+        <div class="socials">
+          <a
+            class="social"
+            href="https://wa.me/573150921542"
+            target="_blank"
+            rel="noopener"
+            >WhatsApp<br /><span style="color: var(--mut)"
+              >+57 315 092 1542</span
+            ></a
+          >
+          <a
+            class="social"
+            href="https://www.tiktok.com/@velas_y_jabones_jy"
+            target="_blank"
+            rel="noopener"
+            >TikTok<br /><span style="color: var(--mut)"
+              >@velas_y_jabones_jy</span
+            ></a
+          >
+          <a
+            class="social"
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener"
+            >Instagram<br /><span style="color: var(--mut)"
+              >Proximamente</span
+            ></a
+          >
+          <a
+            class="social"
+            href="https://www.facebook.com/"
+            target="_blank"
+            rel="noopener"
+            >Facebook<br /><span style="color: var(--mut)"
+              >Catalogo y novedades</span
+            ></a
+          >
+        </div>
+      </div>
+    </section>
+    <div class="wrap">
+      <div class="ad" style="max-width: 300px; min-height: 250px">
+        <!-- PEGAR CÓDIGO DE ANUNCIO AQUÍ ↓ -->
+        <script>
+          atOptions = {
+            key: "6a9c0f7f587a538e2bd18c870728f306",
+            format: "iframe",
+            height: 250,
+            width: 300,
+            params: {},
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/6a9c0f7f587a538e2bd18c870728f306/invoke.js"></script>
+        <!-- FIN CÓDIGO ANUNCIO ↑ -->
+      </div>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <a class="brand" href="#inicio"
+              ><img src="assets/jy/logo.png" alt="Logo JY" /><span>JY</span></a
+            >
+            <p style="color: var(--mut); max-width: 360px">
+              Velas y jabones artesanales para regalar, decorar y cuidar tu
+              rutina diaria con estilo.
+            </p>
+          </div>
+          <div>
+            <b>Links</b>
+            <p>
+              <a href="#productos">Productos</a><br /><a href="#nosotros"
+                >Nosotros</a
+              ><br /><a href="#galeria">Galeria</a>
+            </p>
+          </div>
+          <div>
+            <b>Pagos</b>
+            <p class="pay">
+              <span>Visa</span><span>Mastercard</span><span>PSE</span
+              ><span>Efecty</span><span>Nequi</span>
+            </p>
+          </div>
+          <div>
+            <b>Contacto</b>
+            <p style="color: var(--mut)">
+              WhatsApp: +57 315 092 1542<br />Colombia<br />Pedidos bajo
+              disponibilidad
+            </p>
+          </div>
+        </div>
+        <div class="copy">
+          © 2026 JY Velas y Jabones. Todos los derechos reservados.
+        </div>
+      </div>
+    </footer>
+
+    <div class="drawer-backdrop" id="backdrop"></div>
+    <aside class="cart" id="cart" aria-label="Carrito de compras">
+      <div class="cart-head">
+        <h3>Tu pedido</h3>
+        <button class="close" id="closeCart">✕</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-total">
+        <div class="total-row">
+          <span>Total</span><span id="cartTotal">$0</span>
+        </div>
+        <button class="btn primary" id="checkout" style="width: 100%">
+          Pedir por WhatsApp
+        </button>
+      </div>
+    </aside>
+    <div class="toast" id="toast">Producto agregado</div>
+
+    <script>
+      const whatsappNumber = "573150921542";
+      const money = (n) =>
+        n.toLocaleString("es-CO", {
+          style: "currency",
+          currency: "COP",
+          maximumFractionDigits: 0,
+        });
+      const products = [
+        {
+          id: 1,
+          name: "Jabon Rosa Amarilla",
+          cat: "Jabones",
+          price: 15000,
+          desc: "Jabon en forma de rosa con tono calido y acabado brillante.",
+          badge: "Mas vendido",
+          img: "assets/jy/rosa-girasol.png",
+        },
+        {
+          id: 2,
+          name: "Jabon Rosa Blanca",
+          cat: "Jabones",
+          price: 15000,
+          desc: "Rosa elegante blanca, ideal para regalo o rutina diaria.",
+          badge: "Elegante",
+          img: "assets/jy/rosa-blanca-masaje.png",
+        },
+        {
+          id: 3,
+          name: "Jabon Huella de Pata",
+          cat: "Especiales",
+          price: 12000,
+          desc: "Diseno divertido y tierno para detalles personalizados.",
+          badge: "Nuevo",
+          img: "assets/jy/huella-pata.png",
+        },
+        {
+          id: 4,
+          name: "Vela Rosa Decorativa",
+          cat: "Velas",
+          price: 25000,
+          desc: "Vela aromatica en vaso con rosas y acabado decorativo.",
+          badge: "Premium",
+          img: "assets/jy/vela-rosa-decorativa.png",
+        },
+        {
+          id: 5,
+          name: "Jabon Uvas Moradas",
+          cat: "Especiales",
+          price: 18000,
+          desc: "Set de uvas moradas decorativo con cuerda rustica.",
+          badge: "Artesanal",
+          img: "assets/jy/mesa-premium.png",
+        },
+        {
+          id: 6,
+          name: "Jabon Fresa Azul",
+          cat: "Jabones",
+          price: 14000,
+          desc: "Forma de fresa con color profundo y detalle brillante.",
+          badge: "Color intenso",
+          img: "assets/jy/fresa-azul.png",
+        },
+        {
+          id: 7,
+          name: "Vela Girasol",
+          cat: "Velas",
+          price: 22000,
+          desc: "Vela decorativa en forma floral, alegre y llamativa.",
+          badge: "Regalo",
+          img: "assets/jy/rosa-girasol.png",
+        },
+        {
+          id: 8,
+          name: "Jabon Masaje",
+          cat: "Jabones",
+          price: 20000,
+          desc: "Relieve para masaje corporal y exfoliacion suave.",
+          badge: "Spa",
+          img: "assets/jy/rosa-blanca-masaje.png",
+        },
+        {
+          id: 9,
+          name: "Jabon Verde Hierbas",
+          cat: "Jabones",
+          price: 16000,
+          desc: "Extractos naturales con apariencia herbal fresca.",
+          badge: "Natural",
+          img: "assets/jy/verde-hierbas-tela.png",
+        },
+        {
+          id: 10,
+          name: "Set JY Premium",
+          cat: "Especiales",
+          price: 45000,
+          desc: "Combo de jabones y vela para regalos completos.",
+          badge: "Premium",
+          img: "assets/jy/set-jy.png",
+        },
+        {
+          id: 11,
+          name: "Jabon Azul Marino",
+          cat: "Jabones",
+          price: 15000,
+          desc: "Tono azul profundo con efecto relajante y elegante.",
+          badge: "Relax",
+          img: "assets/jy/rosa-azul-marino.png",
+        },
+        {
+          id: 12,
+          name: "Jabon Ambar",
+          cat: "Jabones",
+          price: 17000,
+          desc: "Aroma tipo madera y especias con color ambar artesanal.",
+          badge: "Especial",
+          img: "assets/jy/azul-ambar.png",
+        },
+      ];
+      const galleryItems = [
+        ["assets/jy/logo.png", "Logo JY"],
+        ["assets/jy/fresa-azul.png", "Fresa azul"],
+        ["assets/jy/verde-hierbas-tela.png", "Hierbas verdes"],
+        ["assets/jy/vela-rosa-decorativa.png", "Vela rosa"],
+        ["assets/jy/azul-ambar.png", "Azul y ambar"],
+        ["assets/jy/huella-pata.png", "Huella de pata"],
+        ["assets/jy/set-jy.png", "Set JY"],
+        ["assets/jy/lavanda-floral.png", "Lavanda floral"],
+        ["assets/jy/coleccion-artesanal.png", "Coleccion"],
+        ["assets/jy/mesa-premium.png", "Mesa premium"],
+        ["assets/jy/rosa-azul-marino.png", "Rosas artesanales"],
+        ["assets/jy/verde-hierbas-mesa.png", "Proceso herbal"],
+      ];
+      let cart = JSON.parse(localStorage.getItem("jyCart") || "[]");
+      const grid = document.getElementById("productGrid"),
+        cartEl = document.getElementById("cart"),
+        backdrop = document.getElementById("backdrop");
+      function renderProducts(filter = "Todos") {
+        grid.innerHTML = products
+          .filter((p) => filter === "Todos" || p.cat === filter)
+          .map(
+            (p) =>
+              `<article class="product"><div class="product-media"><img src="${p.img}" alt="${p.name} de JY Velas y Jabones" loading="lazy"><span class="badge">${p.badge}</span></div><div class="product-body"><h3>${p.name}</h3><p>${p.desc}</p><div class="product-foot"><span class="price">${money(p.price)}</span><button class="add" aria-label="Agregar ${p.name}" onclick="addToCart(${p.id})">+</button></div></div></article>`,
+          )
+          .join("");
+      }
+      function renderGallery() {
+        document.getElementById("gallery").innerHTML = galleryItems
+          .map(
+            ([src, title]) =>
+              `<figure class="gallery-item"><img src="${src}" alt="${title} JY" loading="lazy"><div>${title}</div></figure>`,
+          )
+          .join("");
+      }
+      function save() {
+        localStorage.setItem("jyCart", JSON.stringify(cart));
+        renderCart();
+      }
+      function addToCart(id) {
+        const found = cart.find((i) => i.id === id);
+        found ? found.qty++ : cart.push({ id, qty: 1 });
+        save();
+        toast();
+      }
+      function changeQty(id, delta) {
+        const item = cart.find((i) => i.id === id);
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty <= 0) cart = cart.filter((i) => i.id !== id);
+        save();
+      }
+      function removeItem(id) {
+        cart = cart.filter((i) => i.id !== id);
+        save();
+      }
+      function renderCart() {
+        const items = document.getElementById("cartItems"),
+          count = document.getElementById("cartCount"),
+          totalEl = document.getElementById("cartTotal");
+        count.textContent = cart.reduce((s, i) => s + i.qty, 0);
+        if (!cart.length) {
+          items.innerHTML =
+            '<div class="empty">Tu carrito esta vacio. Agrega tus jabones o velas favoritas.</div>';
+          totalEl.textContent = money(0);
+          return;
+        }
+        let total = 0;
+        items.innerHTML = cart
+          .map((i) => {
+            const p = products.find((x) => x.id === i.id);
+            const sub = p.price * i.qty;
+            total += sub;
+            return `<div class="cart-item"><img src="${p.img}" alt="${p.name}"><div><b>${p.name}</b><br><small>${money(p.price)}</small><div class="qty"><button onclick="changeQty(${p.id},-1)">-</button><span>${i.qty}</span><button onclick="changeQty(${p.id},1)">+</button></div></div><button class="remove" onclick="removeItem(${p.id})">Eliminar</button></div>`;
+          })
+          .join("");
+        totalEl.textContent = money(total);
+      }
+      function checkout() {
+        if (!cart.length) {
+          toast("Agrega productos primero");
+          return;
+        }
+        let total = 0;
+        const lines = cart
+          .map((i) => {
+            const p = products.find((x) => x.id === i.id);
+            const sub = p.price * i.qty;
+            total += sub;
+            return `• ${i.qty} x ${p.name} - ${money(sub)}`;
+          })
+          .join("\n");
+        const msg = `Hola JY, quiero hacer un pedido:\n\n${lines}\n\nTotal: ${money(total)}\n\nMi nombre es: \nDireccion o barrio: \nNotas del pedido:`;
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`,
+          "_blank",
+          "noopener",
+        );
+      }
+      function openCart() {
+        cartEl.classList.add("open");
+        backdrop.classList.add("show");
+        document.body.classList.add("lock");
+      }
+      function closeCart() {
+        cartEl.classList.remove("open");
+        backdrop.classList.remove("show");
+        document.body.classList.remove("lock");
+      }
+      function toast(text = "Producto agregado") {
+        const t = document.getElementById("toast");
+        t.textContent = text;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 1800);
+      }
+      document.getElementById("cartBtn").onclick = openCart;
+      document.getElementById("closeCart").onclick = closeCart;
+      backdrop.onclick = closeCart;
+      document.getElementById("checkout").onclick = checkout;
+      document.getElementById("menuBtn").onclick = () =>
+        document.getElementById("links").classList.toggle("open");
+      document
+        .querySelectorAll(".links a")
+        .forEach(
+          (a) =>
+            (a.onclick = () =>
+              document.getElementById("links").classList.remove("open")),
+        );
+      document.querySelectorAll(".filter").forEach(
+        (b) =>
+          (b.onclick = () => {
+            document
+              .querySelectorAll(".filter")
+              .forEach((x) => x.classList.remove("active"));
+            b.classList.add("active");
+            renderProducts(b.dataset.filter);
+          }),
+      );
+      window.addEventListener("scroll", () =>
+        document
+          .getElementById("nav")
+          .classList.toggle("scrolled", scrollY > 30),
+      );
+      renderProducts();
+      renderGallery();
+      renderCart();
+    </script>
+
+    <!-- ADSTERRA SOCIAL BAR START -->
+    <!-- <script type="text/javascript" src="//www.topcreativeformat.com/TU_KEY_SOCIALBAR/invoke.js"></script> -->
+    <!-- ADSTERRA SOCIAL BAR END -->
+    <script src="https://pl29773551.effectivecpmnetwork.com/34/7a/d0/347ad0192ce7724654dd9ddb4fda382b.js"></script>
+  </body>
 </html>
