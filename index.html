@@ -31,47 +31,7 @@
       rel="stylesheet"
     />
 
-    <script src="https://pl29773436.effectivecpmnetwork.com/4e/df/2c/4edf2c7de8f827088bf5dfa546eb4dd3.js"></script>
-    <!-- Adsterra Popunder -->
-    <script type="text/javascript">
-      var _0x5c8a = [
-        "",
-        "replace",
-        "split",
-        "length",
-        "charCodeAt",
-        "fromCharCode",
-        "indexOf",
-        "push",
-        "substring",
-        "floor",
-        "random",
-        ";",
-        "expires=",
-        "toUTCString",
-        "cookie",
-        "=",
-        ";path=/",
-        "[\\?&]",
-        "=([^&#]*)",
-        "exec",
-        "href",
-        "location",
-        "getElementById",
-        "innerHTML",
-        "write",
-        "createElement",
-        "type",
-        "text/javascript",
-        "async",
-        "src",
-        "getElementsByTagName",
-        "script",
-        "parentNode",
-        "insertBefore",
-        "head",
-      ];
-    </script>
+    <!-- Publicidad segura: se quitaron popunders/social bars que redirigen fuera de la pagina. -->
     <style>
       :root {
         --bg: #0f0a15;
@@ -332,6 +292,24 @@
         flex-wrap: wrap;
         margin: 30px 0;
       }
+      .quick-socials {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 0 0 28px;
+      }
+      .quick-socials a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: var(--pill);
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid var(--line);
+        color: #f4edf7;
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
       .stats {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -404,6 +382,19 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+      }
+      .safe-ad {
+        flex-direction: column;
+        gap: 6px;
+        padding: 16px;
+        border-radius: 14px;
+      }
+      .safe-ad b {
+        color: #d6cddd;
+      }
+      .safe-ad span {
+        font-size: 0.82rem;
+        color: #8f8798;
       }
       .filters {
         display: flex;
@@ -745,6 +736,41 @@
         border-top: 1px solid var(--line);
         background: #0f0a15;
       }
+      .checkout-form {
+        display: grid;
+        gap: 10px;
+        margin: 12px 0 16px;
+      }
+      .checkout-form label {
+        display: grid;
+        gap: 5px;
+        color: #d8d2de;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+      .checkout-form input,
+      .checkout-form textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.07);
+        color: #fff;
+        padding: 11px 12px;
+        outline: none;
+      }
+      .checkout-form textarea {
+        min-height: 70px;
+        resize: vertical;
+      }
+      .delivery-note {
+        border: 1px solid rgba(251, 191, 36, 0.34);
+        background: rgba(251, 191, 36, 0.1);
+        color: #ffe8a2;
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
       .total-row {
         display: flex;
         justify-content: space-between;
@@ -834,6 +860,10 @@
         }
         .hero-actions .btn {
           width: 100%;
+        }
+        .quick-socials a {
+          flex: 1 1 100%;
+          justify-content: center;
         }
         .stats {
           grid-template-columns: 1fr;
@@ -926,6 +956,10 @@
               >Contactar WhatsApp</a
             >
           </div>
+          <div class="quick-socials" aria-label="Redes sociales JY">
+            <a href="https://wa.me/573150921542" target="_blank" rel="noopener">WhatsApp: +57 315 092 1542</a>
+            <a href="https://www.tiktok.com/@velas_y_jabones_jy" target="_blank" rel="noopener">TikTok: @velas_y_jabones_jy</a>
+          </div>
           <div class="stats">
             <div class="stat"><strong>+350</strong> piezas elaboradas</div>
             <div class="stat"><strong>5.0</strong> calificacion cliente</div>
@@ -957,22 +991,9 @@
     </main>
 
     <div class="wrap">
-      <div class="ad-slot ad" style="max-width: 728px; min-height: 90px">
-        Espacio publicitario - 728x90
-      </div>
-      <div class="ad" style="max-width: 728px; min-height: 90px">
-        <!-- PEGAR CÓDIGO DE ANUNCIO AQUÍ ↓ -->
-        <script>
-          atOptions = {
-            key: "a7e562baa2e53f2e178b43b30c75ceb3",
-            format: "iframe",
-            height: 90,
-            width: 728,
-            params: {},
-          };
-        </script>
-        <script src="https://www.highperformanceformat.com/a7e562baa2e53f2e178b43b30c75ceb3/invoke.js"></script>
-        <!-- FIN CÓDIGO ANUNCIO ↑ -->
+      <div class="ad-slot ad safe-ad" style="max-width: 728px; min-height: 90px">
+        <b>Espacio publicitario integrado - 728x90</b>
+        <span>Usa aqui solo banners seguros sin popunder, sin redireccion automatica y con filtro familiar.</span>
       </div>
     </div>
 
@@ -1054,8 +1075,9 @@
     </section>
 
     <div class="wrap">
-      <div class="ad-slot ad" style="max-width: 300px; min-height: 250px">
-        Espacio publicitario - 300x250
+      <div class="ad-slot ad safe-ad" style="max-width: 300px; min-height: 250px">
+        <b>Espacio publicitario integrado - 300x250</b>
+        <span>Formato recomendado para movil: anuncio dentro de la pagina, sin abrir nuevas pestanas.</span>
       </div>
     </div>
 
@@ -1172,19 +1194,9 @@
       </div>
     </section>
     <div class="wrap">
-      <div class="ad" style="max-width: 300px; min-height: 250px">
-        <!-- PEGAR CÓDIGO DE ANUNCIO AQUÍ ↓ -->
-        <script>
-          atOptions = {
-            key: "6a9c0f7f587a538e2bd18c870728f306",
-            format: "iframe",
-            height: 250,
-            width: 300,
-            params: {},
-          };
-        </script>
-        <script src="https://www.highperformanceformat.com/6a9c0f7f587a538e2bd18c870728f306/invoke.js"></script>
-        <!-- FIN CÓDIGO ANUNCIO ↑ -->
+      <div class="ad safe-ad" style="max-width: 300px; min-height: 250px">
+        <b>Publicidad segura</b>
+        <span>Evita codigos de popunder/social bar. Pega solamente banners aprobados para todo publico.</span>
       </div>
     </div>
 
@@ -1240,6 +1252,24 @@
         <div class="total-row">
           <span>Total</span><span id="cartTotal">$0</span>
         </div>
+        <div class="delivery-note">Pago contra entrega. Completa estos datos para preparar la guia de envio.</div>
+        <form class="checkout-form" id="checkoutForm">
+          <label>Nombre completo
+            <input id="customerName" autocomplete="name" required placeholder="Ej: Maria Fernanda Lopez">
+          </label>
+          <label>Celular de contacto
+            <input id="customerPhone" inputmode="tel" autocomplete="tel" required placeholder="Ej: 315 000 0000">
+          </label>
+          <label>Ciudad y barrio
+            <input id="customerCity" required placeholder="Ej: Bogota, Kennedy">
+          </label>
+          <label>Direccion completa
+            <input id="customerAddress" autocomplete="street-address" required placeholder="Calle, carrera, numero, apto/casa">
+          </label>
+          <label>Notas para entrega
+            <textarea id="customerNotes" placeholder="Color, aroma, referencia, horario o indicaciones"></textarea>
+          </label>
+        </form>
         <button class="btn primary" id="checkout" style="width: 100%">
           Pedir por WhatsApp
         </button>
@@ -1380,6 +1410,7 @@
         ["assets/jy/verde-hierbas-mesa.png", "Proceso herbal"],
       ];
       let cart = JSON.parse(localStorage.getItem("jyCart") || "[]");
+      const savedCustomer = JSON.parse(localStorage.getItem("jyCustomer") || "{}");
       const grid = document.getElementById("productGrid"),
         cartEl = document.getElementById("cart"),
         backdrop = document.getElementById("backdrop");
@@ -1448,21 +1479,51 @@
           toast("Agrega productos primero");
           return;
         }
+        const customer = {
+          name: document.getElementById("customerName").value.trim(),
+          phone: document.getElementById("customerPhone").value.trim(),
+          city: document.getElementById("customerCity").value.trim(),
+          address: document.getElementById("customerAddress").value.trim(),
+          notes: document.getElementById("customerNotes").value.trim(),
+        };
+        const missing = [];
+        if (!customer.name) missing.push("nombre");
+        if (!customer.phone) missing.push("celular");
+        if (!customer.city) missing.push("ciudad y barrio");
+        if (!customer.address) missing.push("direccion");
+        if (missing.length) {
+          toast(`Falta: ${missing.join(", ")}`);
+          return;
+        }
+        localStorage.setItem("jyCustomer", JSON.stringify(customer));
         let total = 0;
         const lines = cart
           .map((i) => {
             const p = products.find((x) => x.id === i.id);
             const sub = p.price * i.qty;
             total += sub;
-            return `• ${i.qty} x ${p.name} - ${money(sub)}`;
+            return `- ${i.qty} x ${p.name} | ${money(p.price)} c/u | Subtotal: ${money(sub)}`;
           })
           .join("\n");
-        const msg = `Hola JY, quiero hacer un pedido:\n\n${lines}\n\nTotal: ${money(total)}\n\nMi nombre es: \nDireccion o barrio: \nNotas del pedido:`;
+        const msg = `Hola JY, quiero hacer un pedido contra entrega.\n\nPRODUCTOS:\n${lines}\n\nTOTAL: ${money(total)}\nMETODO DE PAGO: Contra entrega\n\nDATOS PARA GUIA DE ENVIO:\nNombre: ${customer.name}\nCelular: ${customer.phone}\nCiudad/Barrio: ${customer.city}\nDireccion: ${customer.address}\nNotas: ${customer.notes || "Sin notas adicionales"}\n\nPor favor confirmame disponibilidad, valor de envio y tiempo estimado de entrega.`;
         window.open(
           `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`,
           "_blank",
           "noopener",
         );
+      }
+      function loadCustomerForm() {
+        const map = {
+          customerName: savedCustomer.name,
+          customerPhone: savedCustomer.phone,
+          customerCity: savedCustomer.city,
+          customerAddress: savedCustomer.address,
+          customerNotes: savedCustomer.notes,
+        };
+        Object.entries(map).forEach(([id, value]) => {
+          const el = document.getElementById(id);
+          if (el && value) el.value = value;
+        });
       }
       function openCart() {
         cartEl.classList.add("open");
@@ -1508,14 +1569,10 @@
           .getElementById("nav")
           .classList.toggle("scrolled", scrollY > 30),
       );
+      loadCustomerForm();
       renderProducts();
       renderGallery();
       renderCart();
     </script>
-
-    <!-- ADSTERRA SOCIAL BAR START -->
-    <!-- <script type="text/javascript" src="//www.topcreativeformat.com/TU_KEY_SOCIALBAR/invoke.js"></script> -->
-    <!-- ADSTERRA SOCIAL BAR END -->
-    <script src="https://pl29773551.effectivecpmnetwork.com/34/7a/d0/347ad0192ce7724654dd9ddb4fda382b.js"></script>
   </body>
 </html>
