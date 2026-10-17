@@ -7,12 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "JY_DB"
 database_name = "jy-database"
-database_id = "jy-database-prod-id"
-
-# Almacenamiento de Fotos en el Edge
-[[r2_buckets]]
-binding = "JY_STORAGE"
-bucket_name = "jy-storage"
+database_id = "009427c6-3db3-4e8f-ad84-0b563c50167a"
 
 # Motor de Inteligencia Artificial (LLaMA 3.1 & Sentiment Analysis)
 [ai]
