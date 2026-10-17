@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Gestión | JY Velas y Jabones</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script type="module" crossorigin src="/assets/portal-CvJyg7nO.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/client-BNLW9Ltg.js">
+  <link rel="stylesheet" crossorigin href="/assets/client-r9FHWYtm.css">
+  <link rel="stylesheet" crossorigin href="/assets/portal-BxlXpvgY.css">
+</head>
+<body class="admin-body-wrap">
+
+  <!-- 1. PANTALLA SECRETA DE LOGIN PARA LA MAMÁ -->
+  <div class="admin-login-screen" id="adminLoginScreen">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <i class="fas fa-crown"></i>
+      </div>
+      <h2>Portal Privado JY</h2>
+      <p>Acceso exclusivo de administración</p>
+
+      <form id="adminLoginForm">
+        <div class="admin-field">
+          <label>Usuario</label>
+          <input id="adminUsername" placeholder="Ingresa tu usuario" required autocomplete="username">
+        </div>
+        <div class="admin-field">
+          <label>Contraseña</label>
+          <input type="password" id="adminPassword" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="adminSubmitBtn" style="width:100%;margin-top:10px">
+          <i class="fas fa-key"></i> Entrar al Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. DASHBOARD DE ADMINISTRACIÓN (SOLO TRAS AUTENTICARSE) -->
+  <div id="adminDashboardWrap" style="display:none;min-height:100vh;flex-direction:column">
+    
+    <header class="admin-navbar">
+      <div class="admin-brand">
+        <i class="fas fa-crown" style="color:var(--sec)"></i>
+        <span>JY Panel · <b id="adminUserName">Mamá</b></span>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="/" target="_blank" class="btn btn-ghost btn-sm">
+          <i class="fas fa-store"></i> Ver Tienda
+        </a>
+        <button class="btn btn-danger btn-sm" id="adminLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
+      </div>
+    </header>
+
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+      <aside class="admin-sidebar">
+        <button class="admin-tab-btn active" data-admin-tab="dashboard">
+          <i class="fas fa-chart-line"></i> Resumen
+        </button>
+        <button class="admin-tab-btn" data-admin-tab="products">
+          <i class="fas fa-box-open"></i> Productos
+        </button>
+        <button class="admin-tab-btn" data-admin-tab="orders">
+          <i class="fas fa-receipt"></i> Pedidos WhatsApp
+        </button>
+        <button class="admin-tab-btn" data-admin-tab="coupons">
+          <i class="fas fa-ticket"></i> Cupones Ruleta
+        </button>
+        <button class="admin-tab-btn" data-admin-tab="reviews">
+          <i class="fas fa-star"></i> Reseñas & Alertas
+        </button>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="admin-main-content">
+        
+        <!-- PESTAÑA: RESUMEN -->
+        <div class="admin-tab-content" id="tab-dashboard">
+          <h2 style="margin-bottom:20px">Bienvenida a tu tienda, Mamá 💜</h2>
+
+          <div class="metrics-row">
+            <div class="metric-card">
+              <b id="metricSales">$0</b>
+              <span>Total Ventas</span>
+            </div>
+            <div class="metric-card">
+              <b id="metricOrders">0</b>
+              <span>Pedidos Totales</span>
+            </div>
+            <div class="metric-card">
+              <b id="metricPending">0</b>
+              <span>Pedidos Pendientes</span>
+            </div>
+            <div class="metric-card">
+              <b id="metricProducts">0</b>
+              <span>Productos en Tienda</span>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3><i class="fas fa-bolt" style="color:var(--sec)"></i> Acciones Rápidas</h3>
+            <p style="color:var(--mut);font-size:0.9rem;margin-bottom:16px">Accesos directos para gestionar tu negocio hoy.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-primary btn-sm" data-admin-tab="products">
+                <i class="fas fa-plus"></i> Gestionar Productos
+              </button>
+              <button class="btn btn-secondary btn-sm" data-admin-tab="orders">
+                <i class="fas fa-eye"></i> Revisar Pedidos
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA: PRODUCTOS -->
+        <div class="admin-tab-content" id="tab-products" style="display:none">
+          <div class="admin-card-header">
+            <h2>Gestión de Productos</h2>
+            <button class="btn btn-primary btn-sm" id="btnToggleNewProd">
+              <i class="fas fa-plus"></i> Nuevo Producto
+            </button>
+          </div>
+
+          <!-- FORMULARIO CREAR PRODUCTO -->
+          <div class="admin-card" id="newProdCard" style="display:none">
+            <h3><i class="fas fa-plus-circle" style="color:var(--pril)"></i> Agregar Nuevo Producto</h3>
+            <form id="createProdForm">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-field">
+                  <label>Nombre del Producto</label>
+                  <input id="npName" placeholder="Ej: Jabón Rosa Amarilla" required>
+                </div>
+                <div class="admin-field">
+                  <label>Categoría</label>
+                  <select id="npCategory">
+                    <option value="Jabones">Jabones</option>
+                    <option value="Velas">Velas</option>
+                    <option value="Especiales">Especiales</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px">
+                <div class="admin-field">
+                  <label>Precio (COP)</label>
+                  <input id="npPrice" type="number" placeholder="15000" required>
+                </div>
+                <div class="admin-field">
+                  <label>Precio Anterior (Opcional)</label>
+                  <input id="npOldPrice" type="number" placeholder="18000">
+                </div>
+                <div class="admin-field">
+                  <label>Stock Disponible</label>
+                  <input id="npStock" type="number" value="10">
+                </div>
+              </div>
+
+              <div class="admin-field">
+                <label>Descripción</label>
+                <textarea id="npDesc" rows="3" placeholder="Descripción sensorial del aroma y textura"></textarea>
+                <div style="margin-top:6px">
+                  <button type="button" class="btn btn-ghost btn-sm" id="btnAiSuggest">
+                    <i class="fas fa-magic" style="color:var(--pril)"></i> ✨ Redactar con IA
+                  </button>
+                </div>
+              </div>
+
+              <div class="admin-field">
+                <label>Foto del Producto</label>
+                <div class="upload-dropzone" id="dropzonePhoto">
+                  <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--pril);margin-bottom:8px;display:block"></i>
+                  <span>Toca para subir una foto desde tu celular o computador</span>
+                  <input type="file" id="prodFileInput" accept="image/*" style="display:none">
+                  <input type="hidden" id="npImageUrl">
+                </div>
+                <img id="uploadPreview" class="preview-box" style="display:none" alt="Vista previa">
+              </div>
+
+              <div style="display:flex;gap:10px;margin-top:18px">
+                <button type="submit" class="btn btn-primary" id="btnSaveProd">
+                  <i class="fas fa-save"></i> Guardar Producto
+                </button>
+                <button type="button" class="btn btn-ghost" id="btnCancelProd">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- TABLA DE PRODUCTOS -->
+          <div class="admin-card" style="padding:0;overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th style="text-align:right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PESTAÑA: PEDIDOS WHATSAPP -->
+        <div class="admin-tab-content" id="tab-orders" style="display:none">
+          <div class="admin-card-header">
+            <h2>Pedidos de Clientes</h2>
+            <span style="color:var(--mut);font-size:0.9rem">Toca "Chatear" para escribir directo al comprador por WhatsApp.</span>
+          </div>
+
+          <div id="adminOrdersList"></div>
+        </div>
+
+        <!-- PESTAÑA: CUPONES -->
+        <div class="admin-tab-content" id="tab-coupons" style="display:none">
+          <div class="admin-card-header">
+            <h2>Cupones de Descuento</h2>
+          </div>
+
+          <div class="admin-card">
+            <h3><i class="fas fa-plus-circle"></i> Crear Nuevo Cupón</h3>
+            <form id="createCouponForm" style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
+              <input class="admin-field" id="newCouponCode" placeholder="Código (ej: JY30)" style="flex:1;text-transform:uppercase" required>
+              <input class="admin-field" id="newCouponPct" type="number" placeholder="% Descuento (ej: 30)" style="width:180px" required>
+              <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Crear</button>
+            </form>
+          </div>
+
+          <div class="admin-card" style="padding:0">
+            <div id="adminCouponsList"></div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA: RESEÑAS -->
+        <div class="admin-tab-content" id="tab-reviews" style="display:none">
+          <div class="admin-card-header">
+            <h2>Reseñas y Alertas de IA</h2>
+            <span style="color:var(--mut);font-size:0.9rem">La IA marca automáticamente en rojo opiniones que requieran tu atención.</span>
+          </div>
+
+          <div id="adminReviewsList"></div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCRIPT DEL PANEL -->
+</body>
+</html>

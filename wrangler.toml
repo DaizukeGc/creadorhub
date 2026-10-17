@@ -1,0 +1,30 @@
+name = "jy-velas-y-jabones"
+main = "src/backend/index.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Base de Datos Relacional SQLite en el Edge
+[[d1_databases]]
+binding = "JY_DB"
+database_name = "jy-database"
+database_id = "jy-database-prod-id"
+
+# Almacenamiento de Fotos en el Edge
+[[r2_buckets]]
+binding = "JY_STORAGE"
+bucket_name = "jy-storage"
+
+# Motor de Inteligencia Artificial (LLaMA 3.1 & Sentiment Analysis)
+[ai]
+binding = "AI"
+
+# Base de Datos Vectorial para Búsqueda Semántica
+[[vectorize]]
+binding = "JY_VECTOR"
+index_name = "jy-product-vectors"
+
+# Servir Frontend y Assets compilados
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+run_worker_first = true

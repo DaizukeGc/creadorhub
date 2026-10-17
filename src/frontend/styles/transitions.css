@@ -1,0 +1,57 @@
+/* ================= TRANSICIONES Y VIEW TRANSITIONS API ================= */
+
+/* Habilitar View Transitions nativas en navegadores compatibles */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: fadeOutView;
+}
+
+::view-transition-new(root) {
+  animation-name: fadeInView;
+}
+
+@keyframes fadeOutView {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.98); }
+}
+
+@keyframes fadeInView {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Clases de animación fluida */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Transición para el cambio de categorías */
+.products-grid {
+  view-transition-name: catalog-grid;
+}
+
+/* Efecto pulsante suave */
+@keyframes softPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.pulse-hover:hover {
+  animation: softPulse 1.8s infinite;
+}
