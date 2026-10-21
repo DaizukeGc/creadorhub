@@ -133,7 +133,7 @@ INSERT OR REPLACE INTO store_config (key, value) VALUES
   ('whatsapp', '573150921542'),
   ('tiktok', 'velas_y_jabones_jy'),
   ('city', 'Neiva, Colombia'),
-  ('topMsg', '✨ Envío gratis desde $60.000 · Gira la ruleta y gana hasta 20% OFF'),
+  ('topMsg', '✨ Gira la ruleta y gana hasta 20% OFF · Envíos a todo Colombia'),
   ('logo', '/assets/jy/logo.svg'),
   ('heroImg1', '/assets/jy/hero-1.svg'),
   ('heroImg2', '/assets/jy/hero-2.svg'),

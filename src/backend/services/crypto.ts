@@ -85,6 +85,11 @@ function base64UrlEncode(str: string): string {
   return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
+/** Codifica bytes crudos a base64url (para firmas). */
+function base64UrlEncodeBytes(bytes: Uint8Array): string {
+  return bytesToBase64(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
 function base64UrlDecode(str: string): string {
   let b64 = str.replace(/-/g, '+').replace(/_/g, '/');
   while (b64.length % 4) b64 += '=';
@@ -132,7 +137,7 @@ export async function createJWT(
   );
 
   const signature = await crypto.subtle.sign('HMAC', key, enc.encode(dataToSign));
-  const sigEnc = base64UrlEncode(bytesToBase64(new Uint8Array(signature)));
+  const sigEnc = base64UrlEncodeBytes(new Uint8Array(signature));
 
   return `${dataToSign}.${sigEnc}`;
 }
