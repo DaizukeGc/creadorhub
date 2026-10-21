@@ -99,6 +99,8 @@ class StoreApp {
     } catch (err) {
       if (grid) grid.innerHTML = '<div style="color:var(--err);text-align:center;grid-column:1/-1">Error al conectar con el servidor.</div>';
     }
+
+    this.initCollectionLinks();
   }
 
   private renderFilters() {
@@ -218,6 +220,53 @@ class StoreApp {
     this.renderProducts();
   }
 
+  /**
+   * Aplica el filtro de categoría y desplaza al catálogo.
+   * Se usa desde las tarjetas de colección (Velas / Jabones) y los enlaces del menú.
+   */
+  private applyCategory(category: string, scroll = true) {
+    if (this.currentFilter !== category) {
+      this.currentFilter = category;
+      this.renderFilters();
+      this.renderProducts();
+    }
+
+    const title = document.getElementById('catalogTitle');
+    if (title) {
+      title.textContent = category === 'Todos'
+        ? 'Productos listos para enamorar'
+        : `Catálogo de ${category}`;
+    }
+    const subtitle = document.getElementById('catalogSubtitle');
+    if (subtitle) {
+      subtitle.textContent = category === 'Todos'
+        ? 'Selecciona tus jabones o velas favoritas y realiza tu pedido directo a WhatsApp con recálculo seguro.'
+        : `${this.products.filter(p => (p.category || '').toLowerCase() === category.toLowerCase()).length} piezas de ${category.toLowerCase()} listas para pedir por WhatsApp.`;
+    }
+
+    if (scroll) {
+      document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  private initCollectionLinks() {
+    document.querySelectorAll<HTMLElement>('[data-collection]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = el.dataset.collection;
+        if (!category) return;
+        this.applyCategory(category);
+        history.replaceState(null, '', `#${category.toLowerCase()}`);
+      });
+    });
+
+    // Enlace directo: /#velas o /#jabones
+    const hash = window.location.hash.replace('#', '').toLowerCase();
+    if (hash === 'velas' || hash === 'jabones') {
+      this.applyCategory(hash === 'velas' ? 'Velas' : 'Jabones', false);
+    }
+  }
+
   private openQuickView(productId: number) {
     const p = this.products.find(item => item.id === productId);
     if (!p) return;
@@ -265,16 +314,14 @@ class StoreApp {
       const reviews = res.reviews || [];
 
       container.innerHTML = reviews.map((r: any) => `
-        <div class="rev" style="padding:22px;border-radius:18px;background:rgba(255,255,255,0.04);border:1px solid var(--line)">
-          <div style="color:var(--sec);letter-spacing:2px;margin-bottom:10px">${'★'.repeat(r.stars)}</div>
-          <p style="color:var(--mut);font-size:0.92rem;font-style:italic;margin-bottom:14px">"${escapeHTML(r.text)}"</p>
-          <div style="display:flex;gap:12px;align-items:center">
-            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--sec));display:grid;place-items:center;font-weight:800;color:#1a1221">
-              ${escapeHTML(r.name.charAt(0))}
-            </div>
+        <div class="rev">
+          <div class="stars">${'★'.repeat(Math.max(0, Math.min(5, r.stars)))}</div>
+          <p class="rev-text">"${escapeHTML(r.text)}"</p>
+          <div class="who">
+            <div class="av">${escapeHTML(String(r.name || '?').charAt(0).toUpperCase())}</div>
             <div>
               <b>${escapeHTML(r.name)}</b><br>
-              <span style="font-size:0.78rem;color:var(--mut)">${r.date || 'Cliente verificado'}</span>
+              <small>${escapeHTML(r.date || 'Cliente verificado')}</small>
             </div>
           </div>
         </div>

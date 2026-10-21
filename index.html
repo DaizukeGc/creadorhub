@@ -27,6 +27,7 @@
 
   <link rel="stylesheet" href="/src/frontend/styles/main.css">
   <link rel="stylesheet" href="/src/frontend/styles/components.css">
+  <link rel="stylesheet" href="/src/frontend/styles/collections.css">
   <link rel="stylesheet" href="/src/frontend/styles/transitions.css">
 </head>
 <body>
@@ -54,6 +55,8 @@
         <a href="#inicio">Inicio</a>
         <a href="#productos">Catálogo</a>
         <a href="#colecciones">Colecciones</a>
+        <a href="#velas" data-collection="Velas">Velas</a>
+        <a href="#jabones" data-collection="Jabones">Jabones</a>
         <a href="#nosotros">Nosotros</a>
         <a href="#resenas">Reseñas</a>
         <a href="#contacto">Contacto</a>
@@ -91,8 +94,8 @@
     <nav class="mobile-menu-links">
       <a href="#inicio" data-mobile-link><i class="fas fa-house"></i> Inicio</a>
       <a href="#productos" data-mobile-link><i class="fas fa-store"></i> Catálogo</a>
-      <a href="#velas" data-mobile-link><i class="fas fa-candle-holder"></i> Catálogo de Velas</a>
-      <a href="#jabones" data-mobile-link><i class="fas fa-bath"></i> Catálogo de Jabones</a>
+      <a href="#velas" data-collection="Velas" data-mobile-link><i class="fas fa-candle-holder"></i> Catálogo de Velas</a>
+      <a href="#jabones" data-collection="Jabones" data-mobile-link><i class="fas fa-bath"></i> Catálogo de Jabones</a>
       <a href="#colecciones" data-mobile-link><i class="fas fa-gem"></i> Colecciones</a>
       <a href="#nosotros" data-mobile-link><i class="fas fa-heart"></i> Nosotros</a>
       <a href="#resenas" data-mobile-link><i class="fas fa-star"></i> Reseñas</a>
@@ -161,14 +164,14 @@
       </div>
 
       <div class="collections-grid">
-        <a href="#velas" class="collection-card collection-velas" data-collection="Velas">
+        <a href="#velas" id="velas" class="collection-card collection-velas cat-anchor" data-collection="Velas">
           <div class="collection-icon" aria-hidden="true">🕯️</div>
           <h3>Catálogo de Velas</h3>
           <p>Velas aromáticas en cera de soya, vasos decorativos y detalles hechos a mano para regalar o ambientar tu casa.</p>
           <span class="collection-cta">Ver velas <i class="fas fa-arrow-right"></i></span>
         </a>
 
-        <a href="#jabones" class="collection-card collection-jabones" data-collection="Jabones">
+        <a href="#jabones" id="jabones" class="collection-card collection-jabones cat-anchor" data-collection="Jabones">
           <div class="collection-icon" aria-hidden="true">🧼</div>
           <h3>Catálogo de Jabones</h3>
           <p>Jabones botánicos con glicerina vegetal: exfoliantes, relajantes, de spa y con aromas que enamoran.</p>
