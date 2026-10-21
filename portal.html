@@ -2,9 +2,10 @@
 <html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Portal de Gestión | JY Velas y Jabones</title>
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0a0610">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,22 +14,176 @@
 
   <link rel="stylesheet" href="/src/frontend/styles/main.css">
   <link rel="stylesheet" href="/src/frontend/styles/admin.css">
+  <style>
+    /* --- Estilos propios del portal (móvil primero) --- */
+    .portal-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 10px;
+      scrollbar-width: none;
+    }
+    .portal-tabs::-webkit-scrollbar { display: none; }
+    .portal-tab {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--s1);
+      color: var(--mut);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .portal-tab.active {
+      background: linear-gradient(135deg, var(--pri), #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 8px 22px -8px rgba(217, 70, 239, 0.7);
+    }
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 640px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    .dropzone {
+      border: 2px dashed rgba(217, 70, 239, 0.45);
+      border-radius: 16px;
+      background: rgba(217, 70, 239, 0.05);
+      padding: 26px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: var(--mut);
+    }
+    .dropzone:hover, .dropzone.drag {
+      border-color: var(--pri);
+      background: rgba(217, 70, 239, 0.12);
+      color: var(--txt);
+    }
+    .dropzone.busy { opacity: 0.6; pointer-events: none; }
+    .preview-box {
+      width: 100%;
+      max-height: 260px;
+      object-fit: contain;
+      margin-top: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--s2);
+    }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 14px;
+    }
+    .media-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--s1);
+    }
+    .media-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+      background: var(--s2);
+    }
+    .media-item .meta {
+      padding: 10px;
+      font-size: 0.72rem;
+      color: var(--mut);
+      word-break: break-all;
+    }
+    .media-item .actions {
+      display: flex;
+      gap: 6px;
+      padding: 0 10px 10px;
+    }
+    .media-item .actions button { flex: 1; }
+    .prod-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--s1);
+      margin-bottom: 10px;
+    }
+    .prod-row img {
+      width: 62px;
+      height: 62px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--s2);
+      flex-shrink: 0;
+    }
+    .prod-row .info { flex: 1; min-width: 0; }
+    .prod-row .info b { display: block; font-size: 0.95rem; }
+    .prod-row .info small { color: var(--mut); font-size: 0.78rem; }
+    .prod-row .info .inactive { color: var(--err); font-weight: 700; }
+    .hint {
+      font-size: 0.8rem;
+      color: var(--mut);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .badge-ok {
+      background: rgba(16, 185, 129, 0.18);
+      color: #6ee7b7;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .badge-off {
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .card {
+      background: var(--s1);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card > h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+    }
+  </style>
 </head>
 <body class="admin-body-wrap">
 
-  <!-- 1. PANTALLA SECRETA DE LOGIN PARA LA MAMÁ -->
+  <!-- ============ PANTALLA DE LOGIN ============ -->
   <div class="admin-login-screen" id="adminLoginScreen">
     <div class="admin-login-card">
-      <div class="admin-login-logo">
-        <i class="fas fa-crown"></i>
-      </div>
+      <div class="admin-login-logo"><i class="fas fa-crown"></i></div>
       <h2>Portal Privado JY</h2>
       <p>Acceso exclusivo de administración</p>
 
       <form id="adminLoginForm">
         <div class="admin-field">
           <label>Usuario</label>
-          <input id="adminUsername" placeholder="Ingresa tu usuario" required autocomplete="username">
+          <input id="adminUsername" placeholder="Ingresa tu usuario" required autocomplete="username" autocapitalize="none">
         </div>
         <div class="admin-field">
           <label>Contraseña</label>
@@ -41,353 +196,247 @@
     </div>
   </div>
 
-  <!-- 2. DASHBOARD DE ADMINISTRACIÓN (SOLO TRAS AUTENTICARSE) -->
+  <!-- ============ PANEL (tras autenticarse) ============ -->
   <div id="adminDashboardWrap" style="display:none;min-height:100vh;flex-direction:column">
-    
+
     <header class="admin-navbar">
       <div class="admin-brand">
         <i class="fas fa-crown" style="color:var(--sec)"></i>
         <span>JY Panel · <b id="adminUserName">Mamá</b></span>
       </div>
-      <div style="display:flex;gap:10px">
-        <a href="/" target="_blank" class="btn btn-ghost btn-sm">
-          <i class="fas fa-store"></i> Ver Tienda
-        </a>
-        <button class="btn btn-danger btn-sm" id="adminLogoutBtn">
-          <i class="fas fa-sign-out-alt"></i> Salir
-        </button>
+      <div style="display:flex;gap:8px">
+        <a href="/" target="_blank" class="btn btn-ghost btn-sm"><i class="fas fa-store"></i> Ver Tienda</a>
+        <button class="btn btn-danger btn-sm" id="adminLogoutBtn"><i class="fas fa-sign-out-alt"></i> Salir</button>
       </div>
     </header>
 
-    <div class="admin-layout">
-      <!-- SIDEBAR -->
-      <aside class="admin-sidebar">
-        <button class="admin-tab-btn active" data-admin-tab="dashboard">
-          <i class="fas fa-chart-line"></i> Resumen
-        </button>
-        <button class="admin-tab-btn" data-admin-tab="products">
-          <i class="fas fa-box-open"></i> Productos
-        </button>
-        <button class="admin-tab-btn" data-admin-tab="orders">
-          <i class="fas fa-receipt"></i> Pedidos WhatsApp
-        </button>
-        <button class="admin-tab-btn" data-admin-tab="coupons">
-          <i class="fas fa-ticket"></i> Cupones Ruleta
-        </button>
-        <button class="admin-tab-btn" data-admin-tab="reviews">
-          <i class="fas fa-star"></i> Reseñas & Alertas
-        </button>
-      </aside>
+    <div style="padding:18px 16px 40px;max-width:1100px;margin:0 auto;width:100%">
 
-      <!-- CONTENIDO PRINCIPAL -->
-      <main class="admin-main-content">
-        
-        <!-- PESTAÑA: RESUMEN -->
-        <div class="admin-tab-content" id="tab-dashboard">
-          <h2 style="margin-bottom:20px">Bienvenida a tu tienda, Mamá 💜</h2>
+      <!-- Tabs -->
+      <div class="portal-tabs" id="portalTabs">
+        <button class="portal-tab active" data-panel="panel-dashboard"><i class="fas fa-chart-line"></i> Resumen</button>
+        <button class="portal-tab" data-panel="panel-products"><i class="fas fa-box-open"></i> Productos</button>
+        <button class="portal-tab" data-panel="panel-media"><i class="fas fa-images"></i> Mis Fotos</button>
+        <button class="portal-tab" data-panel="panel-orders"><i class="fas fa-receipt"></i> Pedidos</button>
+        <button class="portal-tab" data-panel="panel-coupons"><i class="fas fa-ticket"></i> Cupones</button>
+        <button class="portal-tab" data-panel="panel-reviews"><i class="fas fa-star"></i> Reseñas</button>
+        <button class="portal-tab" data-panel="panel-account"><i class="fas fa-user-cog"></i> Mi Clave</button>
+      </div>
 
-          <div class="metrics-row">
-            <div class="metric-card">
-              <b id="metricSales">$0</b>
-              <span>Total Ventas</span>
-            </div>
-            <div class="metric-card">
-              <b id="metricOrders">0</b>
-              <span>Pedidos Totales</span>
-            </div>
-            <div class="metric-card">
-              <b id="metricPending">0</b>
-              <span>Pedidos Pendientes</span>
-            </div>
-            <div class="metric-card">
-              <b id="metricProducts">0</b>
-              <span>Productos en Tienda</span>
-            </div>
+      <!-- ===== RESUMEN ===== -->
+      <section class="panel active" id="panel-dashboard">
+        <h2 style="margin-bottom:16px">Hola, <span id="greetName">Mamá</span> 💜</h2>
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card" style="text-align:center;margin:0">
+            <b id="metricSales" style="font-size:1.6rem;color:var(--sec)">$0</b>
+            <p style="color:var(--mut);font-size:0.82rem">Ventas totales</p>
           </div>
-
-          <div class="admin-card">
-            <h3><i class="fas fa-bolt" style="color:var(--sec)"></i> Acciones Rápidas</h3>
-            <p style="color:var(--mut);font-size:0.9rem;margin-bottom:16px">Accesos directos para gestionar tu negocio hoy.</p>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn btn-primary btn-sm" data-admin-tab="products">
-                <i class="fas fa-plus"></i> Gestionar Productos
-              </button>
-              <button class="btn btn-secondary btn-sm" data-admin-tab="orders">
-                <i class="fas fa-eye"></i> Revisar Pedidos
-              </button>
-            </div>
+          <div class="card" style="text-align:center;margin:0">
+            <b id="metricOrders" style="font-size:1.6rem;color:var(--sec)">0</b>
+            <p style="color:var(--mut);font-size:0.82rem">Pedidos</p>
+          </div>
+          <div class="card" style="text-align:center;margin:0">
+            <b id="metricProducts" style="font-size:1.6rem;color:var(--sec)">0</b>
+            <p style="color:var(--mut);font-size:0.82rem">Productos visibles</p>
+          </div>
+          <div class="card" style="text-align:center;margin:0">
+            <b id="metricMedia" style="font-size:1.6rem;color:var(--sec)">0</b>
+            <p style="color:var(--mut);font-size:0.82rem">Fotos subidas</p>
           </div>
         </div>
 
-        <!-- PESTAÑA: PRODUCTOS -->
-        <div class="admin-tab-content" id="tab-products" style="display:none">
-          <div class="admin-card-header">
-            <h2>Gestión de Productos</h2>
-            <button class="btn btn-primary btn-sm" id="btnToggleNewProd">
-              <i class="fas fa-plus"></i> Nuevo Producto
+        <div class="card">
+          <h3><i class="fas fa-bolt" style="color:var(--sec)"></i> Acciones rápidas</h3>
+          <p class="hint" style="margin-bottom:14px">Sube una foto y créala en el catálogo en menos de un minuto.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" data-go="panel-products"><i class="fas fa-plus"></i> Nuevo producto</button>
+            <button class="btn btn-secondary btn-sm" data-go="panel-media"><i class="fas fa-images"></i> Subir fotos</button>
+            <button class="btn btn-ghost btn-sm" data-go="panel-orders"><i class="fas fa-eye"></i> Ver pedidos</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PRODUCTOS ===== -->
+      <section class="panel" id="panel-products">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+            <h3 style="margin:0"><i class="fas fa-box-open" style="color:var(--pril)"></i> <span id="prodFormTitle">Agregar producto</span></h3>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-primary btn-sm" id="btnToggleProdForm"><i class="fas fa-plus"></i> Nuevo</button>
+              <button class="btn btn-ghost btn-sm" id="btnCancelProd" style="display:none">Cancelar</button>
+            </div>
+          </div>
+
+          <form id="prodForm" style="display:none">
+            <input type="hidden" id="pId">
+
+            <div class="grid-2">
+              <div class="admin-field">
+                <label>Nombre del producto *</label>
+                <input id="pName" placeholder="Ej: Jabón Rosa Amarilla" required>
+              </div>
+              <div class="admin-field">
+                <label>Categoría *</label>
+                <select id="pCategory">
+                  <option value="Jabones">Jabones</option>
+                  <option value="Velas">Velas</option>
+                  <option value="Especiales">Especiales</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div class="admin-field">
+                <label>Precio (COP) *</label>
+                <input id="pPrice" type="number" min="0" placeholder="15000" required>
+              </div>
+              <div class="admin-field">
+                <label>Precio anterior</label>
+                <input id="pOldPrice" type="number" min="0" placeholder="18000">
+              </div>
+              <div class="admin-field">
+                <label>Stock *</label>
+                <input id="pStock" type="number" min="0" value="10" required>
+              </div>
+            </div>
+
+            <div class="admin-field">
+              <label>Descripción</label>
+              <textarea id="pDesc" rows="3" placeholder="Aroma, textura, para quién es..."></textarea>
+              <div style="margin-top:8px">
+                <button type="button" class="btn btn-ghost btn-sm" id="btnAiSuggest"><i class="fas fa-magic" style="color:var(--pril)"></i> ✨ Redactar con IA</button>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="admin-field">
+                <label>Etiqueta (ej: Más vendido)</label>
+                <input id="pBadge" placeholder="Opcional">
+              </div>
+              <div class="admin-field">
+                <label>Palabras clave</label>
+                <input id="pKeywords" placeholder="regalo, relajante, aroma">
+              </div>
+            </div>
+
+            <div class="admin-field">
+              <label>Características (una por línea)</label>
+              <textarea id="pFeatures" rows="3" placeholder="Glicerina vegetal&#10;Aroma a lavanda&#10;Envoltura artesanal"></textarea>
+            </div>
+
+            <div class="admin-field">
+              <label>Foto del producto</label>
+              <div class="dropzone" id="dropzonePhoto">
+                <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--pril);margin-bottom:8px;display:block"></i>
+                <span id="dropzoneText">Toca para subir una foto de tu celular</span>
+                <input type="file" id="prodFileInput" accept="image/*" style="display:none">
+                <input type="hidden" id="pImageUrl">
+              </div>
+              <img id="uploadPreview" class="preview-box" style="display:none" alt="Vista previa de la foto">
+              <p class="hint" id="uploadHint">Optimizamos la foto automáticamente para que se vea nítida y cargue rápido.</p>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+              <button type="submit" class="btn btn-primary" id="btnSaveProd"><i class="fas fa-save"></i> Guardar</button>
+              <button type="button" class="btn btn-ghost" id="btnCancelProd2">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3><i class="fas fa-list" style="color:var(--pril)"></i> Catálogo actual</h3>
+          <div id="adminProductsList"><p class="hint">Cargando productos...</p></div>
+        </div>
+      </section>
+
+      <!-- ===== MEDIOS (FOTOS) ===== -->
+      <section class="panel" id="panel-media">
+        <div class="card">
+          <h3><i class="fas fa-images" style="color:var(--pril)"></i> Subir una foto</h3>
+          <div class="dropzone" id="dropzoneMedia">
+            <i class="fas fa-camera" style="font-size:2rem;color:var(--pril);margin-bottom:8px;display:block"></i>
+            <span id="dropzoneMediaText">Toca para tomar o elegir una foto</span>
+            <input type="file" id="mediaFileInput" accept="image/*" multiple style="display:none">
+          </div>
+          <p class="hint">Las imágenes se guardan en la nube de Cloudflare. Luego puedes pegarlas en cualquier producto.</p>
+          <div id="mediaUploadStatus"></div>
+        </div>
+
+        <div class="card">
+          <h3><i class="fas fa-photo-film" style="color:var(--pril)"></i> Mis fotos (<span id="mediaCount">0</span>)</h3>
+          <div class="media-grid" id="adminMediaGrid"><p class="hint">Cargando fotos...</p></div>
+        </div>
+      </section>
+
+      <!-- ===== PEDIDOS ===== -->
+      <section class="panel" id="panel-orders">
+        <div class="card">
+          <h3><i class="fas fa-receipt" style="color:var(--sec)"></i> Pedidos de clientes</h3>
+          <p class="hint" style="margin-bottom:14px">Toca "Chatear" para escribirle directo al comprador por WhatsApp.</p>
+          <div id="adminOrdersList"><p class="hint">Cargando pedidos...</p></div>
+        </div>
+      </section>
+
+      <!-- ===== CUPONES ===== -->
+      <section class="panel" id="panel-coupons">
+        <div class="card">
+          <h3><i class="fas fa-ticket" style="color:var(--sec)"></i> Crear cupón</h3>
+          <form id="createCouponForm" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+            <input class="admin-field" id="newCouponCode" placeholder="Código (ej: JY30)" style="flex:1;min-width:160px;text-transform:uppercase" required>
+            <input class="admin-field" id="newCouponPct" type="number" min="1" max="100" placeholder="% (ej: 30)" style="width:130px" required>
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Crear</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3><i class="fas fa-list" style="color:var(--sec)"></i> Cupones de la ruleta</h3>
+          <div id="adminCouponsList"><p class="hint">Cargando cupones...</p></div>
+        </div>
+      </section>
+
+      <!-- ===== RESEÑAS ===== -->
+      <section class="panel" id="panel-reviews">
+        <div class="card">
+          <h3><i class="fas fa-star" style="color:var(--sec)"></i> Reseñas y alertas</h3>
+          <p class="hint" style="margin-bottom:14px">La IA marca en rojo las opiniones que necesitan tu atención.</p>
+          <div id="adminReviewsList"><p class="hint">Cargando reseñas...</p></div>
+        </div>
+      </section>
+
+      <!-- ===== MI CLAVE ===== -->
+      <section class="panel" id="panel-account">
+        <div class="card">
+          <h3><i class="fas fa-user-cog" style="color:var(--sec)"></i> Cambiar mi contraseña</h3>
+          <p class="hint" style="margin-bottom:16px">Usa una clave que solo ustedes dos conozcan. Al cambiarla se cierran todas las sesiones abiertas.</p>
+          <form id="changePassForm" style="max-width:420px">
+            <div class="admin-field">
+              <label>Clave actual *</label>
+              <input type="password" id="cpCurrent" required autocomplete="current-password">
+            </div>
+            <div class="admin-field">
+              <label>Nueva clave * (mínimo 8 caracteres)</label>
+              <input type="password" id="cpNew" required minlength="8" autocomplete="new-password">
+            </div>
+            <div class="admin-field">
+              <label>Repetir nueva clave *</label>
+              <input type="password" id="cpConfirm" required minlength="8" autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">
+              <i class="fas fa-key"></i> Guardar nueva clave
             </button>
-          </div>
-
-          <!-- FORMULARIO CREAR PRODUCTO -->
-          <div class="admin-card" id="newProdCard" style="display:none">
-            <h3><i class="fas fa-plus-circle" style="color:var(--pril)"></i> Agregar Nuevo Producto</h3>
-            <form id="createProdForm">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-                <div class="admin-field">
-                  <label>Nombre del Producto</label>
-                  <input id="npName" placeholder="Ej: Jabón Rosa Amarilla" required>
-                </div>
-                <div class="admin-field">
-                  <label>Categoría</label>
-                  <select id="npCategory">
-                    <option value="Jabones">Jabones</option>
-                    <option value="Velas">Velas</option>
-                    <option value="Especiales">Especiales</option>
-                  </select>
-                </div>
-              </div>
-
-              <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px">
-                <div class="admin-field">
-                  <label>Precio (COP)</label>
-                  <input id="npPrice" type="number" placeholder="15000" required>
-                </div>
-                <div class="admin-field">
-                  <label>Precio Anterior (Opcional)</label>
-                  <input id="npOldPrice" type="number" placeholder="18000">
-                </div>
-                <div class="admin-field">
-                  <label>Stock Disponible</label>
-                  <input id="npStock" type="number" value="10">
-                </div>
-              </div>
-
-              <div class="admin-field">
-                <label>Descripción</label>
-                <textarea id="npDesc" rows="3" placeholder="Descripción sensorial del aroma y textura"></textarea>
-                <div style="margin-top:6px">
-                  <button type="button" class="btn btn-ghost btn-sm" id="btnAiSuggest">
-                    <i class="fas fa-magic" style="color:var(--pril)"></i> ✨ Redactar con IA
-                  </button>
-                </div>
-              </div>
-
-              <div class="admin-field">
-                <label>Foto del Producto</label>
-                <div class="upload-dropzone" id="dropzonePhoto">
-                  <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--pril);margin-bottom:8px;display:block"></i>
-                  <span>Toca para subir una foto desde tu celular o computador</span>
-                  <input type="file" id="prodFileInput" accept="image/*" style="display:none">
-                  <input type="hidden" id="npImageUrl">
-                </div>
-                <img id="uploadPreview" class="preview-box" style="display:none" alt="Vista previa">
-              </div>
-
-              <div style="display:flex;gap:10px;margin-top:18px">
-                <button type="submit" class="btn btn-primary" id="btnSaveProd">
-                  <i class="fas fa-save"></i> Guardar Producto
-                </button>
-                <button type="button" class="btn btn-ghost" id="btnCancelProd">Cancelar</button>
-              </div>
-            </form>
-          </div>
-
-          <!-- TABLA DE PRODUCTOS -->
-          <div class="admin-card" style="padding:0;overflow-x:auto">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Foto</th>
-                  <th>Nombre</th>
-                  <th>Categoría</th>
-                  <th>Precio</th>
-                  <th>Stock</th>
-                  <th style="text-align:right">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="adminProductsTableBody"></tbody>
-            </table>
-          </div>
+          </form>
         </div>
 
-        <!-- PESTAÑA: PEDIDOS WHATSAPP -->
-        <div class="admin-tab-content" id="tab-orders" style="display:none">
-          <div class="admin-card-header">
-            <h2>Pedidos de Clientes</h2>
-            <span style="color:var(--mut);font-size:0.9rem">Toca "Chatear" para escribir directo al comprador por WhatsApp.</span>
-          </div>
-
-          <div id="adminOrdersList"></div>
+        <div class="card">
+          <h3><i class="fas fa-user" style="color:var(--sec)"></i> Mi cuenta</h3>
+          <p class="hint" id="accountInfo">—</p>
         </div>
+      </section>
 
-        <!-- PESTAÑA: CUPONES -->
-        <div class="admin-tab-content" id="tab-coupons" style="display:none">
-          <div class="admin-card-header">
-            <h2>Cupones de Descuento</h2>
-          </div>
-
-          <div class="admin-card">
-            <h3><i class="fas fa-plus-circle"></i> Crear Nuevo Cupón</h3>
-            <form id="createCouponForm" style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
-              <input class="admin-field" id="newCouponCode" placeholder="Código (ej: JY30)" style="flex:1;text-transform:uppercase" required>
-              <input class="admin-field" id="newCouponPct" type="number" placeholder="% Descuento (ej: 30)" style="width:180px" required>
-              <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Crear</button>
-            </form>
-          </div>
-
-          <div class="admin-card" style="padding:0">
-            <div id="adminCouponsList"></div>
-          </div>
-        </div>
-
-        <!-- PESTAÑA: RESEÑAS -->
-        <div class="admin-tab-content" id="tab-reviews" style="display:none">
-          <div class="admin-card-header">
-            <h2>Reseñas y Alertas de IA</h2>
-            <span style="color:var(--mut);font-size:0.9rem">La IA marca automáticamente en rojo opiniones que requieran tu atención.</span>
-          </div>
-
-          <div id="adminReviewsList"></div>
-        </div>
-
-      </main>
     </div>
   </div>
 
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- SCRIPT DEL PANEL -->
-  <script type="module">
-    import { AdminPortal } from '/src/frontend/modules/admin.ts';
-    import { apiFetch, showToast } from '/src/frontend/api/client.ts';
-
-    const portal = new AdminPortal();
-
-    // Toggle formulario nuevo producto
-    const btnToggle = document.getElementById('btnToggleNewProd');
-    const newCard = document.getElementById('newProdCard');
-    const btnCancel = document.getElementById('btnCancelProd');
-
-    btnToggle?.addEventListener('click', () => {
-      if (newCard) newCard.style.display = newCard.style.display === 'none' ? 'block' : 'none';
-    });
-
-    btnCancel?.addEventListener('click', () => {
-      if (newCard) newCard.style.display = 'none';
-    });
-
-    // Subida de foto en dropzone
-    const dropzone = document.getElementById('dropzonePhoto');
-    const fileInp = document.getElementById('prodFileInput');
-    const preview = document.getElementById('uploadPreview');
-    const imgUrlInp = document.getElementById('npImageUrl');
-
-    dropzone?.addEventListener('click', () => fileInp?.click());
-
-    fileInp?.addEventListener('change', async () => {
-      const file = fileInp.files?.[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const base64 = e.target?.result;
-        if (preview) {
-          preview.src = String(base64);
-          preview.style.display = 'block';
-        }
-
-        try {
-          showToast('Subiendo foto al almacenamiento Cloudflare...', 'info');
-          const uploadRes = await apiFetch('/api/media/admin/upload', {
-            method: 'POST',
-            body: JSON.stringify({ data: base64 })
-          });
-
-          if (uploadRes.success && imgUrlInp) {
-            imgUrlInp.value = uploadRes.url;
-            showToast('Foto lista y optimizada', 'success');
-          }
-        } catch (err) {
-          if (imgUrlInp) imgUrlInp.value = String(base64);
-          showToast('Foto cargada localmente', 'info');
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // Sugerencia mágica con IA
-    document.getElementById('btnAiSuggest')?.addEventListener('click', async () => {
-      const cat = document.getElementById('npCategory').value;
-      const name = document.getElementById('npName').value;
-
-      try {
-        showToast('Generando sugerencia con IA...', 'info');
-        const res = await apiFetch('/api/ai/admin/suggest', {
-          method: 'POST',
-          body: JSON.stringify({ category: cat, aroma: name || 'lavanda' })
-        });
-
-        if (res.success && res.suggestion) {
-          if (!document.getElementById('npName').value) {
-            document.getElementById('npName').value = res.suggestion.name;
-          }
-          document.getElementById('npDesc').value = res.suggestion.description;
-          if (!document.getElementById('npPrice').value) {
-            document.getElementById('npPrice').value = res.suggestion.price;
-          }
-          showToast('Sugerencia de IA aplicada con éxito', 'success');
-        }
-      } catch (err) {
-        showToast('Error al conectar con la IA', 'error');
-      }
-    });
-
-    // Guardar nuevo producto
-    document.getElementById('createProdForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('npName').value;
-      const category = document.getElementById('npCategory').value;
-      const price = Number(document.getElementById('npPrice').value);
-      const old_price = document.getElementById('npOldPrice').value ? Number(document.getElementById('npOldPrice').value) : null;
-      const stock = Number(document.getElementById('npStock').value) || 10;
-      const description = document.getElementById('npDesc').value;
-      const image = imgUrlInp.value || 'https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=400&q=80';
-
-      try {
-        await apiFetch('/api/products/admin/create', {
-          method: 'POST',
-          body: JSON.stringify({
-            name, category, price, old_price, stock, description, image, features: []
-          })
-        });
-
-        showToast('¡Producto guardado exitosamente!', 'success');
-        if (newCard) newCard.style.display = 'none';
-        portal.switchTab('products');
-      } catch (err) {
-        showToast(err.message || 'Error al guardar producto', 'error');
-      }
-    });
-
-    // Crear cupón
-    document.getElementById('createCouponForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const code = document.getElementById('newCouponCode').value;
-      const discount_pct = Number(document.getElementById('newCouponPct').value);
-
-      try {
-        await apiFetch('/api/coupons/admin/create', {
-          method: 'POST',
-          body: JSON.stringify({ code, discount_pct })
-        });
-        showToast('Cupón creado con éxito', 'success');
-        document.getElementById('newCouponCode').value = '';
-        document.getElementById('newCouponPct').value = '';
-        portal.switchTab('coupons');
-      } catch (err) {
-        showToast(err.message || 'Error al crear cupón', 'error');
-      }
-    });
-  </script>
+  <script type="module" src="/src/frontend/portal.ts"></script>
 </body>
 </html>

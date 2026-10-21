@@ -126,8 +126,8 @@ authApp.post('/change-password', requireAdmin, rateLimit(10, 60000), async (c) =
     const currentPass = String(body.currentPassword || '');
     const newPass = String(body.newPassword || '');
 
-    if (!newPass || newPass.length < 6) {
-      return c.json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' }, 400);
+    if (!newPass || newPass.length < 8) {
+      return c.json({ error: 'La nueva contraseña debe tener al menos 8 caracteres' }, 400);
     }
 
     const dbUser = await c.env.JY_DB.prepare(

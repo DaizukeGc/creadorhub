@@ -328,7 +328,7 @@ productsApp.put('/admin/:id', requireAdmin, rateLimit(60, 60000), async (c) => {
       return c.json({ error: 'Identificador de producto inválido' }, 400);
     }
 
-    const body = (await c.req.json()) as ProductInput;
+    const body = ((await c.req.json().catch(() => ({}))) || {}) as ProductInput;
     const categories = await getCategories(c.env);
 
     const validation = validateProductInput(body, categories, { partial: true });
