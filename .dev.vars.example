@@ -1,0 +1,8 @@
+# Variables de entorno para desarrollo local (NO COMMITEAR)
+# Copiar este archivo a .dev.vars y completar los valores
+
+# Secreto obligatorio para JWT HS256 (mínimo 16 caracteres)
+JWT_SECRET=change-me-to-a-very-long-random-secret-32chars
+
+# Orígenes permitidos para CORS (opcional, por defecto mismo origen)
+# ALLOWED_ORIGINS=https://tu-dominio.com,https://otro-dominio.com

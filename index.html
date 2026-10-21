@@ -3,15 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>JY Velas y Jabones | Arte y Esencia en Cada Pieza</title>
-  <meta name="description" content="JY Velas y Jabones: Jabones artesanales premium, velas decorativas en cera de soya y detalles hechos a mano en Neiva, Colombia. Asistente con Chat Bot JY.">
+  <title>JY Velas y Jabones | Catálogo de Velas y Jabones Artesanales</title>
+  <meta name="description" content="Catálogo de velas aromáticas y jabones artesanales premium, hechos a mano en Neiva, Colombia. Jabones botánicos, velas en cera de soya y sets para regalo. Pide por WhatsApp con pago contra entrega.">
   <meta name="theme-color" content="#0a0610">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Open Graph / Meta Social -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="JY Velas y Jabones | Arte y Esencia en Cada Pieza">
-  <meta property="og:description" content="Jabones artesanales, velas aromáticas y detalles hechos a mano en Colombia. Despachos a domicilio y pago contra entrega.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:description" content="Catálogo de velas aromáticas y jabones artesanales. Hechos a mano en Colombia. Despachos a domicilio y pago contra entrega.">
+  <meta property="og:image" content="/assets/jy/hero-1.svg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/jy/logo.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,13 +30,14 @@
   <link rel="stylesheet" href="/src/frontend/styles/transitions.css">
 </head>
 <body>
+  <a class="skip-link" href="#productos">Saltar al catálogo</a>
   <div class="bg-gradient"></div>
   <div id="cursorGlow"></div>
   <canvas id="confetti"></canvas>
 
   <!-- BARRA DE OFERTA -->
   <div class="topbar" id="topbar">
-    <span>✨ Envío gratis desde $60.000 · ¡Gira la ruleta y gana hasta 20% OFF!</span>
+    <span id="topMsg">✨ Envío gratis desde $60.000 · Gira la ruleta y gana hasta 20% OFF!</span>
     <span class="cd" id="countdown">--:--:--</span>
     <button id="topClose" title="Cerrar"><i class="fas fa-times"></i></button>
   </div>
@@ -38,13 +46,14 @@
   <header class="nav" id="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="#inicio">
-        <img src="https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=100&q=80" alt="JY Logo">
-        <span>JY Velas & Jabones</span>
+        <img src="/assets/jy/logo.svg" alt="JY Velas y Jabones" width="38" height="38">
+        <span>JY Velas &amp; Jabones</span>
       </a>
 
-      <nav class="nav-links">
+      <nav class="nav-links" id="navLinks">
         <a href="#inicio">Inicio</a>
         <a href="#productos">Catálogo</a>
+        <a href="#colecciones">Colecciones</a>
         <a href="#nosotros">Nosotros</a>
         <a href="#resenas">Reseñas</a>
         <a href="#contacto">Contacto</a>
@@ -56,21 +65,43 @@
           <i class="fas fa-dharmachakra"></i> <span>Ruleta</span>
         </button>
 
-        <button class="icon-btn" id="themeBtn" title="Cambiar tema">
+        <button class="icon-btn" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
           <i class="fas fa-moon"></i>
         </button>
 
-        <button class="icon-btn" id="searchBtn" title="Buscar con IA">
+        <button class="icon-btn" id="searchBtn" title="Buscar con IA" aria-label="Buscar">
           <i class="fas fa-search"></i>
         </button>
 
-        <button class="icon-btn" id="cartBtn" title="Tu carrito">
+        <button class="icon-btn" id="cartBtn" title="Tu carrito" aria-label="Carrito">
           <i class="fas fa-shopping-bag"></i>
           <span class="badge-dot" id="cartCount">0</span>
+        </button>
+
+        <!-- Botón de menú para móvil -->
+        <button class="icon-btn menu-btn" id="menuBtn" title="Menú" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+          <i class="fas fa-bars"></i>
         </button>
       </div>
     </div>
   </header>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu-links">
+      <a href="#inicio" data-mobile-link><i class="fas fa-house"></i> Inicio</a>
+      <a href="#productos" data-mobile-link><i class="fas fa-store"></i> Catálogo</a>
+      <a href="#velas" data-mobile-link><i class="fas fa-candle-holder"></i> Catálogo de Velas</a>
+      <a href="#jabones" data-mobile-link><i class="fas fa-bath"></i> Catálogo de Jabones</a>
+      <a href="#colecciones" data-mobile-link><i class="fas fa-gem"></i> Colecciones</a>
+      <a href="#nosotros" data-mobile-link><i class="fas fa-heart"></i> Nosotros</a>
+      <a href="#resenas" data-mobile-link><i class="fas fa-star"></i> Reseñas</a>
+      <a href="#contacto" data-mobile-link><i class="fas fa-paper-plane"></i> Contacto</a>
+      <button class="btn btn-primary" data-open-wheel style="width:100%;margin-top:8px">
+        <i class="fas fa-dharmachakra"></i> Ruleta de Descuentos
+      </button>
+    </nav>
+  </div>
 
   <!-- HERO SECTION -->
   <section class="hero" id="inicio">
@@ -78,26 +109,28 @@
       <div class="hero-content fade-in visible">
         <span class="eyebrow"><i class="fas fa-sparkles"></i> Hecho a mano en Neiva, Colombia</span>
         <h1>JY Velas y Jabones<br><span class="gradient-text">Arte y Esencia</span> en Cada Pieza</h1>
-        <p>Jabones botánicos, velas aromáticas en cera de soya y detalles artesanales con acabados elegantes y aromas que transforman tus momentos.</p>
+        <p id="heroCopy">Jabones botánicos, velas aromáticas en cera de soya y detalles artesanales con acabados elegantes y aromas que transforman tus momentos.</p>
 
         <div class="hero-actions">
           <a href="#productos" class="btn btn-primary"><i class="fas fa-store"></i> Ver Catálogo</a>
-          <button class="btn btn-secondary" data-open-wheel><i class="fas fa-dharmachakra"></i> Ruleta de Descuentos</button>
+          <a href="#velas" class="btn btn-secondary"><i class="fas fa-candle-holder"></i> Catálogo de Velas</a>
+          <a href="#jabones" class="btn btn-secondary"><i class="fas fa-bath"></i> Catálogo de Jabones</a>
+          <button class="btn btn-ghost" data-open-wheel><i class="fas fa-dharmachakra"></i> Ruleta de Descuentos</button>
         </div>
 
         <div class="social-links">
-          <span class="live-pill"><span class="live-dot"></span> <b>7</b> personas viendo ahora</span>
-          <a href="https://wa.me/573150921542" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Oficial</a>
-          <a href="https://www.tiktok.com/@velas_y_jabones_jy" class="social-link" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+          <span class="live-pill"><span class="live-dot"></span> <b id="liveCount">7</b> personas viendo ahora</span>
+          <a href="https://wa.me/573150921542" class="social-link" data-whatsapp target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Oficial</a>
+          <a href="https://www.tiktok.com/@velas_y_jabones_jy" class="social-link" data-tiktok target="_blank" rel="noopener"><i class="fab fa-tiktok"></i> TikTok</a>
         </div>
 
         <div class="stats">
           <div class="stat-card">
-            <span class="stat-number">+350</span>
+            <span class="stat-number" data-stat="piezas">+350</span>
             <span class="stat-label">Piezas elaboradas</span>
           </div>
           <div class="stat-card">
-            <span class="stat-number">5.0★</span>
+            <span class="stat-number" data-stat="rating">5.0★</span>
             <span class="stat-label">Calificación</span>
           </div>
           <div class="stat-card">
@@ -109,11 +142,38 @@
 
       <div class="hero-visual fade-in visible">
         <div class="hero-image-main">
-          <img src="https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=700&q=80" alt="Colección JY">
+          <img src="/assets/jy/hero-1.svg" alt="Colección JY Velas y Jabones" width="700" height="700">
         </div>
         <div class="hero-image-secondary">
-          <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=400&q=80" alt="Vela Artesanal">
+          <img src="/assets/jy/hero-2.svg" alt="Vela artesanal de girasoles" width="400" height="400">
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLECCIONES: CATÁLOGO DE VELAS Y DE JABONES -->
+  <section id="colecciones">
+    <div class="wrap">
+      <div class="section-header center fade-in visible">
+        <span class="eyebrow"><i class="fas fa-gem"></i> Nuestras Colecciones</span>
+        <h2>Elige tu categoría</h2>
+        <p>Un catálogo de velas aromáticas y un catálogo de jabones artesanales listos para pedir por WhatsApp.</p>
+      </div>
+
+      <div class="collections-grid">
+        <a href="#velas" class="collection-card collection-velas" data-collection="Velas">
+          <div class="collection-icon" aria-hidden="true">🕯️</div>
+          <h3>Catálogo de Velas</h3>
+          <p>Velas aromáticas en cera de soya, vasos decorativos y detalles hechos a mano para regalar o ambientar tu casa.</p>
+          <span class="collection-cta">Ver velas <i class="fas fa-arrow-right"></i></span>
+        </a>
+
+        <a href="#jabones" class="collection-card collection-jabones" data-collection="Jabones">
+          <div class="collection-icon" aria-hidden="true">🧼</div>
+          <h3>Catálogo de Jabones</h3>
+          <p>Jabones botánicos con glicerina vegetal: exfoliantes, relajantes, de spa y con aromas que enamoran.</p>
+          <span class="collection-cta">Ver jabones <i class="fas fa-arrow-right"></i></span>
+        </a>
       </div>
     </div>
   </section>
@@ -124,37 +184,37 @@
       <div class="section-header fade-in visible">
         <div>
           <span class="eyebrow"><i class="fas fa-fire"></i> Catálogo Completo</span>
-          <h2>Productos listos para enamorar</h2>
-          <p>Selecciona tus jabones o velas favoritas y realiza tu pedido directo a WhatsApp con recálculo seguro.</p>
+          <h2 id="catalogTitle">Productos listos para enamorar</h2>
+          <p id="catalogSubtitle">Selecciona tus jabones o velas favoritas y realiza tu pedido directo a WhatsApp con recálculo seguro.</p>
         </div>
-        <div class="filters" id="filters"></div>
+        <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría"></div>
       </div>
 
-      <div class="products-grid" id="productsGrid"></div>
+      <div class="products-grid" id="productsGrid" aria-live="polite"></div>
     </div>
   </section>
 
   <!-- NOSOTROS -->
-  <section id="nosotros" style="background:linear-gradient(135deg,rgba(217,70,239,.05),rgba(251,191,36,.03));border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <section id="nosotros" class="section-alt">
     <div class="wrap hero-grid">
       <div>
-        <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=650&q=80" alt="JY Historia" style="width:100%;height:440px;object-fit:cover;border-radius:24px;border:1px solid var(--line)">
+        <img src="/assets/jy/coleccion-artesanal.svg" alt="Colección artesanal JY" class="about-img" width="800" height="600">
       </div>
       <div>
         <span class="eyebrow"><i class="fas fa-heart"></i> Nuestra Historia</span>
-        <h2 style="font-size:clamp(1.9rem,3.5vw,2.6rem);margin-bottom:18px">Belleza artesanal con carácter natural</h2>
-        <p style="color:var(--mut);line-height:1.8;margin-bottom:24px">
+        <h2 id="aboutTitle" style="font-size:clamp(1.9rem,3.5vw,2.6rem);margin-bottom:18px">Belleza artesanal con carácter natural</h2>
+        <p id="aboutText" style="color:var(--mut);line-height:1.8;margin-bottom:24px">
           JY nace en Neiva del amor por el detalle: piezas hechas a mano, colores intensos, aromas equilibrados y presentaciones que se sienten especiales al regalar o consentirte en casa.
         </p>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:16px">
-            <h4 style="color:var(--sec);margin-bottom:4px"><i class="fas fa-leaf"></i> 100% Botánico</h4>
-            <span style="color:var(--mut);font-size:0.86rem">Glicerina vegetal y aceites puros.</span>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4><i class="fas fa-leaf"></i> 100% Botánico</h4>
+            <span>Glicerina vegetal y aceites puros.</span>
           </div>
-          <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:16px">
-            <h4 style="color:var(--pril);margin-bottom:4px"><i class="fas fa-hands"></i> Hecho a Mano</h4>
-            <span style="color:var(--mut);font-size:0.86rem">Cada pieza es única y cuidada.</span>
+          <div class="feature-card">
+            <h4><i class="fas fa-hands"></i> Hecho a Mano</h4>
+            <span>Cada pieza es única y cuidada.</span>
           </div>
         </div>
       </div>
@@ -170,7 +230,7 @@
         <p>Opiniones reales analizadas con Inteligencia Artificial.</p>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px" id="revGrid"></div>
+      <div class="reviews-grid" id="revGrid"></div>
 
       <div style="text-align:center;margin-top:32px">
         <button class="btn btn-ghost" id="addRevBtn"><i class="fas fa-pen"></i> Deja tu reseña</button>
@@ -179,33 +239,33 @@
   </section>
 
   <!-- CONTACTO -->
-  <section id="contacto" style="background:linear-gradient(135deg,rgba(217,70,239,.05),rgba(139,92,246,.05))">
+  <section id="contacto" class="section-alt">
     <div class="wrap">
       <div class="section-header center fade-in visible">
         <span class="eyebrow"><i class="fas fa-paper-plane"></i> Pedidos y Domicilios</span>
         <h2>Hablemos de tu pedido</h2>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
-        <a href="https://wa.me/573150921542" target="_blank" style="padding:22px;border-radius:18px;background:var(--s1);border:1px solid var(--line);text-align:center;display:block">
+      <div class="contact-grid">
+        <a href="https://wa.me/573150921542" data-whatsapp target="_blank" rel="noopener" class="contact-card">
           <i class="fab fa-whatsapp" style="font-size:2rem;color:#25d366;margin-bottom:8px;display:block"></i>
           <h4>WhatsApp</h4>
-          <span style="color:var(--mut);font-size:0.88rem">+57 315 092 1542</span>
+          <span data-whatsapp-label>+57 315 092 1542</span>
         </a>
-        <a href="https://www.tiktok.com/@velas_y_jabones_jy" target="_blank" style="padding:22px;border-radius:18px;background:var(--s1);border:1px solid var(--line);text-align:center;display:block">
+        <a href="https://www.tiktok.com/@velas_y_jabones_jy" data-tiktok target="_blank" rel="noopener" class="contact-card">
           <i class="fab fa-tiktok" style="font-size:2rem;margin-bottom:8px;display:block"></i>
           <h4>TikTok</h4>
-          <span style="color:var(--mut);font-size:0.88rem">@velas_y_jabones_jy</span>
+          <span data-tiktok-label>@velas_y_jabones_jy</span>
         </a>
-        <div style="padding:22px;border-radius:18px;background:var(--s1);border:1px solid var(--line);text-align:center">
+        <div class="contact-card">
           <i class="fas fa-truck" style="font-size:2rem;color:var(--sec);margin-bottom:8px;display:block"></i>
           <h4>Envíos</h4>
-          <span style="color:var(--mut);font-size:0.88rem">Neiva y Colombia</span>
+          <span data-city-label>Neiva y Colombia</span>
         </div>
-        <div style="padding:22px;border-radius:18px;background:var(--s1);border:1px solid var(--line);text-align:center">
+        <div class="contact-card">
           <i class="fas fa-hand-holding-dollar" style="font-size:2rem;color:var(--ok);margin-bottom:8px;display:block"></i>
           <h4>Pagos</h4>
-          <span style="color:var(--mut);font-size:0.88rem">Contra Entrega y Nequi</span>
+          <span>Contra Entrega y Nequi</span>
         </div>
       </div>
     </div>
@@ -227,6 +287,8 @@
           <h5>Enlaces</h5>
           <a href="#inicio">Inicio</a>
           <a href="#productos">Catálogo</a>
+          <a href="#velas">Catálogo de Velas</a>
+          <a href="#jabones">Catálogo de Jabones</a>
           <a href="#nosotros">Nosotros</a>
           <a href="#resenas">Reseñas</a>
         </div>
@@ -241,7 +303,7 @@
         </div>
         <div class="footer-links">
           <h5>Ubicación</h5>
-          <p style="color:var(--mut);font-size:0.9rem">Neiva, Huila, Colombia<br>WhatsApp: +57 315 092 1542</p>
+          <p style="color:var(--mut);font-size:0.9rem"><span data-city-label>Neiva, Huila, Colombia</span><br>WhatsApp: <span data-whatsapp-label>+57 315 092 1542</span></p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -253,10 +315,10 @@
 
   <!-- DRAWER DEL CARRITO -->
   <div class="overlay" id="cartOverlay"></div>
-  <aside class="cart-drawer" id="cartDrawer">
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Tu pedido">
     <div class="cart-header">
       <h3><i class="fas fa-shopping-bag"></i> Tu Pedido</h3>
-      <button class="modal-close" style="position:static" id="cartClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close" style="position:static" id="cartClose" aria-label="Cerrar carrito"><i class="fas fa-times"></i></button>
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
@@ -266,16 +328,16 @@
 
       <!-- Cupón -->
       <div class="cform" style="margin-top:12px;flex-direction:row;gap:6px">
-        <input id="couponInput" placeholder="Código de cupón (ej: JY10)" style="flex:1">
+        <input id="couponInput" placeholder="Código de cupón (ej: JY10)" style="flex:1" aria-label="Código de cupón">
         <button class="btn btn-ghost btn-sm" id="applyCoupon">Aplicar</button>
       </div>
 
       <!-- Datos de entrega del cliente -->
       <div class="cform">
-        <input id="customerName" placeholder="Tu Nombre Completo" required>
-        <input id="customerPhone" placeholder="Tu Número de WhatsApp" required>
+        <input id="customerName" placeholder="Tu Nombre Completo" required autocomplete="name">
+        <input id="customerPhone" placeholder="Tu Número de WhatsApp" required autocomplete="tel">
         <input id="customerCity" placeholder="Ciudad / Barrio (ej: Neiva)" required>
-        <input id="customerAddress" placeholder="Dirección de Entrega" required>
+        <input id="customerAddress" placeholder="Dirección de Entrega" required autocomplete="street-address">
         <textarea id="customerNotes" placeholder="Notas (fragancia, color, empaque para regalo)" rows="2"></textarea>
       </div>
 
@@ -285,10 +347,10 @@
     </div>
   </aside>
 
-  <!-- MODAL RULETA DE DESCUENTOS (SIN PUNTOS) -->
+  <!-- MODAL RULETA DE DESCUENTOS -->
   <div class="modal-overlay" id="wheelModal">
     <div class="modal-content" style="max-width:440px;text-align:center;padding:30px">
-      <button class="modal-close" id="wheelClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close" id="wheelClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
       <h3 style="font-size:1.6rem;margin-bottom:8px"><i class="fas fa-dharmachakra" style="color:var(--sec)"></i> Ruleta de Descuentos</h3>
       <p style="color:var(--mut);font-size:0.9rem;margin-bottom:20px">Gira gratis y gana cupones reales directos para tu carrito.</p>
 
@@ -307,7 +369,7 @@
   <!-- MODAL VISTA RÁPIDA -->
   <div class="modal-overlay" id="quickViewModal">
     <div class="modal-content">
-      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
       <div class="modal-grid">
         <div class="modal-image"><img id="modalImage" src="" alt="Producto"></div>
         <div class="modal-info">
@@ -327,18 +389,18 @@
   <!-- MODAL DE BÚSQUEDA SEMÁNTICA -->
   <div class="modal-overlay" id="searchModal">
     <div class="modal-content" style="max-width:640px;padding:26px">
-      <button class="modal-close" id="searchClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close" id="searchClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
       <h3 style="margin-bottom:14px"><i class="fas fa-search" style="color:var(--pri)"></i> Buscar en JY</h3>
       <div style="display:flex;gap:8px;position:relative">
-        <input class="admin-field" id="searchInput" placeholder="Escribe lo que buscas (ej: jabón para relajarme, vela para regalo)..." style="flex:1;padding:14px 20px;border-radius:50px">
-        <button class="icon-btn" id="voiceBtn" title="Búsqueda por voz"><i class="fas fa-microphone"></i></button>
+        <input class="search-input" id="searchInput" placeholder="Escribe lo que buscas (ej: jabón para relajarme, vela para regalo)..." style="flex:1" aria-label="Buscar productos">
+        <button class="icon-btn" id="voiceBtn" title="Búsqueda por voz" aria-label="Buscar por voz"><i class="fas fa-microphone"></i></button>
       </div>
       <div id="searchResults" style="margin-top:18px;max-height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px"></div>
     </div>
   </div>
 
   <!-- CHAT BOT JY -->
-  <button class="chat-fab" id="chatFab" title="Hablar con Chat Bot JY">
+  <button class="chat-fab" id="chatFab" title="Hablar con Chat Bot JY" aria-label="Abrir chat">
     <i class="fas fa-robot"></i>
     <span class="dot"></span>
   </button>
@@ -350,13 +412,13 @@
         <b style="font-size:1.05rem">Chat Bot JY</b><br>
         <span style="font-size:0.76rem;color:var(--ok)">● En línea · Asistente artesanal</span>
       </div>
-      <button class="modal-close" style="position:static;width:34px;height:34px" id="chatClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close" style="position:static;width:34px;height:34px" id="chatClose" aria-label="Cerrar chat"><i class="fas fa-times"></i></button>
     </div>
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-quick" id="chatQuick"></div>
     <div class="chat-input-bar">
-      <input id="chatInput" placeholder="Pregúntale a Chat Bot JY...">
-      <button id="chatSend" title="Enviar"><i class="fas fa-paper-plane"></i></button>
+      <input id="chatInput" placeholder="Pregúntale a Chat Bot JY..." aria-label="Mensaje para el chat">
+      <button id="chatSend" title="Enviar" aria-label="Enviar"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
 

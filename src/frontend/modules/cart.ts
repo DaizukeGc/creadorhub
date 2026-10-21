@@ -120,6 +120,11 @@ export class CartManager {
     const notes = notesInput?.value.trim();
 
     if (!name || !phone || !city || !address) {
+      showToast('Completa tus datos para generar el pedido por WhatsApp', 'error');
+      return;
+    }
+
+    if (!name || !phone || !city || !address) {
       showToast('Por favor completa todos tus datos de entrega', 'error');
       return;
     }

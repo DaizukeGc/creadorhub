@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" role="img" aria-label="Set Premium">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d946ef"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="box" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#f3e8ff" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <circle cx="300" cy="280" r="168" fill="#ffffff" opacity="0.14"/>
+  <g transform="translate(300 270)">
+    <rect x="-170" y="-96" width="340" height="220" rx="20" fill="url(#box)"/>
+    <rect x="-170" y="-96" width="340" height="52" rx="20" fill="#ffffff" opacity="0.6"/>
+    <rect x="-26" y="-96" width="52" height="220" fill="url(#ribbon)" opacity="0.9"/>
+    <path d="M0 -96 C -60 -150, -130 -140, -126 -100 C -122 -66, -46 -84, 0 -96 Z" fill="url(#ribbon)"/>
+    <path d="M0 -96 C 60 -150, 130 -140, 126 -100 C 122 -66, 46 -84, 0 -96 Z" fill="url(#ribbon)"/>
+    <text x="88" y="34" font-size="82" text-anchor="middle" dominant-baseline="middle">🎁</text>
+  </g>
+  <text x="300" y="470" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700" fill="#ffffff" text-anchor="middle">Set Premium</text>
+  <text x="300" y="510" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="4" fill="#ffffff" fill-opacity="0.72" text-anchor="middle">JY VELAS Y JABONES</text>
+</svg>

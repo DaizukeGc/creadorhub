@@ -1,25 +1,46 @@
 import { Hono } from 'hono';
-import { Env, User } from '../types';
-import { verifyPassword, hashPassword, createJWT } from '../services/crypto';
+import { Env, User, UserWithSecrets } from '../types';
+import { verifyPassword, hashPassword, createJWT, resolveSecret, AuthConfigError } from '../services/crypto';
 import { rateLimit } from '../middleware/rateLimit';
 import { requireAdmin, getUserFromContext } from '../middleware/auth';
 
 const authApp = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
 
-// Login exclusivo para la administradora (con rate limit de 5 intentos por minuto)
+const COOKIE_NAME = 'jy_auth';
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+
+function buildCookie(token: string, secure: boolean): string {
+  const parts = [
+    `${COOKIE_NAME}=${token}`,
+    'HttpOnly',
+    'SameSite=Lax',
+    'Path=/',
+    `Max-Age=${COOKIE_MAX_AGE}`
+  ];
+  if (secure) parts.push('Secure');
+  return parts.join('; ');
+}
+
+function isSecureRequest(c: { req: { url: string } }): boolean {
+  return c.req.url.startsWith('https://');
+}
+
+// Login exclusivo para la administradora (5 intentos por minuto)
 authApp.post('/login', rateLimit(5, 60000), async (c) => {
   try {
     const body = await c.req.json();
-    const username = (body.username || '').trim().toLowerCase();
-    const password = body.password || '';
+    const username = String(body.username || '').trim().toLowerCase();
+    const password = String(body.password || '');
 
     if (!username || !password) {
       return c.json({ error: 'Usuario y contraseña requeridos' }, 400);
     }
 
     const user = await c.env.JY_DB.prepare(
-      'SELECT id, username, password_hash, password_salt, name, role, active FROM users WHERE username = ?'
-    ).bind(username).first<User>();
+      'SELECT id, username, password_hash, password_salt, name, role, active, token_version FROM users WHERE username = ?'
+    )
+      .bind(username)
+      .first<UserWithSecrets>();
 
     if (!user || !user.active) {
       return c.json({ error: 'Credenciales inválidas' }, 401);
@@ -30,11 +51,28 @@ authApp.post('/login', rateLimit(5, 60000), async (c) => {
       return c.json({ error: 'Credenciales inválidas' }, 401);
     }
 
-    // Crear JWT
-    const token = await createJWT({ userId: user.id, username: user.username, role: user.role }, c.env.JWT_SECRET);
+    let secret: string;
+    try {
+      secret = resolveSecret(c.env);
+    } catch (err) {
+      if (err instanceof AuthConfigError) {
+        console.error(err.message);
+        return c.json({ error: 'El portal aún no está configurado (falta el secreto de sesión).' }, 503);
+      }
+      throw err;
+    }
 
-    // Configurar cookie HttpOnly y Secure
-    c.header('Set-Cookie', `jy_auth=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`);
+    const token = await createJWT(
+      {
+        userId: user.id,
+        username: user.username,
+        role: user.role,
+        tokenVersion: Number(user.token_version ?? 0)
+      },
+      secret
+    );
+
+    c.header('Set-Cookie', buildCookie(token, isSecureRequest(c)));
 
     return c.json({
       success: true,
@@ -68,28 +106,35 @@ authApp.get('/me', async (c) => {
   });
 });
 
-// Cerrar sesión
-authApp.post('/logout', (c) => {
-  c.header('Set-Cookie', 'jy_auth=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0');
+// Cerrar sesión: además de borrar la cookie, invalida los tokens emitidos
+authApp.post('/logout', async (c) => {
+  const user = await getUserFromContext(c);
+  if (user) {
+    await c.env.JY_DB.prepare('UPDATE users SET token_version = token_version + 1 WHERE id = ?')
+      .bind(user.id)
+      .run();
+  }
+  c.header('Set-Cookie', `${COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`);
   return c.json({ success: true, message: 'Sesión cerrada exitosamente' });
 });
 
 // Cambiar contraseña desde el panel de la administradora
-authApp.post('/change-password', requireAdmin, async (c) => {
+authApp.post('/change-password', requireAdmin, rateLimit(10, 60000), async (c) => {
   try {
     const user = c.get('user')!;
     const body = await c.req.json();
-    const currentPass = body.currentPassword || '';
-    const newPass = body.newPassword || '';
+    const currentPass = String(body.currentPassword || '');
+    const newPass = String(body.newPassword || '');
 
     if (!newPass || newPass.length < 6) {
       return c.json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' }, 400);
     }
 
-    // Obtener hash actual de la base de datos
     const dbUser = await c.env.JY_DB.prepare(
       'SELECT password_hash, password_salt FROM users WHERE id = ?'
-    ).bind(user.id).first<User>();
+    )
+      .bind(user.id)
+      .first<{ password_hash: string; password_salt: string }>();
 
     if (!dbUser) {
       return c.json({ error: 'Usuario no encontrado' }, 404);
@@ -100,14 +145,17 @@ authApp.post('/change-password', requireAdmin, async (c) => {
       return c.json({ error: 'La contraseña actual no es correcta' }, 400);
     }
 
-    // Hashear nueva contraseña
     const { hash, salt } = await hashPassword(newPass);
+    // El token_version se incrementa -> todas las sesiones abiertas quedan invalidadas
     await c.env.JY_DB.prepare(
-      'UPDATE users SET password_hash = ?, password_salt = ? WHERE id = ?'
-    ).bind(hash, salt, user.id).run();
+      'UPDATE users SET password_hash = ?, password_salt = ?, token_version = token_version + 1 WHERE id = ?'
+    )
+      .bind(hash, salt, user.id)
+      .run();
 
-    return c.json({ success: true, message: 'Contraseña actualizada con éxito' });
+    return c.json({ success: true, message: 'Contraseña actualizada. Vuelve a iniciar sesión.' });
   } catch (err) {
+    console.error('Error al cambiar contraseña:', err);
     return c.json({ error: 'Error al cambiar contraseña' }, 500);
   }
 });

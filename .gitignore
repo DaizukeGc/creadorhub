@@ -1,0 +1,16 @@
+# .gitignore
+node_modules
+dist
+.wrangler
+.dev.vars
+.dev.vars.local
+.DS_Store
+*.log
+coverage
+.vscode
+.idea
+*.zip
+.cursor
+*.local
+.env
+.env.local

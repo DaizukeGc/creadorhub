@@ -1,5 +1,5 @@
 -- Schema D1 SQLite para JY Velas y Jabones
-PRAGMA foreign_keys = ON;
+-- Aplicar con: npm run d1:init:local   (o npm run d1:init:remote)
 
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
   name TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'admin',
   active INTEGER NOT NULL DEFAULT 1,
+  -- Se incrementa al cerrar sesión o cambiar la contraseña: invalida todos los tokens
+  token_version INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS categories (
 );
 
 CREATE TABLE IF NOT EXISTS products (
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   category TEXT NOT NULL,
   price INTEGER NOT NULL,
@@ -36,6 +38,16 @@ CREATE TABLE IF NOT EXISTS products (
   keywords TEXT DEFAULT '',
   is_active INTEGER NOT NULL DEFAULT 1,
   display_order INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Almacén de imágenes (D1). Si se enlaza un bucket R2 (binding JY_STORAGE)
+-- se usa R2 en su lugar y esta tabla queda como respaldo.
+CREATE TABLE IF NOT EXISTS media (
+  id TEXT PRIMARY KEY,
+  mime TEXT NOT NULL,
+  size INTEGER NOT NULL DEFAULT 0,
+  bytes BLOB,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -69,6 +81,8 @@ CREATE TABLE IF NOT EXISTS coupons (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   code TEXT UNIQUE NOT NULL,
   discount_pct INTEGER NOT NULL,
+  -- Texto que se muestra en la ruleta (ej. "Envío gratis"). Si está vacío se usa "% OFF".
+  label TEXT DEFAULT '',
   active INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -93,5 +107,9 @@ CREATE TABLE IF NOT EXISTS store_config (
 -- Índices de alto rendimiento
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_active ON products(is_active);
+CREATE INDEX IF NOT EXISTS idx_products_order ON products(display_order);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
+CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 CREATE INDEX IF NOT EXISTS idx_reviews_flagged ON reviews(flagged_for_admin);
+CREATE INDEX IF NOT EXISTS idx_reviews_created ON reviews(created_at);
+CREATE INDEX IF NOT EXISTS idx_media_created ON media(created_at);

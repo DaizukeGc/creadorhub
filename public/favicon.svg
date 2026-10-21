@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="JY">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d946ef" />
-      <stop offset="100%" stop-color="#fbbf24" />
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d946ef"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
     </linearGradient>
   </defs>
-  <rect width="100" height="100" rx="28" fill="url(#grad)" />
-  <text x="50%" y="62%" font-family="Georgia, serif" font-weight="bold" font-size="44" fill="#0a0610" text-anchor="middle">JY</text>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <text x="32" y="30" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">JY</text>
+  <text x="32" y="48" font-family="Helvetica, Arial, sans-serif" font-size="9" letter-spacing="2" fill="#ffffff" fill-opacity="0.85" text-anchor="middle">VELAS</text>
 </svg>

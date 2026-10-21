@@ -6,6 +6,7 @@ import { initWheel } from './modules/wheel';
 import { initChatBot } from './modules/bot';
 import { initSearch } from './modules/search';
 import { initCursorGlow, initCountdown, initSocialProof, triggerConfetti } from './modules/visualMagic';
+import { initEscapeKey, initMobileMenu, initServiceWorker } from './modules/ui';
 
 class StoreApp {
   private products: Product[] = [];
@@ -27,6 +28,9 @@ class StoreApp {
     initWheel();
     initChatBot(this.cartManager);
     initSearch(this.cartManager, (id) => this.openQuickView(id));
+    initMobileMenu();
+    initEscapeKey();
+    initServiceWorker();
 
     this.bindGlobalEvents();
     await this.loadCatalog();
@@ -132,7 +136,7 @@ class StoreApp {
 
     const filtered = this.currentFilter === 'Todos'
       ? this.products
-      : this.products.filter(p => p.category === this.currentFilter);
+      : this.products.filter(p => (p.category || '').toLowerCase() === this.currentFilter.toLowerCase());
 
     if (filtered.length === 0) {
       grid.innerHTML = '<div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--mut)">No hay productos en esta categoría.</div>';
@@ -144,7 +148,7 @@ class StoreApp {
       return `
         <div class="product-card fade-in visible">
           <div class="product-image">
-            <img src="${p.image || 'https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=400&q=80'}" alt="${escapeHTML(p.name)}" loading="lazy">
+            <img src="${p.image || '/assets/jy/coleccion-artesanal.svg'}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.src='/assets/jy/coleccion-artesanal.svg'">
             <div class="product-badges">
               ${p.badge ? `<span class="product-badge badge-${escapeHTML(p.badge_type || 'new')}">${escapeHTML(p.badge)}</span>` : ''}
             </div>
@@ -229,7 +233,10 @@ class StoreApp {
     const feat = document.getElementById('modalFeatures');
     const addBtn = document.getElementById('modalAddToCart');
 
-    if (img) img.src = p.image || 'https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=500&q=80';
+    if (img) img.src = p.image || '/assets/jy/coleccion-artesanal.svg';
+    (img as HTMLImageElement).onerror = () => {
+      if (img) img.src = '/assets/jy/coleccion-artesanal.svg';
+    };
     if (cat) cat.textContent = p.category;
     if (title) title.textContent = p.name;
     if (price) price.innerHTML = `${formatMoney(p.price)} ${p.old_price ? `<span class="product-old">${formatMoney(p.old_price)}</span>` : ''}`;
@@ -333,6 +340,14 @@ class StoreApp {
       document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 30);
     });
   }
+}
+
+function normalizeCat(cat: string) {
+  return (cat || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
 }
 
 // Inicializar al cargar el DOM
