@@ -11,6 +11,7 @@ type PanelId =
   | 'panel-orders'
   | 'panel-coupons'
   | 'panel-reviews'
+  | 'panel-help'
   | 'panel-account';
 
 interface AdminProduct {
@@ -27,12 +28,20 @@ interface AdminProduct {
   badge_type?: string | null;
   keywords?: string | null;
   is_active: number;
+  is_available?: number;
+  display_order?: number;
+  sold?: number;
+  rating?: number;
 }
+
+type ProductFilter = 'todos' | 'visibles' | 'agotados' | 'ocultos';
 
 class AdminPortal {
   private currentPanel: PanelId = 'panel-dashboard';
   private editingId: number | null = null;
   private products: AdminProduct[] = [];
+  private productFilter: ProductFilter = 'todos';
+  private productSearch = '';
 
   constructor() {
     this.init();
@@ -64,9 +73,12 @@ class AdminPortal {
     });
 
     this.initProductForm();
+    this.initProductFilters();
     this.initMediaForm();
     this.initCouponForm();
     this.initChangePassword();
+    this.initHelpPanel();
+    this.initProductPreview();
 
     // Sesión ya activa
     try {
@@ -232,6 +244,33 @@ class AdminPortal {
       if (file) await this.handleProductPhoto(file, dropzone, fileInput);
     });
 
+    // Arrastrar y soltar la foto del producto
+    if (dropzone) {
+      ['dragenter', 'dragover'].forEach((evt) =>
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('drag');
+        })
+      );
+      ['dragleave', 'drop'].forEach((evt) =>
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('drag');
+        })
+      );
+      dropzone.addEventListener('drop', async (e: any) => {
+        const dropped: File[] = e.dataTransfer ? Array.from(e.dataTransfer.files) : [];
+        const file = dropped.find((f) => f.type.startsWith('image/'));
+        if (!file) {
+          showToast('Solo se pueden subir imágenes', 'error');
+          return;
+        }
+        await this.handleProductPhoto(file, dropzone, fileInput);
+      });
+    }
+
     // IA para redactar
     document.getElementById('btnAiSuggest')?.addEventListener('click', async () => {
       const name = (document.getElementById('pName') as HTMLInputElement | null)?.value ?? '';
@@ -287,11 +326,18 @@ class AdminPortal {
     if (text) text.textContent = 'Optimizando la foto...';
 
     try {
-      const result = await compressImage(file, { maxBytes: 1_400_000 });
+      const fit = this.getPhotoFit();
+      const result = await compressImage(file, {
+        maxBytes: 1_400_000,
+        fit,
+        aspectRatio: 1,
+        background: this.getPhotoBackground()
+      });
 
       if (preview) {
         preview.src = result.dataUrl;
         preview.style.display = 'block';
+        preview.classList.toggle('is-contain', fit === 'contain');
       }
 
       const res = await apiFetch('/api/media/admin/upload', {
@@ -316,12 +362,33 @@ class AdminPortal {
     }
   }
 
+  /** Modo de ajuste elegido por la mamá para las fotos. */
+  private getPhotoFit(): 'cover' | 'contain' {
+    const select = document.getElementById('pPhotoFit') as HTMLSelectElement | null;
+    return select?.value === 'contain' ? 'contain' : 'cover';
+  }
+
+  /** Color de fondo elegido para las fotos que no se recortan. */
+  private getPhotoBackground(): string {
+    const select = document.getElementById('pPhotoBg') as HTMLSelectElement | null;
+    const value = select?.value || 'blanco';
+    const map: Record<string, string> = {
+      blanco: '#ffffff',
+      crema: '#faf3e8',
+      rosado: '#fdeef4',
+      lavanda: '#f3eeff'
+    };
+    return map[value] || '#ffffff';
+  }
+
   private async saveProduct() {
     const get = (id: string) => document.getElementById(id) as HTMLInputElement;
     const features = get('pFeatures').value
       .split('\n')
       .map((l) => l.trim())
       .filter(Boolean);
+
+    const agotado = (document.getElementById('pAgotado') as HTMLInputElement | null)?.checked;
 
     const payload: Record<string, unknown> = {
       name: get('pName').value.trim(),
@@ -331,8 +398,10 @@ class AdminPortal {
       stock: Number(get('pStock').value) || 0,
       description: get('pDesc').value.trim(),
       badge: get('pBadge').value.trim() || null,
+      badge_type: get('pBadgeType').value || 'new',
       keywords: get('pKeywords').value.trim() || null,
       features,
+      is_available: agotado ? 0 : 1
     };
 
     const imgUrl = get('pImageUrl').value;
@@ -369,6 +438,69 @@ class AdminPortal {
     }
   }
 
+  // ------------------------------------------------------------------
+  // Filtros y búsqueda del catálogo
+  // ------------------------------------------------------------------
+  private initProductFilters() {
+    document.querySelectorAll<HTMLElement>('[data-prod-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const value = (btn.dataset.prodFilter || 'todos') as ProductFilter;
+        this.productFilter = value;
+        document.querySelectorAll<HTMLElement>('[data-prod-filter]').forEach((b) => {
+          b.classList.toggle('active', b.dataset.prodFilter === value);
+        });
+        this.renderProductList();
+      });
+    });
+
+    const search = document.getElementById('prodSearch') as HTMLInputElement;
+    search?.addEventListener('input', () => {
+      this.productSearch = search.value;
+      this.renderProductList();
+    });
+  }
+
+  private initProductPreview() {
+    const modal = document.getElementById('productPreviewModal');
+    if (!modal) return;
+
+    modal.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.id === 'productPreviewModal' || target.closest('#pvClose')) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('show')) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // Panel de ayuda
+  // ------------------------------------------------------------------
+  private initHelpPanel() {
+    document.querySelectorAll<HTMLElement>('[data-help-topic]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const topic = btn.dataset.helpTopic || '';
+        document.querySelectorAll<HTMLElement>('[data-help-topic]').forEach((b) => {
+          b.classList.toggle('active', b.dataset.helpTopic === topic);
+        });
+        document.querySelectorAll<HTMLElement>('[data-help-body]').forEach((panel) => {
+          panel.classList.toggle('active', panel.dataset.helpBody === topic);
+        });
+      });
+    });
+
+    // Mostrar siempre el primer tema
+    const first = document.querySelector<HTMLElement>('[data-help-topic]');
+    if (first) first.click();
+  }
+
   private async loadProducts() {
     const container = document.getElementById('adminProductsList');
     if (!container) return;
@@ -377,60 +509,302 @@ class AdminPortal {
     try {
       const res = await apiFetch('/api/products/admin/all');
       this.products = (res.products || []) as AdminProduct[];
-
-      if (this.products.length === 0) {
-        container.innerHTML = '<p class="hint">Todavía no hay productos. Crea el primero con el botón "Nuevo".</p>';
-        return;
-      }
-
-      container.innerHTML = this.products
-        .map((p) => {
-          const img = p.image || '/assets/jy/coleccion-artesanal.svg';
-          return `
-            <div class="prod-row">
-              <img src="${escapeHTML(img)}" alt="${escapeHTML(p.name)}" onerror="this.src='/assets/jy/coleccion-artesanal.svg'">
-              <div class="info">
-                <b>${escapeHTML(p.name)}</b>
-                <small>${escapeHTML(p.category)} · ${formatMoney(p.price)} · ${p.stock} und.</small>
-                ${p.is_active ? '' : '<small class="inactive">OCULTO DE LA TIENDA</small>'}
-              </div>
-              <div style="display:flex;flex-direction:column;gap:6px">
-                <button class="btn btn-ghost btn-sm" data-edit-prod="${p.id}"><i class="fas fa-pen"></i></button>
-                ${
-                  p.is_active
-                    ? `<button class="btn btn-danger btn-sm" data-hide-prod="${p.id}" title="Ocultar de la tienda"><i class="fas fa-eye-slash"></i></button>`
-                    : `<button class="btn btn-secondary btn-sm" data-show-prod="${p.id}" title="Mostrar en la tienda"><i class="fas fa-eye"></i></button>`
-                }
-              </div>
-            </div>
-          `;
-        })
-        .join('');
-
-      container.querySelectorAll<HTMLElement>('[data-edit-prod]').forEach((btn) => {
-        btn.addEventListener('click', () => this.editProduct(Number(btn.dataset.editProd)));
-      });
-      container.querySelectorAll<HTMLElement>('[data-hide-prod]').forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          if (!confirm('¿Ocultar este producto de la tienda?')) return;
-          await apiFetch(`/api/products/admin/${btn.dataset.hideProd}`, { method: 'DELETE' });
-          showToast('Producto oculto de la tienda', 'info');
-          this.loadProducts();
-        });
-      });
-      container.querySelectorAll<HTMLElement>('[data-show-prod]').forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          await apiFetch(`/api/products/admin/${btn.dataset.showProd}`, {
-            method: 'PUT',
-            body: JSON.stringify({ is_active: 1 }),
-          });
-          showToast('Producto visible otra vez', 'success');
-          this.loadProducts();
-        });
-      });
+      this.renderProductList();
     } catch (e) {
       container.innerHTML = '<p class="hint" style="color:var(--err)">Error al cargar los productos</p>';
     }
+  }
+
+  /** Aplica el filtro y el buscador activo al listado de productos. */
+  private getFilteredProducts(): AdminProduct[] {
+    const q = (this.productSearch || '').trim().toLowerCase();
+    return this.products.filter((p) => {
+      const agotado = p.is_available === 0;
+
+      if (this.productFilter === 'visibles' && !p.is_active) return false;
+      if (this.productFilter === 'ocultos' && p.is_active) return false;
+      if (this.productFilter === 'agotados' && !agotado) return false;
+
+      if (!q) return true;
+      return (
+        (p.name || '').toLowerCase().includes(q) ||
+        (p.category || '').toLowerCase().includes(q) ||
+        (p.keywords || '').toLowerCase().includes(q) ||
+        (p.description || '').toLowerCase().includes(q)
+      );
+    });
+  }
+
+  private renderProductList() {
+    const container = document.getElementById('adminProductsList');
+    if (!container) return;
+
+    const list = this.getFilteredProducts();
+
+    const counters = {
+      total: this.products.length,
+      agotados: this.products.filter((p) => p.is_available === 0).length,
+      sinStock: this.products.filter((p) => (p.stock || 0) <= 0).length,
+      ocultos: this.products.filter((p) => !p.is_active).length
+    };
+
+    const countEl = document.getElementById('prodCount');
+    if (countEl) countEl.textContent = String(list.length);
+
+    const outEl = document.getElementById('prodStats');
+    if (outEl) {
+      outEl.innerHTML = `
+        <span class="chip">📦 ${counters.total} productos</span>
+        <span class="chip chip-warn">🚫 ${counters.agotados} agotados</span>
+        <span class="chip chip-danger">📉 ${counters.sinStock} sin stock</span>
+        <span class="chip chip-muted">🙈 ${counters.ocultos} ocultos</span>
+      `;
+    }
+
+    if (this.products.length === 0) {
+      container.innerHTML =
+        '<p class="hint">Todavía no hay productos. Crea el primero con el botón "Nuevo".</p>';
+      return;
+    }
+
+    if (list.length === 0) {
+      container.innerHTML =
+        '<p class="hint">No hay productos que coincidan con el filtro o la búsqueda. <a href="#" id="clearProdFilters">Limpiar filtros</a></p>';
+      container.querySelector('#clearProdFilters')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.productFilter = 'todos';
+        this.productSearch = '';
+        const search = document.getElementById('prodSearch') as HTMLInputElement;
+        if (search) search.value = '';
+        this.renderProductList();
+      });
+      return;
+    }
+
+    container.innerHTML = list
+      .map((p) => {
+        const img = p.image || '/assets/jy/coleccion-artesanal.svg';
+        const agotado = p.is_available === 0;
+        const sinStock = (p.stock || 0) <= 0;
+
+        let estado = '';
+        if (!p.is_active) estado = '<small class="estado-txt estado-off">OCULTO DE LA TIENDA</small>';
+        else if (agotado) estado = '<small class="estado-txt estado-agotado">AGOTADO</small>';
+        else if (sinStock) estado = '<small class="estado-txt estado-sinstock">SIN STOCK</small>';
+        else estado = '<small class="estado-txt estado-ok">DISPONIBLE</small>';
+
+        return `
+          <div class="prod-row ${agotado ? 'is-out' : ''} ${!p.is_active ? 'is-off' : ''}">
+            <img src="${escapeHTML(img)}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.src='/assets/jy/coleccion-artesanal.svg'">
+            <div class="info">
+              <b>${escapeHTML(p.name)}</b>
+              <small>${escapeHTML(p.category)} · ${formatMoney(p.price)} · ${p.stock} und.</small>
+              ${estado}
+            </div>
+            <div class="row-actions">
+              <button class="btn btn-ghost btn-sm" data-edit-prod="${p.id}" title="Editar"><i class="fas fa-pen"></i></button>
+              <button class="btn btn-secondary btn-sm" data-dup-prod="${p.id}" title="Duplicar"><i class="fas fa-copy"></i></button>
+              <button class="btn btn-ghost btn-sm" data-view-prod="${p.id}" title="Ver en la tienda"><i class="fas fa-eye"></i></button>
+              <button class="btn ${agotado ? 'btn-primary' : 'btn-ghost'} btn-sm" data-toggle-avail="${p.id}"
+                title="${agotado ? 'Marcar como disponible (vuelve a la tienda)' : 'Marcar como agotado'}">
+                <i class="fas ${agotado ? 'fa-box-open' : 'fa-ban'}"></i>
+              </button>
+              <button class="btn btn-ghost btn-sm" data-stock-prod="${p.id}" title="Cambiar stock"><i class="fas fa-boxes-stacked"></i></button>
+              ${
+                p.is_active
+                  ? `<button class="btn btn-danger btn-sm" data-hide-prod="${p.id}" title="Ocultar de la tienda"><i class="fas fa-eye-slash"></i></button>`
+                  : `<button class="btn btn-secondary btn-sm" data-show-prod="${p.id}" title="Mostrar en la tienda"><i class="fas fa-eye"></i></button>`
+              }
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+
+    container.querySelectorAll<HTMLElement>('[data-edit-prod]').forEach((btn) => {
+      btn.addEventListener('click', () => this.editProduct(Number(btn.dataset.editProd)));
+    });
+
+    container.querySelectorAll<HTMLElement>('[data-dup-prod]').forEach((btn) => {
+      btn.addEventListener('click', () => this.duplicateProduct(Number(btn.dataset.dupProd)));
+    });
+
+    container.querySelectorAll<HTMLElement>('[data-view-prod]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const p = this.products.find((x) => x.id === Number(btn.dataset.viewProd));
+        if (p) this.openProductPreview(p);
+      });
+    });
+
+    container.querySelectorAll<HTMLElement>('[data-toggle-avail]').forEach((btn) => {
+      btn.addEventListener('click', () => this.toggleAvailability(Number(btn.dataset.toggleAvail)));
+    });
+
+    container.querySelectorAll<HTMLElement>('[data-stock-prod]').forEach((btn) => {
+      btn.addEventListener('click', () => this.quickStock(Number(btn.dataset.stockProd)));
+    });
+
+    container.querySelectorAll<HTMLElement>('[data-hide-prod]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('¿Ocultar este producto de la tienda?')) return;
+        await apiFetch(`/api/products/admin/${btn.dataset.hideProd}`, { method: 'DELETE' });
+        showToast('Producto oculto de la tienda', 'info');
+        this.loadProducts();
+      });
+    });
+
+    container.querySelectorAll<HTMLElement>('[data-show-prod]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        await apiFetch(`/api/products/admin/${btn.dataset.showProd}`, {
+          method: 'PUT',
+          body: JSON.stringify({ is_active: 1 }),
+        });
+        showToast('Producto visible otra vez', 'success');
+        this.loadProducts();
+      });
+    });
+  }
+
+  /** Marca el producto como agotado o disponible otra vez. */
+  private async toggleAvailability(id: number) {
+    const p = this.products.find((x) => x.id === id);
+    if (!p) return;
+
+    const ahoraAgotado = p.is_available !== 0;
+
+    if (!ahoraAgotado) {
+      // Al reponer stock solo se vuelve a habilitar: no se toca ningún otro campo.
+      await apiFetch(`/api/products/admin/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ is_available: 1 }),
+      });
+      showToast(`"${p.name}" volvió a estar disponible`, 'success');
+    } else {
+      await apiFetch(`/api/products/admin/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ is_available: 0 }),
+      });
+      showToast(`"${p.name}" marcado como AGOTADO`, 'info');
+    }
+
+    await this.loadProducts();
+    this.loadDashboard();
+  }
+
+  /** Cambio rápido de unidades desde el listado. */
+  private async quickStock(id: number) {
+    const p = this.products.find((x) => x.id === id);
+    if (!p) return;
+
+    const actual = p.stock || 0;
+    const entrada = prompt(
+      `¿Cuántas unidades quedan de "${p.name}"?\n\nTienes ${actual} ahora. Escribe el número nuevo (0 = agotado):`,
+      String(actual)
+    );
+    if (entrada === null) return;
+
+    const nuevo = Number(entrada);
+    if (!Number.isFinite(nuevo) || nuevo < 0) {
+      showToast('Escribe un número válido (0 o más)', 'error');
+      return;
+    }
+
+    const updates: Record<string, unknown> = { stock: Math.round(nuevo) };
+    // Si no quedan unidades, se marca agotado automáticamente.
+    if (nuevo === 0) updates.is_available = 0;
+    else if (p.is_available === 0) updates.is_available = 1;
+
+    await apiFetch(`/api/products/admin/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
+
+    showToast(
+      nuevo === 0
+        ? `"${p.name}" quedó sin unidades y aparece como AGOTADO`
+        : `Stock de "${p.name}" actualizado a ${nuevo}`,
+      'success'
+    );
+
+    await this.loadProducts();
+    this.loadDashboard();
+  }
+
+  /** Crea una copia editable de un producto. */
+  private async duplicateProduct(id: number) {
+    const p = this.products.find((x) => x.id === id);
+    if (!p) return;
+
+    if (!confirm(`¿Crear una copia de "${p.name}"? La copia aparecerá en la tienda.`)) return;
+
+    try {
+      const res = await apiFetch('/api/products/admin/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: `${p.name} (copia)`,
+          category: p.category,
+          price: p.price,
+          old_price: p.old_price ?? null,
+          stock: p.stock ?? 10,
+          description: p.description,
+          badge: p.badge ?? null,
+          badge_type: p.badge_type ?? 'new',
+          keywords: p.keywords ?? '',
+          features: p.features || [],
+          image: p.image ?? null
+        }),
+      });
+
+      showToast('¡Copia creada! Ya puedes editarla.', 'success');
+      await this.loadProducts();
+      if (res?.id) this.editProduct(Number(res.id));
+    } catch (err: any) {
+      showToast(err.message || 'No se pudo duplicar el producto', 'error');
+    }
+  }
+
+  /** Vista previa ampliada del producto tal como lo verá el cliente. */
+  private openProductPreview(p: AdminProduct) {
+    const agotado = p.is_available === 0;
+    const modal = document.getElementById('productPreviewModal');
+    if (!modal) return;
+
+    const img = modal.querySelector('.pv-image') as HTMLImageElement | null;
+    const name = modal.querySelector('.pv-name');
+    const cat = modal.querySelector('.pv-cat');
+    const price = modal.querySelector('.pv-price');
+    const desc = modal.querySelector('.pv-desc');
+    const feats = modal.querySelector('.pv-feats');
+    const state = modal.querySelector('.pv-state');
+
+    if (img) {
+      img.src = p.image || '/assets/jy/coleccion-artesanal.svg';
+      img.onerror = () => {
+        if (img) img.src = '/assets/jy/coleccion-artesanal.svg';
+      };
+    }
+    if (name) name.textContent = p.name;
+    if (cat) cat.textContent = p.category;
+    if (price) {
+      price.innerHTML = `${formatMoney(p.price)}${
+        p.old_price ? ` <span class="product-old">${formatMoney(p.old_price)}</span>` : ''
+      }`;
+    }
+    if (desc) desc.textContent = p.description || 'Sin descripción.';
+    if (feats) {
+      feats.innerHTML = (p.features || [])
+        .map((f) => `<li><i class="fas fa-check-circle"></i> ${escapeHTML(f)}</li>`)
+        .join('');
+    }
+    if (state) {
+      state.className = `pv-state ${agotado ? 'pv-out' : 'pv-ok'}`;
+      state.innerHTML = agotado
+        ? '<i class="fas fa-ban"></i> Agotado — los clientes lo ven marcado y no pueden comprarlo'
+        : '<i class="fas fa-check-circle"></i> Disponible — los clientes sí pueden comprarlo';
+    }
+
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
   }
 
   private editProduct(id: number) {
@@ -451,9 +825,13 @@ class AdminPortal {
     set('pStock', String(p.stock ?? ''));
     set('pDesc', p.description || '');
     set('pBadge', p.badge || '');
+    set('pBadgeType', p.badge_type || 'new');
     set('pKeywords', p.keywords || '');
     set('pFeatures', (p.features || []).join('\n'));
     set('pImageUrl', p.image || '');
+
+    const agotadoCheck = document.getElementById('pAgotado') as HTMLInputElement | null;
+    if (agotadoCheck) agotadoCheck.checked = p.is_available === 0;
 
     const preview = document.getElementById('uploadPreview') as HTMLImageElement;
     if (preview && p.image) {
@@ -493,6 +871,36 @@ class AdminPortal {
       input.value = '';
       this.loadMedia();
     });
+
+    // Arrastrar y soltar fotos directamente sobre el recuadro
+    if (dropzone) {
+      ['dragenter', 'dragover'].forEach((evt) =>
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('drag');
+        })
+      );
+      ['dragleave', 'drop'].forEach((evt) =>
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('drag');
+        })
+      );
+      dropzone.addEventListener('drop', async (e: any) => {
+        const dropped: File[] = e.dataTransfer ? Array.from(e.dataTransfer.files) : [];
+        const files = dropped.filter((f) => f.type.startsWith('image/'));
+        if (!files.length) {
+          showToast('Solo se pueden subir imágenes', 'error');
+          return;
+        }
+        for (const file of files) {
+          await this.uploadMediaFile(file);
+        }
+        this.loadMedia();
+      });
+    }
   }
 
   private async uploadMediaFile(file: File) {
@@ -502,7 +910,11 @@ class AdminPortal {
     }
 
     try {
-      const result = await compressImage(file, { maxBytes: 1_400_000 });
+      const result = await compressImage(file, {
+        maxBytes: 1_400_000,
+        fit: 'cover',
+        aspectRatio: 1
+      });
       const res = await apiFetch('/api/media/admin/upload', {
         method: 'POST',
         body: JSON.stringify({ data: result.dataUrl }),

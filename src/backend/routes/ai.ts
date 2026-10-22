@@ -36,7 +36,9 @@ aiApp.post('/chat', rateLimit(15, 60000), async (c) => {
       botName: 'Chat Bot JY',
       reply: result.text,
       products: result.products || [],
-      engine: result.engine
+      engine: result.engine,
+      advisorLink: result.advisorLink || null,
+      showAdvisorButton: !!result.showAdvisorButton
     });
   } catch (err: any) {
     console.error('Error en /api/ai/chat:', err);

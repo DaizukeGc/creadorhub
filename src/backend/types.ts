@@ -47,6 +47,7 @@ export interface Product {
   description: string;
   keywords?: string | null;
   is_active: number;
+  is_available?: number;
   display_order: number;
   created_at: string;
 }

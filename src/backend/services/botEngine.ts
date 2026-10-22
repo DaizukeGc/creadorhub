@@ -10,18 +10,27 @@ export interface BotProduct {
   category: string;
   price: number;
   image?: string | null;
+  is_available?: number;
+  stock?: number;
 }
 
 export interface BotResponse {
   text: string;
   products?: BotProduct[];
   engine?: 'ai' | 'contextual';
+  /** Enlace directo al WhatsApp de un asesor humano (la mamá). */
+  advisorLink?: string;
+  /** Muestra un botón grande para hablar con un asesor real. */
+  showAdvisorButton?: boolean;
 }
 
 interface BotContext {
   whatsapp: string;
   city: string;
 }
+
+/** Número de la mamá (asesora real). Formato internacional solo dígitos. */
+const ADVISOR_WHATSAPP = '573150921542';
 
 function normalize(value: string): string {
   return String(value || '')
@@ -34,13 +43,53 @@ function isCategory(product: Product, name: string): boolean {
   return normalize(product.category) === normalize(name);
 }
 
+/** Un producto está disponible si no fue marcado como agotado y le queda stock. */
+function isAvailable(product: Product): boolean {
+  if (product.is_available === 0) return false;
+  if (typeof product.stock === 'number' && product.stock <= 0) return false;
+  return true;
+}
+
+/** Filtra el catálogo dejando solo lo que el cliente sí puede comprar. */
+function availableProducts(products: Product[]): Product[] {
+  return products.filter(isAvailable);
+}
+
+/**
+ * Detecta cuando el cliente pide hablar con una persona real (la mamá).
+ * Este intents se resuelve antes de la IA para garantizar que siempre
+ * reciba el enlace directo al WhatsApp del asesor.
+ */
+export function isHumanAdvisorRequest(message: string): boolean {
+  const q = normalize(message);
+  return (
+    /(asesor|asesora|asesoramiento)/.test(q) ||
+    /(hablar|habla|conversar|chatear)\s+(con|al)?\s*(algun|una|un|el|la)?\s*(asesor|asesora|persona|alguien|humano|humana)/.test(q) ||
+    /(persona|humano|humana|ser humano|alguien real|atencion humana)/.test(q) ||
+    /(asesor real|asesora real|asesor de verdad|asesora de verdad)/.test(q) ||
+    /(me (pueden|puedo) (hablar|contactar|comunicar)|comuniquen|contacten|llamen|llamame)/.test(q) ||
+    /(atencion al cliente|servicio al cliente)/.test(q) ||
+    /(con la (duena|dueña|senora|señora|mama|mamá|jefe))/i.test(q)
+  );
+}
+
+/** Enlace de WhatsApp con un mensaje listo para enviar al asesor. */
+function advisorLink(context: BotContext, text?: string): string {
+  const digits = String(context.whatsapp || '').replace(/\D/g, '') || ADVISOR_WHATSAPP;
+  const base = `https://wa.me/${digits}`;
+  const message = text || 'Hola, vi la página de JY Velas y Jabones y me gustaría recibir asesoría de una persona real.';
+  return `${base}?text=${encodeURIComponent(message)}`;
+}
+
 function toBotProducts(products: Product[]): BotProduct[] {
   return products.map(p => ({
     id: p.id,
     name: p.name,
     category: p.category,
     price: p.price,
-    image: p.image ?? null
+    image: p.image ?? null,
+    is_available: isAvailable(p) ? 1 : 0,
+    stock: p.stock
   }));
 }
 
@@ -48,7 +97,7 @@ export async function processBotMessage(
   userMessage: string,
   products: Product[],
   aiBinding?: Ai,
-  context: BotContext = { whatsapp: '573150921542', city: 'Neiva, Colombia' }
+  context: BotContext = { whatsapp: ADVISOR_WHATSAPP, city: 'Neiva, Colombia' }
 ): Promise<BotResponse> {
   const cleanMsg = (userMessage || '').trim();
   if (!cleanMsg) {
@@ -58,10 +107,24 @@ export async function processBotMessage(
     };
   }
 
+  // 0. Si pide una persona real, va directo al WhatsApp de la mamá (sin IA de por medio).
+  if (isHumanAdvisorRequest(cleanMsg)) {
+    return {
+      text:
+        '¡Claro que sí! 😊 Con gusto te ayudo, pero para darte una atención personalizada y resolver tus dudas de producto, disponibilidad o envíos, lo mejor es hablar directamente con **nuestra asesora**.\n\n👇 Toca el botón verde y te abro WhatsApp con ella al instante. Ella te responde en horario de tienda.',
+      advisorLink: advisorLink(context),
+      showAdvisorButton: true,
+      engine: 'contextual'
+    };
+  }
+
+  // Catálogo con stock para no sugerir productos agotados.
+  const inStock = availableProducts(products);
+
   // 1. Intentar llamar a Cloudflare Workers AI si el binding existe
   if (aiBinding && typeof aiBinding.run === 'function') {
     try {
-      const catalogSummary = products
+      const catalogSummary = inStock
         .slice(0, 12)
         .map(p => `• ${p.name} (${p.category}) - $${p.price.toLocaleString('es-CO')} COP: ${p.description}`)
         .join('\n');
@@ -76,7 +139,9 @@ Instrucciones:
 - Si el cliente pregunta por regalos, recomiéndale sets o velas aromáticas.
 - Si pregunta por cuidado o relajación, recomiéndale los jabones de masaje o extractos herbales.
 - Informa que los pedidos se despachan a domicilio en ${context.city} y toda Colombia por WhatsApp (+${context.whatsapp}) con pago contra entrega.
-- Recuérdales girar la Ruleta de Descuentos para ganar cupones de descuento.`;
+- Recuérdales girar la Ruleta de Descuentos para ganar cupones de descuento.
+- NUNCA inventes precios, fechas ni disponibilidad: si no lo sabes, dilo y di que la asesora lo confirma.
+- Si el cliente pide hablar con una persona real, un asesor, o tiene una duda que no puedes resolver, indícale que puede escribir por WhatsApp al +${context.whatsapp} y será atendida por una asesora real.`;
 
       let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
       const aiPromise = aiBinding.run('@cf/meta/llama-3.1-8b-instruct', {
@@ -96,7 +161,7 @@ Instrucciones:
       try {
         const response: any = await Promise.race([aiPromise, timeoutPromise]);
         if (response && typeof response.response === 'string' && response.response.trim()) {
-          const relevantProds = findRelevantProducts(cleanMsg, products);
+          const relevantProds = findRelevantProducts(cleanMsg, inStock);
           return {
             text: response.response.trim(),
             products: toBotProducts(relevantProds.slice(0, 3)),
@@ -112,7 +177,7 @@ Instrucciones:
   }
 
   // 2. Motor Contextual Inteligente (Fallback Inmediato 100% Robusto)
-  return fallbackContextualEngine(cleanMsg, products, context);
+  return fallbackContextualEngine(cleanMsg, inStock, context);
 }
 
 function findRelevantProducts(query: string, products: Product[]): Product[] {
@@ -217,6 +282,8 @@ function fallbackContextualEngine(msg: string, products: Product[], context: Bot
   if (/(como compro|como pido|whatsapp|pedido|ordenar)/i.test(q)) {
     return {
       text: `🛒 **Comprar es súper sencillo:**\n\n1. Agrega tus productos favoritos al carrito con el botón **(+)**.\n2. Si tienes un cupón de la ruleta, aplícalo para recibir tu descuento.\n3. Presiona **"Pedir por WhatsApp"** y se enviará el pedido confirmado directamente a nuestro WhatsApp oficial (${wa}).`,
+      advisorLink: advisorLink(context),
+      showAdvisorButton: true,
       engine: 'contextual'
     };
   }

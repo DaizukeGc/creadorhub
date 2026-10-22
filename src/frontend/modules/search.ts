@@ -44,19 +44,25 @@ export function initSearch(cartManager: CartManager, onOpenQuickView: (productId
         return;
       }
 
-      searchResults.innerHTML = products.map((p: any) => `
-        <div class="cart-item" style="cursor:pointer" data-view-prod="${p.id}">
-          <img src="${p.image || 'https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=150&q=80'}" alt="${escapeHTML(p.name)}">
-          <div style="flex:1">
+      searchResults.innerHTML = products.map((p: any) => {
+        const agotado = p.is_available === 0 || p.stock <= 0;
+        return `
+        <div class="cart-item ${agotado ? 'is-out' : ''}" style="cursor:pointer" data-view-prod="${p.id}">
+          <img src="${p.image || '/assets/jy/coleccion-artesanal.svg'}" alt="${escapeHTML(p.name)}">
+          <div style="flex:1;min-width:0">
             <h4>${escapeHTML(p.name)}</h4>
             <div class="pr">${formatMoney(p.price)}</div>
             <span style="font-size:0.75rem;color:var(--mut)">${escapeHTML(p.category)}</span>
+            ${agotado ? '<span class="bot-out" style="margin-left:6px">AGOTADO</span>' : ''}
           </div>
-          <button class="btn btn-secondary btn-sm" data-search-add="${p.id}" title="Agregar">
-            <i class="fas fa-plus"></i>
-          </button>
+          ${
+            agotado
+              ? '<span class="bot-out-btn">Agotado</span>'
+              : `<button class="btn btn-secondary btn-sm" data-search-add="${p.id}" title="Agregar"><i class="fas fa-plus"></i></button>`
+          }
         </div>
-      `).join('');
+      `;
+      }).join('');
 
       searchResults.querySelectorAll('[data-view-prod]').forEach(el => {
         el.addEventListener('click', (e) => {

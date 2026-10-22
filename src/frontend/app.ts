@@ -107,10 +107,13 @@ class StoreApp {
     const filtersContainer = document.getElementById('filters');
     if (!filtersContainer) return;
 
-    const categories = ['Todos', 'Jabones', 'Velas', 'Especiales'];
-    filtersContainer.innerHTML = categories.map(c => `
-      <button class="filter-btn ${c === this.currentFilter ? 'active' : ''}" data-cat="${c}">${c}</button>
-    `).join('');
+    const categories = ['Todos', 'Jabones', 'Velas', 'Especiales', 'Solo disponibles'];
+    filtersContainer.innerHTML = categories
+      .map(
+        (c) =>
+          `<button class="filter-btn ${c === this.currentFilter ? 'active' : ''}" data-cat="${c}">${c}</button>`
+      )
+      .join('');
 
     filtersContainer.querySelectorAll('[data-cat]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -132,13 +135,20 @@ class StoreApp {
     });
   }
 
+  /** Aplica el filtro de categoría activo al catálogo. */
+  private matchesFilter(p: Product): boolean {
+    if (this.currentFilter === 'Solo disponibles') {
+      return p.is_available !== 0 && (p.stock ?? 0) > 0;
+    }
+    if (this.currentFilter === 'Todos') return true;
+    return (p.category || '').toLowerCase() === this.currentFilter.toLowerCase();
+  }
+
   private renderProducts() {
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
 
-    const filtered = this.currentFilter === 'Todos'
-      ? this.products
-      : this.products.filter(p => (p.category || '').toLowerCase() === this.currentFilter.toLowerCase());
+    const filtered = this.products.filter((p) => this.matchesFilter(p));
 
     if (filtered.length === 0) {
       grid.innerHTML = '<div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--mut)">No hay productos en esta categoría.</div>';
@@ -147,23 +157,25 @@ class StoreApp {
 
     grid.innerHTML = filtered.map(p => {
       const isFav = this.favorites.includes(p.id);
+      const agotado = p.is_available === 0 || p.stock <= 0;
       return `
-        <div class="product-card fade-in visible">
+        <div class="product-card fade-in visible ${agotado ? 'is-out' : ''}">
           <div class="product-image">
             <img src="${p.image || '/assets/jy/coleccion-artesanal.svg'}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.src='/assets/jy/coleccion-artesanal.svg'">
             <div class="product-badges">
-              ${p.badge ? `<span class="product-badge badge-${escapeHTML(p.badge_type || 'new')}">${escapeHTML(p.badge)}</span>` : ''}
+              ${agotado ? '<span class="product-badge badge-out">Agotado</span>' : ''}
+              ${!agotado && p.badge ? `<span class="product-badge badge-${escapeHTML(p.badge_type || 'new')}">${escapeHTML(p.badge)}</span>` : ''}
             </div>
             <div class="product-actions">
               <button class="product-action-btn ${isFav ? 'fav' : ''}" data-fav="${p.id}" title="Favorito">
                 <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
               </button>
-              <button class="product-action-btn" data-view="${p.id}" title="Vista Rápida">
+              <button class="product-action-btn" data-view="${p.id}" title="Ver detalles">
                 <i class="fas fa-eye"></i>
               </button>
             </div>
-            ${p.stock <= 6 ? `<span class="stock-tag">🔥 Quedan ${p.stock}</span>` : ''}
-            <button class="quick-view-btn" data-view="${p.id}">Ver detalles</button>
+            ${!agotado && p.stock > 0 && p.stock <= 6 ? `<span class="stock-tag">🔥 Quedan ${p.stock}</span>` : ''}
+            ${!agotado ? `<button class="quick-view-btn" data-view="${p.id}">Ver detalles</button>` : ''}
           </div>
           <div class="product-info">
             <span class="product-category">${escapeHTML(p.category)}</span>
@@ -174,9 +186,11 @@ class StoreApp {
                 <span class="product-price">${formatMoney(p.price)}</span>
                 ${p.old_price ? `<span class="product-old">${formatMoney(p.old_price)}</span>` : ''}
               </div>
-              <button class="add-to-cart" data-add="${p.id}" title="Agregar al carrito">
-                <i class="fas fa-plus"></i>
-              </button>
+              ${
+                agotado
+                  ? '<span class="out-of-stock">Agotado</span>'
+                  : `<button class="add-to-cart" data-add="${p.id}" title="Agregar al carrito"><i class="fas fa-plus"></i></button>`
+              }
             </div>
           </div>
         </div>
@@ -295,7 +309,16 @@ class StoreApp {
     }
 
     if (addBtn) {
+      const agotado = p.is_available === 0 || p.stock <= 0;
+      addBtn.classList.toggle('is-disabled', agotado);
+      addBtn.innerHTML = agotado
+        ? '<i class="fas fa-ban"></i> Agotado por ahora'
+        : '<i class="fas fa-shopping-bag"></i> Agregar al carrito';
       addBtn.onclick = () => {
+        if (agotado) {
+          showToast('Este producto está agotado por ahora. Escríbenos y te avisamos cuando vuelva.', 'info');
+          return;
+        }
         this.cartManager.addItem(p.id, 1);
         modal.classList.remove('show');
       };

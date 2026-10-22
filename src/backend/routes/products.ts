@@ -7,7 +7,8 @@ import {
   resolveCategoryName,
   normalizeProduct,
   parseFeatures,
-  migrateInlineImages
+  migrateInlineImages,
+  ensureAvailabilityColumn
 } from '../services/catalog';
 
 const productsApp = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
@@ -31,6 +32,7 @@ interface ProductInput {
   description?: string;
   keywords?: string | null;
   is_active?: number | boolean;
+  is_available?: number | boolean;
   display_order?: number;
 }
 
@@ -126,6 +128,10 @@ function validateProductInput(
     data.is_active = body.is_active ? 1 : 0;
   }
 
+  if (body.is_available !== undefined) {
+    data.is_available = body.is_available ? 1 : 0;
+  }
+
   if (body.display_order !== undefined) {
     const order = Number(body.display_order);
     if (!Number.isFinite(order) || order < 0) {
@@ -150,6 +156,7 @@ productsApp.get('/categories', async (c) => {
 /** Listar productos activos, con filtro opcional por categoría (slug o nombre). */
 productsApp.get('/', async (c) => {
   try {
+    await ensureAvailabilityColumn(c.env);
     await migrateInlineImages(c.env);
     const categories = await getCategories(c.env);
     const rawCategory = (c.req.query('category') || '').trim();
@@ -232,6 +239,7 @@ productsApp.get('/search/semantic', async (c) => {
 /** Listado completo (incluye productos desactivados) para el panel de la mamá. */
 productsApp.get('/admin/all', requireAdmin, async (c) => {
   try {
+    await ensureAvailabilityColumn(c.env);
     const result = await c.env.JY_DB.prepare(
       'SELECT * FROM products ORDER BY is_active DESC, display_order ASC, id ASC'
     ).all<any>();
@@ -279,6 +287,7 @@ productsApp.get('/:id', async (c) => {
 /** Crear un producto nuevo. */
 productsApp.post('/admin/create', requireAdmin, rateLimit(30, 60000), async (c) => {
   try {
+    await ensureAvailabilityColumn(c.env);
     const body = (await c.req.json()) as ProductInput;
     const categories = await getCategories(c.env);
 
@@ -293,8 +302,8 @@ productsApp.post('/admin/create', requireAdmin, rateLimit(30, 60000), async (c) 
     const res = await c.env.JY_DB.prepare(`
       INSERT INTO products (
         name, category, price, old_price, stock, badge, badge_type,
-        image, features, description, keywords, is_active, display_order
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        image, features, description, keywords, is_active, is_available, display_order
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `)
       .bind(
         data.name,
@@ -309,6 +318,7 @@ productsApp.post('/admin/create', requireAdmin, rateLimit(30, 60000), async (c) 
         data.description ?? '',
         data.keywords ?? '',
         data.is_active ?? 1,
+        data.is_available ?? 1,
         data.display_order ?? Number(nextOrder?.next ?? 1)
       )
       .run();
@@ -323,6 +333,7 @@ productsApp.post('/admin/create', requireAdmin, rateLimit(30, 60000), async (c) 
 /** Actualizar un producto (solo los campos enviados). */
 productsApp.put('/admin/:id', requireAdmin, rateLimit(60, 60000), async (c) => {
   try {
+    await ensureAvailabilityColumn(c.env);
     const id = parseInt(c.req.param('id') || '0');
     if (!Number.isFinite(id)) {
       return c.json({ error: 'Identificador de producto inválido' }, 400);

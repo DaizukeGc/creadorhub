@@ -72,11 +72,41 @@ export function normalizeProduct(row: any): Product {
     badge: row.badge ?? null,
     badge_type: row.badge_type ?? 'new',
     image: row.image ?? null,
-    keywords: row.keywords ?? ''
+    keywords: row.keywords ?? '',
+    is_available: row.is_available === 0 ? 0 : 1
   };
 }
 
 const INLINE_IMAGE_PREFIX = 'data:image/';
+
+let availabilityColumnChecked = false;
+
+/**
+ * Asegura que la columna `is_available` exista en la tabla products.
+ * Permite marcar productos como agotados sin tener que migrar la base a mano.
+ * Es idempotente: solo se ejecuta una vez por instancia.
+ */
+export async function ensureAvailabilityColumn(env: Env): Promise<void> {
+  if (availabilityColumnChecked) return;
+  try {
+    const info = await env.JY_DB.prepare("PRAGMA table_info(products)").all<{ name: string }>();
+    const columns = (info.results || []).map((c) => c.name);
+    if (!columns.length) {
+      // La tabla aún no existe: se creará con schema.sql.
+      availabilityColumnChecked = true;
+      return;
+    }
+    if (!columns.includes('is_available')) {
+      await env.JY_DB.prepare(
+        'ALTER TABLE products ADD COLUMN is_available INTEGER NOT NULL DEFAULT 1'
+      ).run();
+      console.log('Migración aplicada: columna products.is_available creada');
+    }
+    availabilityColumnChecked = true;
+  } catch (err) {
+    console.error('Error ensuring is_available column:', err);
+  }
+}
 
 let inlineMigrationChecked = false;
 

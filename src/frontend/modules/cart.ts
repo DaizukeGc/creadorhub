@@ -1,6 +1,6 @@
 // Gestión del Carrito y Checkout Seguro con Recálculo en Servidor
 import { CartItem, Product } from '../types';
-import { apiFetch, showToast, formatMoney } from '../api/client';
+import { apiFetch, showToast, formatMoney, escapeHTML } from '../api/client';
 import { triggerConfetti, playSuccessSound } from './visualMagic';
 
 const CART_STORAGE_KEY = 'jy_cart_items_v2';
@@ -38,6 +38,13 @@ export class CartManager {
   }
 
   public addItem(productId: number, quantity: number = 1) {
+    const product = this.products.get(productId);
+
+    if (product && (product.is_available === 0 || product.stock <= 0)) {
+      showToast(`${product.name} está agotado por ahora`, 'error');
+      return;
+    }
+
     const existing = this.items.find(i => i.id === productId);
     if (existing) {
       existing.quantity += quantity;
@@ -47,7 +54,6 @@ export class CartManager {
     this.saveCart();
     this.render();
 
-    const product = this.products.get(productId);
     const prodName = product ? product.name : 'Producto';
     showToast(`${prodName} agregado al carrito`, 'success');
     playSuccessSound();
@@ -199,21 +205,25 @@ export class CartManager {
     }
 
     let subtotal = 0;
+    let agotados = 0;
     container.innerHTML = this.items.map(item => {
       const p = this.products.get(item.id);
       if (!p) return '';
+      const isOut = p.is_available === 0 || p.stock <= 0;
+      if (isOut) agotados += 1;
       const lineTotal = p.price * item.quantity;
       subtotal += lineTotal;
 
       return `
-        <div class="cart-item">
-          <img src="${p.image || 'https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=150&q=80'}" alt="${p.name}">
-          <div style="flex:1">
-            <h4>${p.name}</h4>
+        <div class="cart-item ${isOut ? 'is-out' : ''}">
+          <img src="${p.image || '/assets/jy/coleccion-artesanal.svg'}" alt="${escapeHTML(p.name)}">
+          <div style="flex:1;min-width:0">
+            <h4>${escapeHTML(p.name)}</h4>
             <div class="pr">${formatMoney(p.price)}</div>
+            ${isOut ? '<span class="bot-out">AGOTADO — quítalo para continuar</span>' : ''}
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
-            <button class="modal-close" style="position:static;width:28px;height:28px;font-size:0.8rem" data-remove="${p.id}">
+            <button class="modal-close" style="position:static;width:28px;height:28px;font-size:0.8rem" data-remove="${p.id}" title="Quitar del carrito">
               <i class="fas fa-trash"></i>
             </button>
             <div class="qbox">
@@ -225,6 +235,13 @@ export class CartManager {
         </div>
       `;
     }).join('');
+
+    if (agotados > 0) {
+      const warn = document.createElement('div');
+      warn.className = 'cart-warn';
+      warn.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Hay ${agotados} producto(s) agotado(s). Quítalos para poder pedir.`;
+      container.insertBefore(warn, container.firstChild);
+    }
 
     const discountAmount = this.appliedCoupon ? Math.round((subtotal * this.appliedCoupon.discountPct) / 100) : 0;
     const finalTotal = Math.max(0, subtotal - discountAmount);

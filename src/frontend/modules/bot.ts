@@ -2,6 +2,9 @@
 import { apiFetch, escapeHTML, formatMoney } from '../api/client';
 import { CartManager } from './cart';
 
+/** Número de la asesora real (la mamá), usado como respaldo si la API no responde. */
+const FALLBACK_ADVISOR = '573150921542';
+
 export function initChatBot(cartManager: CartManager) {
   const chatFab = document.getElementById('chatFab');
   const chatPanel = document.getElementById('chatPanel');
@@ -31,7 +34,7 @@ export function initChatBot(cartManager: CartManager) {
   function showWelcomeMessage() {
     appendMessage(
       'bot',
-      '¡Hola! 👋 Soy **Chat Bot JY**, tu asesor artesanal. Cuéntame si buscas algo relajante para ti, un aroma especial o un detalle para regalo.'
+      '¡Hola! 👋 Soy **Chat Bot JY**, tu asesor artesanal. Cuéntame si buscas algo relajante para ti, un aroma especial o un detalle para regalo.\n\n💬 ¿Prefieres que te recomiende yo o quieres hablar directamente con una **asesora real** por WhatsApp?'
     );
     renderQuickSuggestions();
   }
@@ -42,11 +45,12 @@ export function initChatBot(cartManager: CartManager) {
       '🎁 ¿Qué recomiendas para regalo?',
       '🕯️ Ver velas aromáticas',
       '🌿 Jabones de spa y masaje',
-      '🚚 Envíos y métodos de pago'
+      '🚚 Envíos y métodos de pago',
+      '📲 Hablar con un asesor'
     ];
 
     chatQuick.innerHTML = suggestions
-      .map(s => `<button data-quick="${s}">${s}</button>`)
+      .map(s => `<button data-quick="${escapeHTML(s)}">${escapeHTML(s)}</button>`)
       .join('');
 
     chatQuick.querySelectorAll('[data-quick]').forEach(btn => {
@@ -78,17 +82,41 @@ export function initChatBot(cartManager: CartManager) {
       });
 
       typingIndicator.remove();
-      appendMessage('bot', res.reply || 'Aquí estoy para asesorarte.', res.products);
+      appendMessage('bot', res.reply || 'Aquí estoy para asesorarte.', res.products, {
+        advisorLink: res.advisorLink,
+        showAdvisorButton: res.showAdvisorButton
+      });
     } catch (err) {
       typingIndicator.remove();
       appendMessage(
         'bot',
-        '¡Hola! Te recomiendo explorar nuestras velas aromáticas en cera de soya o nuestros jabones hidratantes. Puedes escribirnos a WhatsApp (+573150921542) para asesorarte personalmente.'
+        '¡Hola! Te recomiendo explorar nuestras velas aromáticas en cera de soya o nuestros jabones hidratantes. Si prefieres una atención personalizada, te llevo con nuestra asesora por WhatsApp.',
+        undefined,
+        {
+          advisorLink: `https://wa.me/${FALLBACK_ADVISOR}?text=${encodeURIComponent(
+            'Hola, vi la página de JY Velas y Jabones y me gustaría recibir asesoría.'
+          )}`,
+          showAdvisorButton: true
+        }
       );
     }
   }
 
-  function appendMessage(who: 'bot' | 'user', text: string, products?: any[]) {
+  /** Convierte números de WhatsApp dentro del texto en enlaces pulsables. */
+  function linkifyWhatsApp(text: string): string {
+    return text.replace(/(wa\.me\/([0-9]{6,15})|(\+?[0-9]{10,15}))/g, (match) => {
+      const digits = match.replace(/\D/g, '');
+      if (digits.length < 10) return match;
+      return `<a href="https://wa.me/${digits}" target="_blank" rel="noopener" class="bot-wa-link">${match}</a>`;
+    });
+  }
+
+  function appendMessage(
+    who: 'bot' | 'user',
+    text: string,
+    products?: any[],
+    options?: { advisorLink?: string | null; showAdvisorButton?: boolean }
+  ) {
     if (!chatBody) return;
 
     const msgEl = document.createElement('div');
@@ -99,23 +127,44 @@ export function initChatBot(cartManager: CartManager) {
       .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
       .replace(/\n/g, '<br>');
 
+    formattedText = linkifyWhatsApp(formattedText);
+
     let productsHtml = '';
     if (products && products.length > 0) {
-      productsHtml = products.map(p => `
-        <div class="mini-prod">
-          <img src="${p.image || 'https://images.unsplash.com/photo-1608248597359-543598711467?auto=format&fit=crop&w=100&q=80'}" alt="${escapeHTML(p.name)}">
-          <div style="flex:1">
-            <b>${escapeHTML(p.name)}</b><br>
-            <span style="color:var(--sec)">${formatMoney(p.price)}</span>
+      productsHtml = `<div class="bot-products">${products
+        .map(p => {
+          const agotado = p.is_available === 0;
+          return `
+          <div class="mini-prod ${agotado ? 'is-out' : ''}">
+            <img src="${p.image || '/assets/jy/coleccion-artesanal.svg'}" alt="${escapeHTML(p.name)}">
+            <div style="flex:1;min-width:0">
+              <b>${escapeHTML(p.name)}</b><br>
+              <span style="color:var(--sec)">${formatMoney(p.price)}</span>
+              ${agotado ? '<span class="bot-out">AGOTADO</span>' : ''}
+            </div>
+            ${
+              agotado
+                ? '<span class="bot-out-btn">Agotado</span>'
+                : `<button data-bot-add="${p.id}" title="Agregar al carrito"><i class="fas fa-plus"></i></button>`
+            }
           </div>
-          <button data-bot-add="${p.id}" title="Agregar al carrito">
-            <i class="fas fa-plus"></i>
-          </button>
-        </div>
-      `).join('');
+        `;
+        })
+        .join('')}</div>`;
     }
 
-    msgEl.innerHTML = `${formattedText}${productsHtml}`;
+    // Botón grande para hablar con la asesora real
+    let advisorHtml = '';
+    if (options?.showAdvisorButton && options.advisorLink) {
+      advisorHtml = `
+        <a class="bot-advisor-btn" href="${escapeHTML(options.advisorLink)}" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i> Hablar con una asesora real
+        </a>
+        <p class="bot-advisor-note">Te responde la misma persona que administra la tienda 💜</p>
+      `;
+    }
+
+    msgEl.innerHTML = `${formattedText}${productsHtml}${advisorHtml}`;
     chatBody.appendChild(msgEl);
     chatBody.scrollTop = chatBody.scrollHeight;
 

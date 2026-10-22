@@ -57,7 +57,7 @@ ordersApp.post('/checkout', rateLimit(10, 60000), async (c) => {
 
     const placeholders = productIds.map(() => '?').join(',');
     const dbProductsRes = await c.env.JY_DB.prepare(
-      `SELECT id, name, price, stock, category FROM products WHERE id IN (${placeholders}) AND is_active = 1`
+      `SELECT id, name, price, stock, category, is_available FROM products WHERE id IN (${placeholders}) AND is_active = 1`
     )
       .bind(...productIds)
       .all<Product>();
@@ -72,6 +72,11 @@ ordersApp.post('/checkout', rateLimit(10, 60000), async (c) => {
     for (const item of items) {
       const p = dbProductsMap.get(Number(item.id));
       if (!p) continue;
+
+      if (p.is_available === 0) {
+        stockErrors.push(`«${p.name}» está agotado`);
+        continue;
+      }
 
       const qty = Math.max(1, Math.min(MAX_QTY, Math.floor(Number(item.quantity) || 1)));
       const lineTotal = p.price * qty;
@@ -91,9 +96,9 @@ ordersApp.post('/checkout', rateLimit(10, 60000), async (c) => {
     if (validatedItems.length === 0) {
       return c.json({ error: 'Los productos seleccionados ya no están disponibles' }, 400);
     }
-    if (stockErrors.length > 0) {
-      return c.json({ error: `Sin inventario suficiente. ${stockErrors.join('; ')}.` }, 409);
-    }
+      if (stockErrors.length > 0) {
+        return c.json({ error: `No se puede comprar. ${stockErrors.join('; ')}.` }, 409);
+      }
 
     // 2. Validar cupón en D1 si fue suministrado
     let discount = 0;

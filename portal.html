@@ -81,6 +81,10 @@
       border: 1px solid var(--line);
       background: var(--s2);
     }
+    .preview-box.is-contain {
+      max-height: 320px;
+      background: repeating-conic-gradient(var(--s2) 0% 25%, transparent 0% 50%) 50% / 18px 18px;
+    }
     .media-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -111,28 +115,6 @@
       padding: 0 10px 10px;
     }
     .media-item .actions button { flex: 1; }
-    .prod-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--s1);
-      margin-bottom: 10px;
-    }
-    .prod-row img {
-      width: 62px;
-      height: 62px;
-      border-radius: 12px;
-      object-fit: cover;
-      background: var(--s2);
-      flex-shrink: 0;
-    }
-    .prod-row .info { flex: 1; min-width: 0; }
-    .prod-row .info b { display: block; font-size: 0.95rem; }
-    .prod-row .info small { color: var(--mut); font-size: 0.78rem; }
-    .prod-row .info .inactive { color: var(--err); font-weight: 700; }
     .hint {
       font-size: 0.8rem;
       color: var(--mut);
@@ -169,6 +151,351 @@
       font-size: 1.05rem;
       margin-bottom: 14px;
     }
+
+    /* --- Toolbar del catálogo --- */
+    .prod-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 15px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--s2);
+      color: var(--mut);
+    }
+    .search-box:focus-within {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.15);
+    }
+    .search-box input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--txt);
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .filter-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      padding: 8px 14px;
+      border-radius: 50px;
+      border: 1px solid var(--line);
+      background: var(--s2);
+      color: var(--mut);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .chip:hover { border-color: var(--pri); color: var(--txt); }
+    .chip.active {
+      background: linear-gradient(135deg, var(--pri), #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+    }
+    .stats-row {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .stats-row .chip {
+      cursor: default;
+      font-weight: 600;
+    }
+    .chip-warn { border-color: rgba(251, 191, 36, 0.45); color: #fcd34d; background: rgba(251, 191, 36, 0.1); }
+    .chip-danger { border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; background: rgba(239, 68, 68, 0.1); }
+    .chip-muted { opacity: 0.75; }
+
+    /* --- Fila de producto --- */
+    .prod-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--s1);
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+    }
+    .prod-row:hover {
+      border-color: rgba(217, 70, 239, 0.35);
+      background: var(--s2);
+    }
+    .prod-row.is-out { border-left: 3px solid rgba(239, 68, 68, 0.6); }
+    .prod-row.is-off { opacity: 0.6; }
+    .prod-row img {
+      width: 62px;
+      height: 62px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--s2);
+      flex-shrink: 0;
+    }
+    .prod-row .info { flex: 1; min-width: 0; }
+    .prod-row .info b {
+      display: block;
+      font-size: 0.95rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .prod-row .info small { color: var(--mut); font-size: 0.78rem; display: block; }
+    .estado-txt {
+      font-size: 0.68rem !important;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-top: 3px;
+    }
+    .estado-ok { color: #6ee7b7 !important; }
+    .estado-agotado { color: #fca5a5 !important; }
+    .estado-sinstock { color: #fcd34d !important; }
+    .estado-off { color: var(--mut) !important; }
+    .row-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .row-actions .btn {
+      width: 36px;
+      height: 32px;
+      padding: 0;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      justify-content: center;
+    }
+
+    /* --- Switch agotado --- */
+    .switch-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--s2);
+      cursor: pointer;
+      margin: 14px 0;
+      user-select: none;
+    }
+    .switch-row input { display: none; }
+    .switch {
+      width: 46px;
+      height: 26px;
+      border-radius: 50px;
+      background: rgba(120, 120, 130, 0.4);
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.25s ease;
+      margin-top: 2px;
+    }
+    .switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.25s ease;
+    }
+    .switch-row input:checked + .switch { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+    .switch-row input:checked + .switch::after { transform: translateX(20px); }
+    .switch-text { flex: 1; }
+    .switch-text b { display: block; font-size: 0.92rem; }
+    .switch-text small {
+      display: block;
+      color: var(--mut);
+      font-size: 0.78rem;
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    /* --- Panel de ayuda --- */
+    .help-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 760px) {
+      .help-layout { grid-template-columns: 1fr; }
+    }
+    .help-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    @media (max-width: 760px) {
+      .help-menu { flex-direction: row; overflow-x: auto; padding-bottom: 8px; }
+      .help-item { white-space: nowrap; }
+    }
+    .help-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--s2);
+      color: var(--mut);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      font-family: inherit;
+    }
+    .help-item:hover { color: var(--txt); border-color: var(--pri); }
+    .help-item.active {
+      background: linear-gradient(135deg, var(--pri), #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+    }
+    .help-content {
+      background: var(--s2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      min-height: 300px;
+    }
+    .help-body { display: none; }
+    .help-body.active { display: block; animation: fadeUp 0.25s ease; }
+    .help-body h4 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: var(--sec);
+    }
+    .help-body p { font-size: 0.9rem; line-height: 1.7; color: var(--txt); margin-bottom: 12px; }
+    .help-steps {
+      margin: 0 0 14px;
+      padding-left: 20px;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--mut);
+    }
+    .help-steps b { color: var(--txt); }
+    .help-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--mut);
+    }
+    .help-list b { color: var(--txt); }
+    .help-tip {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      padding: 13px 15px;
+      border-radius: 14px;
+      background: rgba(251, 191, 36, 0.09);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      font-size: 0.84rem;
+      line-height: 1.6;
+      color: var(--mut);
+      margin-top: 14px;
+    }
+    .help-tip i { color: var(--sec); font-size: 1.05rem; flex-shrink: 0; margin-top: 2px; }
+    .help-tip b { color: var(--txt); }
+
+    /* --- Modal vista previa --- */
+    .pv-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 3, 10, 0.82);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 3000;
+    }
+    .pv-overlay.show { display: flex; }
+    .pv-modal {
+      position: relative;
+      width: min(680px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      background: var(--s1);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      animation: fadeUp 0.25s ease;
+    }
+    .pv-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--s2);
+      border: 1px solid var(--line);
+      color: var(--txt);
+      cursor: pointer;
+      z-index: 2;
+    }
+    .pv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 640px) {
+      .pv-grid { grid-template-columns: 1fr; }
+    }
+    .pv-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 16px;
+      background: var(--s2);
+      border: 1px solid var(--line);
+    }
+    .pv-cat {
+      font-size: 0.72rem;
+      color: var(--pril);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 800;
+    }
+    .pv-name { font-size: 1.2rem; margin: 6px 0 10px; }
+    .pv-price { font-size: 1.35rem; font-weight: 800; color: var(--sec); margin-bottom: 12px; }
+    .pv-desc { color: var(--mut); font-size: 0.88rem; line-height: 1.7; margin-bottom: 12px; }
+    .pv-feats { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+    .pv-feats li { font-size: 0.85rem; color: var(--mut); }
+    .pv-feats i { color: var(--ok); margin-right: 7px; }
+    .pv-state {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .pv-ok { background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .pv-out { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.32); }
   </style>
 </head>
 <body class="admin-body-wrap">
@@ -220,6 +547,7 @@
         <button class="portal-tab" data-panel="panel-orders"><i class="fas fa-receipt"></i> Pedidos</button>
         <button class="portal-tab" data-panel="panel-coupons"><i class="fas fa-ticket"></i> Cupones</button>
         <button class="portal-tab" data-panel="panel-reviews"><i class="fas fa-star"></i> Reseñas</button>
+        <button class="portal-tab" data-panel="panel-help"><i class="fas fa-circle-question"></i> Ayuda</button>
         <button class="portal-tab" data-panel="panel-account"><i class="fas fa-user-cog"></i> Mi Clave</button>
       </div>
 
@@ -314,15 +642,35 @@
                 <input id="pBadge" placeholder="Opcional">
               </div>
               <div class="admin-field">
-                <label>Palabras clave</label>
-                <input id="pKeywords" placeholder="regalo, relajante, aroma">
+                <label>Tipo de etiqueta</label>
+                <select id="pBadgeType">
+                  <option value="new">Nuevo</option>
+                  <option value="bestseller">Más vendido</option>
+                  <option value="premium">Premium</option>
+                  <option value="sale">Oferta</option>
+                  <option value="limited">Edición limitada</option>
+                </select>
               </div>
+            </div>
+
+            <div class="admin-field">
+              <label>Palabras clave (ayuda a que te encuentren)</label>
+              <input id="pKeywords" placeholder="regalo, relajante, aroma">
             </div>
 
             <div class="admin-field">
               <label>Características (una por línea)</label>
               <textarea id="pFeatures" rows="3" placeholder="Glicerina vegetal&#10;Aroma a lavanda&#10;Envoltura artesanal"></textarea>
             </div>
+
+            <label class="switch-row" for="pAgotado">
+              <input type="checkbox" id="pAgotado">
+              <span class="switch"></span>
+              <span class="switch-text">
+                <b>Marcar como AGOTADO</b>
+                <small>Los clientes verán el producto en gris con el sello "Agotado" y no podrán comprarlo. Desmarca cuando tengas de nuevo.</small>
+              </span>
+            </label>
 
             <div class="admin-field">
               <label>Foto del producto</label>
@@ -332,6 +680,26 @@
                 <input type="file" id="prodFileInput" accept="image/*" style="display:none">
                 <input type="hidden" id="pImageUrl">
               </div>
+
+              <div class="grid-2" style="margin-top:12px">
+                <div class="admin-field">
+                  <label>Cómo se ajusta la foto</label>
+                  <select id="pPhotoFit">
+                    <option value="cover">Cuadrada (recomendado)</option>
+                    <option value="contain">Completa, sin recortar</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label>Fondo (si no se recorta)</label>
+                  <select id="pPhotoBg">
+                    <option value="blanco">Blanco</option>
+                    <option value="crema">Crema</option>
+                    <option value="rosado">Rosado</option>
+                    <option value="lavanda">Lavanda</option>
+                  </select>
+                </div>
+              </div>
+
               <img id="uploadPreview" class="preview-box" style="display:none" alt="Vista previa de la foto">
               <p class="hint" id="uploadHint">Optimizamos la foto automáticamente para que se vea nítida y cargue rápido.</p>
             </div>
@@ -344,7 +712,25 @@
         </div>
 
         <div class="card">
-          <h3><i class="fas fa-list" style="color:var(--pril)"></i> Catálogo actual</h3>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+            <h3 style="margin:0"><i class="fas fa-list" style="color:var(--pril)"></i> Catálogo actual (<span id="prodCount">0</span>)</h3>
+          </div>
+
+          <div class="prod-toolbar">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input id="prodSearch" type="search" placeholder="Buscar un producto por nombre, categoría o palabra clave...">
+            </div>
+            <div class="filter-chips">
+              <button class="chip active" data-prod-filter="todos">Todos</button>
+              <button class="chip" data-prod-filter="visibles">En la tienda</button>
+              <button class="chip" data-prod-filter="agotados">Agotados</button>
+              <button class="chip" data-prod-filter="ocultos">Ocultos</button>
+            </div>
+          </div>
+
+          <div id="prodStats" class="stats-row"></div>
+
           <div id="adminProductsList"><p class="hint">Cargando productos...</p></div>
         </div>
       </section>
@@ -402,6 +788,142 @@
         </div>
       </section>
 
+      <!-- ===== AYUDA ===== -->
+      <section class="panel" id="panel-help">
+        <div class="card">
+          <h3><i class="fas fa-circle-question" style="color:var(--sec)"></i> ¿En qué te puedo ayudar?</h3>
+          <p class="hint" style="margin-bottom:16px">Toca el tema que necesites. Aquí te explicamos paso a paso cómo usar tu panel.</p>
+
+          <div class="help-layout">
+            <div class="help-menu">
+              <button class="help-item active" data-help-topic="inicio"><i class="fas fa-rocket"></i> Empezar</button>
+              <button class="help-item" data-help-topic="fotos"><i class="fas fa-camera"></i> Subir fotos</button>
+              <button class="help-item" data-help-topic="productos"><i class="fas fa-box-open"></i> Crear productos</button>
+              <button class="help-item" data-help-topic="agotado"><i class="fas fa-ban"></i> Marcar agotado</button>
+              <button class="help-item" data-help-topic="pedidos"><i class="fas fa-receipt"></i> Pedidos</button>
+              <button class="help-item" data-help-topic="cupones"><i class="fas fa-ticket"></i> Cupones</button>
+              <button class="help-item" data-help-topic="bot"><i class="fas fa-robot"></i> El chatbot</button>
+              <button class="help-item" data-help-topic="consejos"><i class="fas fa-lightbulb"></i> Consejos</button>
+            </div>
+
+            <div class="help-content">
+              <div class="help-body active" data-help-body="inicio">
+                <h4>👋 ¡Hola! Bienvenida a tu panel</h4>
+                <p>Aquí administras toda tu tienda <b>JY Velas y Jabones</b>. Lo más importante:</p>
+                <ol class="help-steps">
+                  <li><b>Subir fotos</b> → ve a la pestaña <b>Mis Fotos</b> y toca el recuadro morado. Elige una o varias fotos de tu celular: se optimizan solas y quedan guardadas en la nube.</li>
+                  <li><b>Crear productos</b> → ve a <b>Productos</b>, toca <b>Nuevo</b>, llena los datos y guarda. El producto aparece en la página de inmediato.</li>
+                  <li><b>Cuando se te acaba</b> → marca el producto como <b>Agotado</b> con el botón rojo. Los clientes lo verán en gris y no podrán comprarlo.</li>
+                  <li><b>Cuando vuelve</b> → toca el mismo botón para devolverlo a la tienda.</li>
+                </ol>
+                <div class="help-tip"><i class="fas fa-lightbulb"></i><span><b>Tip:</b> todo se guarda solo. Si cierras la página por error, no pierdes nada.</span></div>
+              </div>
+
+              <div class="help-body" data-help-body="fotos">
+                <h4>📸 Subir y organizar fotos</h4>
+                <ol class="help-steps">
+                  <li>Entra a la pestaña <b>Mis Fotos</b>.</li>
+                  <li>Toca el recuadro grande morado (o arrastra las fotos hasta ahí).</li>
+                  <li>Puedes elegir <b>varias fotos a la vez</b>: se subirán una tras otra.</li>
+                  <li>Cuando termines, tus fotos quedan en la galería. Toca el botón de <b>copiar</b> (icono 📋) para pegar la dirección donde la necesites.</li>
+                </ol>
+                <p class="hint">Al crear un producto, la foto se sube <b>automáticamente</b> al elegirla: no necesitas copiar URLs.</p>
+                <div class="help-tip"><i class="fas fa-lightbulb"></i><span><b>Tip:</b> las fotos de tu celular pesan mucho (3 a 8 MB). El panel las reduce a un tamaño perfecto para que la página cargue rápido y se vean nítidas.</span></div>
+              </div>
+
+              <div class="help-body" data-help-body="productos">
+                <h4>📦 Crear y editar productos</h4>
+                <ol class="help-steps">
+                  <li>En <b>Productos</b>, toca el botón <b>Nuevo</b>.</li>
+                  <li>Escribe el <b>nombre</b> (lo que verá el cliente), elige la <b>categoría</b>, pon el <b>precio</b> y las <b>unidades</b> que tienes.</li>
+                  <li>Escribe la <b>descripción</b>: qué aroma tiene, para quién es, cómo se usa. Si te atoras, toca <b>✨ Redactar con IA</b>.</li>
+                  <li>Sube la <b>foto</b> tocando el recuadro.</li>
+                  <li>Toca <b>Guardar</b>. ¡Listo! Ya está en la tienda.</li>
+                </ol>
+                <h4 style="margin-top:18px">✏️ Editar uno que ya existe</h4>
+                <ol class="help-steps">
+                  <li>Busca el producto en el catálogo (usa el buscador de arriba).</li>
+                  <li>Toca el lápiz ✏️. Se abre el formulario con todo cargado.</li>
+                  <li>Cambia lo que necesites y toca <b>Guardar cambios</b>.</li>
+                </ol>
+                <div class="help-tip"><i class="fas fa-star"></i><span><b>Consejo:</b> el botón 📋 <b>Duplicar</b> crea una copia de un producto. Útil para hacer una variante con otro aroma sin empezar de cero.</span></div>
+              </div>
+
+              <div class="help-body" data-help-body="agotado">
+                <h4>🚫 Marcar productos como AGOTADOS</h4>
+                <p>Cuando se te acaba un producto (un jabón, una vela, un set), avisa a tus clientes para que no se frustren al intentar comprarlo.</p>
+                <ol class="help-steps">
+                  <li>Ve a la pestaña <b>Productos</b>.</li>
+                  <li>Toca el filtro <b>Agotados</b> para ver solo esos productos.</li>
+                  <li>Toca el botón <b>🚫</b> del producto. Listo: en la página aparece en gris con el sello rojo <b>Agotado</b> y el botón de comprar desaparece.</li>
+                </ol>
+                <h4 style="margin-top:18px">✅ Cuando vuelve a haber unidades</h4>
+                <ol class="help-steps">
+                  <li>Toca el botón <b>📦</b> del producto (icono de cajas).</li>
+                  <li>Escribe cuántas unidades tienes ahora y toca <b>Aceptar</b>.</li>
+                  <li>Si escribes <b>0</b>, se marca como agotado automáticamente. Si escribes un número mayor, el producto <b>vuelve a la tienda solo</b>.</li>
+                </ol>
+                <div class="help-tip"><i class="fas fa-lightbulb"></i><span><b>Tip:</b> el botón 📦 (cajas) te permite cambiar el stock sin entrar a editar todo el producto. Es lo más rápido del día a día.</span></div>
+              </div>
+
+              <div class="help-body" data-help-body="pedidos">
+                <h4>🧾 Pedidos de tus clientes</h4>
+                <ol class="help-steps">
+                  <li>Entra a la pestaña <b>Pedidos</b>. Cada compra que hagas por la página aparece aquí.</li>
+                  <li>Verás los datos del cliente: nombre, teléfono, ciudad, dirección y qué pidió.</li>
+                  <li>Cambia el <b>estado</b> del pedido con el menú desplegable: Pendiente → En preparación → Enviado → Entregado.</li>
+                  <li>Toca <b>Chatear</b> para hablar directo con el cliente por WhatsApp (se abre con el pedido ya listo).</li>
+                </ol>
+                <div class="help-tip"><i class="fas fa-lightbulb"></i><span><b>Tip:</b> el color verde del botón de WhatsApp es el mismo que usas para tus pedidos. Todo queda centralizado en un solo chat.</span></div>
+              </div>
+
+              <div class="help-body" data-help-body="cupones">
+                <h4>🎟️ Cupones de descuento</h4>
+                <ol class="help-steps">
+                  <li>Ve a la pestaña <b>Cupones</b>.</li>
+                  <li>Escribe un código corto y fácil de recordar (por ejemplo <b>JY20</b>). Se pone en mayúsculas solo.</li>
+                  <li>Escribe el porcentaje de descuento (por ejemplo <b>20</b> para 20% OFF).</li>
+                  <li>Toca <b>Crear</b>. El cupón ya sirve en la ruleta de descuentos de la página.</li>
+                </ol>
+                <p class="hint">Con el botón <b>Activar / Desactivar</b> puedes dejar de usarlo sin borrarlo. Y con la papelera lo eliminas por completo.</p>
+              </div>
+
+              <div class="help-body" data-help-body="bot">
+                <h4>🤖 El chatbot y el asesor real</h4>
+                <p>En la página hay un bot que responde preguntas las 24 horas. Si el cliente quiere hablar con una persona, el bot le da el botón verde para WhatsApp y lo envía directo contigo.</p>
+                <ol class="help-steps">
+                  <li>En la página principal, abajo a la derecha está el ícono del robot.</li>
+                  <li>Toca <b>📲 Hablar con un asesor</b> y el cliente entra a tu WhatsApp.</li>
+                  <li>Tú respondes directamente. El bot nunca se mete en esa conversación.</li>
+                </ol>
+                <div class="help-tip"><i class="fab fa-whatsapp"></i><span><b>Tu número de asesora:</b> +57 315 092 1542. Es el que aparece en el botón verde del bot.</span></div>
+              </div>
+
+              <div class="help-body" data-help-body="consejos">
+                <h4>💡 Consejos para vender más</h4>
+                <ul class="help-list">
+                  <li><b>Fotos con buena luz:</b> tómalas cerca de una ventana, sin flash. Se ven mucho mejor que con luz de techo.</li>
+                  <li><b>Una sola idea por foto:</b> una vela sola, no con many cosas alrededor. Así se entiende mejor el producto.</li>
+                  <li><b>Descripción corta y útil:</b> di el aroma, el material y para quién es. No hace falta escribir un párrafo largo.</li>
+                  <li><b>Palabras clave:</b> pon cosas que la gente busca: "regalo", "relajante", "para el baño", "novia". Así te encuentran más rápido.</li>
+                  <li><b>Precios psychológicos:</b> mejor <b>$15.900</b> que $16.000. Parece más barato y se vende igual de bien.</li>
+                  <li><b>Usa el botón de etiqueta:</b> "Más vendido" o "Nuevo" hacen que la gente se fije más en tu producto.</li>
+                  <li><b>Responde rápido los pedidos:</b> los clientes que reciben respuesta en minutos vuelven a comprar.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><i class="fas fa-headset" style="color:var(--sec)"></i> ¿Necesitas ayuda personalizada?</h3>
+          <p class="hint" style="margin-bottom:14px">Si algo no te funciona o tienes una duda, escríbeme directamente.</p>
+          <a href="https://wa.me/573150921542?text=Hola%2C%20necesito%20ayuda%20con%20mi%20panel%20de%20JY" target="_blank" rel="noopener" class="btn btn-primary" style="background:#25d366;color:#fff">
+            <i class="fab fa-whatsapp"></i> Escribir por WhatsApp +57 315 092 1542
+          </a>
+        </div>
+      </section>
+
       <!-- ===== MI CLAVE ===== -->
       <section class="panel" id="panel-account">
         <div class="card">
@@ -432,6 +954,24 @@
         </div>
       </section>
 
+    </div>
+  </div>
+
+  <!-- ============ VISTA PREVIA DE PRODUCTO ============ -->
+  <div class="pv-overlay" id="productPreviewModal">
+    <div class="pv-modal">
+      <button class="pv-close" id="pvClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+      <div class="pv-grid">
+        <img class="pv-image" src="" alt="Foto del producto">
+        <div class="pv-info">
+          <span class="pv-cat"></span>
+          <h3 class="pv-name"></h3>
+          <div class="pv-price"></div>
+          <p class="pv-desc"></p>
+          <ul class="pv-feats"></ul>
+          <div class="pv-state"></div>
+        </div>
+      </div>
     </div>
   </div>
 
